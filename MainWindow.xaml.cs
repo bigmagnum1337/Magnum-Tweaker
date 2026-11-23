@@ -26,7 +26,10 @@ public partial class MainWindow : Window
         AnimateSidebarValue(Sidebar, WidthProperty, compact ? 64 : 215);
         AnimateSidebarValue(SidebarBrand, WidthProperty, compact ? 50 : 163);
         AnimateSidebarValue(SidebarArrowRotation, RotateTransform.AngleProperty, compact ? 180 : 0);
-        SidebarHeading.Visibility = SidebarSettingsLabel.Visibility = ProfileText.Visibility = visibility;
+        SidebarHeading.Visibility = SidebarSettingsLabel.Visibility = visibility;
+        // Keep the profile row in the layout so the footer divider stays level as the labels fade.
+        AnimateSidebarValue(ProfileText, OpacityProperty, compact ? 0 : 1);
+        AnimateSidebarValue(CompactProfileText, OpacityProperty, compact ? 1 : 0);
         SidebarGear.Margin = compact ? new Thickness(0) : new Thickness(0, 0, 9, 0);
         if (compact)
             SidebarGuide.Content = new System.Windows.Shapes.Path
@@ -45,6 +48,12 @@ public partial class MainWindow : Window
         var animation = SystemParameters.ClientAreaAnimation ? EaseTo(current, value, 230) : null;
         element.SetValue(property, value);
         target.BeginAnimation(property, animation);
+    }
+
+    private void UpdateSidebarProfile()
+    {
+        ProfileText.Text = $"Windows {_windowsVersion} · x64";
+        CompactProfileText.Text = $"Win{_windowsVersion} x64";
     }
     private SmoothScrollViewer? TweakScroll => TweaksList.Template?.FindName("PART_TweakScroll", TweaksList) as SmoothScrollViewer;
     private IEnumerable<Tweak> PresetItems => GamingPreset.Select(_profileItems);
@@ -80,7 +89,7 @@ public partial class MainWindow : Window
         _windowsVersion = windowsVersion;
         InitializeComponent();
         WindowTransitions.PrepareEntrance(this);
-        ProfileText.Text = $"Windows {_windowsVersion} · x64";
+        UpdateSidebarProfile();
         ProfilePicker.ItemsSource = new[] { "Windows 10", "Windows 11" };
         ProfilePicker.SelectedIndex = windowsVersion == "11" ? 1 : 0;
         TweaksList.ItemsSource = _visible;
@@ -691,7 +700,7 @@ public partial class MainWindow : Window
             _windowsVersion = requested;
             ((App)Application.Current).Preferences.WindowsProfile = requested;
             _profileItems = items;
-            ProfileText.Text = $"Windows {requested} · x64";
+            UpdateSidebarProfile();
             UpdateSummary();
             RefreshFilter();
         }
