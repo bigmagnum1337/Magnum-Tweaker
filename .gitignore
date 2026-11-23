@@ -9,6 +9,7 @@ coverage/
 *.coverage
 *.coveragexml
 *.binlog
+*_wpftmp.csproj
 
 # Local SDK and installer
 .dotnet/
