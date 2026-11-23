@@ -6,7 +6,7 @@
 
 **Portable Windows 10/11 x64 performance and gaming settings manager**
 
-[Русский](#русский) · [English](#english) · [Releases](../../releases) · [Contributor guide](AGENTS.md)
+[Русский](#русский) · [English](#english) · [Releases](../../releases) · [Telegram @bigmagnum1337](https://t.me/bigmagnum1337) · [Contributor guide](AGENTS.md)
 
 ## Русский
 
@@ -20,10 +20,12 @@ Magnum Tweaker проверяет настройки производитель�
 
 ### Как пользоваться
 
-1. Скачайте портативную сборку из [Releases](../../releases). Распакуйте архив, если скачали ZIP, и запустите `Magnum Tweaker.exe`.
-2. Выберите язык и профиль Windows, примите условия использования и дождитесь стартовой проверки. Зелёный статус означает, что значение совпадает, красный — что доступная настройка ещё не применена, серый — что она недоступна, оранжевый — что проверка завершилась ошибкой.
-3. Выберите твик или Magnum pack. Перед первым применением можно создать точку восстановления прямо в приложении или продолжить без неё. Для некоторых изменений Windows запросит права администратора.
-4. Кнопка **Откат** появляется на карточке, если Magnum сохранил исходное значение. Настройки интерфейса и данные для отката хранятся в `%LOCALAPPDATA%\MagnumTweaker`.
+1. Откройте раздел **Assets** на странице релиза, скачайте `Windows.x64.Portable.zip` и распакуйте архив. Запустите `Magnum Tweaker.exe`. [Скачать релиз](../../releases/latest)
+2. Выберите язык и свою версию Windows, примите условия использования и дождитесь проверки. Она покажет состояние настроек.
+3. Найдите нужный твик и нажмите **Применить**. Набор твиков доступен в категории **Готовые настройки**. Если приложение предложит создать точку восстановления, её можно создать прямо в этом окне. Для некоторых изменений Windows запросит права администратора.
+4. Чтобы вернуть исходное значение, нажмите **Откат** на карточке, если кнопка доступна. Чтобы обновить статусы, нажмите **Проверить всё**.
+
+Настройки интерфейса и данные для отката хранятся в `%LOCALAPPDATA%\MagnumTweaker`. [VirusTotal для EXE из опубликованного релиза 1.1](https://www.virustotal.com/gui/file/56d4549d1cf071d777a911273608143ee52203826f3ac60c9388f806ec82d97e)
 
 Один автономный EXE предназначен для Windows 10 и 11 на x64. Доступность отдельных твиков зависит от версии и редакции Windows, драйверов и оборудования. Статус подтверждает значение настройки. FPS, задержка ввода и пинг оцениваются отдельными замерами в игре. [Поддерживаемые версии Windows для .NET](https://learn.microsoft.com/dotnet/core/install/windows#supported-versions)
 
@@ -50,10 +52,12 @@ Magnum Tweaker is a C#, .NET 8, and WPF desktop app for checking, applying, and 
 
 ### Getting started
 
-1. Download the portable build from [Releases](../../releases). Extract the ZIP if you downloaded an archive, then launch `Magnum Tweaker.exe`.
-2. Select a language and Windows profile, accept the terms, and wait for the startup scan. Green means the value matches, red means an available change is pending, gray means unavailable, and orange means the check failed.
-3. Select a tweak or Magnum pack. Before applying the first change, you can create a restore point in the app or continue without one. Windows may request administrator permission for some changes.
-4. A card offers **Restore** when Magnum has a snapshot of the original value. Preferences and rollback data are stored in `%LOCALAPPDATA%\MagnumTweaker`.
+1. Under **Assets** on the release page, download and extract `Windows.x64.Portable.zip`, then run `Magnum Tweaker.exe`. [Download the release](../../releases/latest)
+2. Choose your language and Windows version, accept the terms, and wait for the scan to show the current status of your settings.
+3. Find a tweak and click **Apply**. The preset is available under **Presets**. If prompted to create a restore point, you can make one in the app. Windows may request administrator permission for some changes.
+4. To bring back the original setting, click **Restore** on its card when available. Click **Check all** to refresh the status of the tweaks.
+
+Preferences and rollback data are stored in `%LOCALAPPDATA%\MagnumTweaker`. [VirusTotal for the published 1.1 executable](https://www.virustotal.com/gui/file/56d4549d1cf071d777a911273608143ee52203826f3ac60c9388f806ec82d97e)
 
 One self-contained x64 EXE targets Windows 10 and 11. Individual tweaks depend on the Windows release and edition, drivers, and hardware. The status verifies the setting value. FPS, input latency, and ping require separate in-game measurements. [Windows versions supported by .NET](https://learn.microsoft.com/dotnet/core/install/windows#supported-versions)
 
