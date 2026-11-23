@@ -15,6 +15,9 @@ public partial class App : Application
     {
         base.OnStartup(e);
         EventManager.RegisterClassHandler(typeof(ButtonBase), ButtonBase.ClickEvent, new RoutedEventHandler((_, _) => PlaySound(InterfaceSound.Click)));
+        var hover = new MouseEventHandler(ReferenceControl_MouseEnter);
+        EventManager.RegisterClassHandler(typeof(ButtonBase), UIElement.MouseEnterEvent, hover);
+        EventManager.RegisterClassHandler(typeof(ComboBoxItem), UIElement.MouseEnterEvent, hover);
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
         var splash = new StartupWindow();
         WindowTransitions.PrepareEntrance(splash);
@@ -70,7 +73,6 @@ public partial class App : Application
         Preferences.WindowsProfile = windowsVersion;
         var window = new MainWindow(windowsVersion, catalog);
         MainWindow = window;
-        window.ContentRendered += (_, _) => PlaySound(InterfaceSound.Startup);
         window.Show();
         ShutdownMode = ShutdownMode.OnMainWindowClose;
     }
@@ -85,6 +87,16 @@ public partial class App : Application
             await WindowTransitions.FadeOutAsync(splash);
             if (splash.IsVisible) splash.Close();
         }
+    }
+
+    private void ReferenceControl_MouseEnter(object sender, MouseEventArgs e)
+    {
+        if (sender is not FrameworkElement { IsEnabled: true, IsMouseOver: true } control) return;
+
+        // Drop-down items sit in a Popup, so resolve their window via their ComboBox.
+        var owner = control is ComboBoxItem item ? ItemsControl.ItemsControlFromItemContainer(item) : control;
+        if (owner != null && Window.GetWindow(owner) is ReferenceWindow)
+            PlaySound(InterfaceSound.Hover);
     }
 
     internal void PlaySound(InterfaceSound sound) => _hoverSound.Play(Preferences.HoverVolume, sound);

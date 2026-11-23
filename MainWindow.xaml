@@ -168,7 +168,8 @@
               <Button x:Name="SidebarGuide" Content="{DynamicResource Reference}" ToolTip="{DynamicResource Reference}" Padding="0" Background="#131316" Height="34" Margin="0,0,0,5" Click="Reference_Click"/>
               <Button x:Name="SettingsButton" Background="#131316" Height="38" Click="Settings_Click" ToolTip="{DynamicResource Settings}" AutomationProperties.Name="{DynamicResource Settings}">
                 <StackPanel Orientation="Horizontal">
-                  <Path x:Name="SidebarGear" Data="{StaticResource GearIcon}" Width="15" Height="15" Stretch="Uniform" Margin="0,0,9,0">
+                  <Path x:Name="SidebarGear" Data="{StaticResource GearIcon}" Width="15" Height="15" Stretch="Uniform" Margin="0,0,9,0" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform><RotateTransform x:Name="SidebarGearRotation"/></Path.RenderTransform>
                     <Path.Style><Style TargetType="Path">
                       <Setter Property="Fill" Value="#A4A4A8"/>
                       <Style.Triggers>
@@ -414,7 +415,9 @@
         <StackPanel>
           <Grid Margin="0,0,0,24">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-              <Path Data="{StaticResource GearIcon}" Fill="#F5F5F7" Width="17" Height="17" Stretch="Uniform" Margin="0,0,10,0"/>
+              <Path Data="{StaticResource GearIcon}" Fill="#F5F5F7" Width="17" Height="17" Stretch="Uniform" Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5">
+                <Path.RenderTransform><RotateTransform x:Name="SettingsGearRotation"/></Path.RenderTransform>
+              </Path>
               <TextBlock Text="{DynamicResource Settings}" FontSize="19" FontWeight="Bold" VerticalAlignment="Center"/>
             </StackPanel>
             <Button x:Name="CloseSettingsButton" Style="{StaticResource ChromeButton}" Background="#1A1A1D" Content="×" FontSize="20"

@@ -2,6 +2,9 @@ using System.Diagnostics;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Animation;
+using MagnumTweaker.Services;
 using MagnumTweaker.Models;
 
 namespace MagnumTweaker;
@@ -52,7 +55,19 @@ public partial class ReferenceWindow : Window
         Sources.ItemsSource = new[] { UiLanguage.Text("Все источники", "All sources") }.Concat(_entries.Select(x => x.Source).Distinct());
         Sources.SelectedIndex = 0;
         WindowTransitions.PrepareEntrance(this);
+        if (SystemParameters.ClientAreaAnimation)
+        {
+            GuideMotion.Y = 8;
+            Loaded += (_, _) => GuideMotion.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty,
+                new DoubleAnimation(8, 0, TimeSpan.FromMilliseconds(240))
+                {
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                });
+        }
     }
+
+    private void Search_MouseEnter(object sender, MouseEventArgs e) =>
+        ((App)Application.Current).PlaySound(InterfaceSound.Hover);
 
     private void FilterChanged(object sender, RoutedEventArgs e)
     {

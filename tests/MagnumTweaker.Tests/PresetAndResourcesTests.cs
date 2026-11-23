@@ -47,11 +47,13 @@ public sealed class PresetAndResourcesTests
         Assert.Equal(Enumerable.Range(1, 217), sourceIds);
     }
 
-    [Fact]
-    public void StartupAudioIsEmbeddedAsMonoPcm()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(10)]
+    [InlineData(100)]
+    public void HoverSoundUsesMonoPcmAndRespectsVolume(int volume)
     {
-        using var input = typeof(App).Assembly.GetManifestResourceStream("MagnumTweaker.Magnum.wav");
-        Assert.NotNull(input);
+        using var input = HoverSound.CreateWave(volume, InterfaceSound.Hover);
         using var wave = new BinaryReader(input);
 
         Assert.Equal("RIFF", new string(wave.ReadChars(4)));
@@ -64,5 +66,10 @@ public sealed class PresetAndResourcesTests
         Assert.Equal(sampleRate * 2, wave.ReadUInt32());
         Assert.Equal(2, wave.ReadUInt16());
         Assert.Equal(16, wave.ReadUInt16());
+        Assert.Equal("data", new string(wave.ReadChars(4)));
+        int samples = wave.ReadInt32() / sizeof(short);
+        int peak = Enumerable.Range(0, samples).Max(_ => Math.Abs((int)wave.ReadInt16()));
+        if (volume == 0) Assert.Equal(0, peak);
+        else Assert.InRange(peak, 1, volume * 26);
     }
 }

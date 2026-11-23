@@ -82,7 +82,7 @@ The Build pipeline produces one self-contained executable at `dist\Magnum Tweake
 | --- | --- |
 | `App.xaml`, `*Window.xaml` | Shared WPF design resources and window layouts |
 | `Models/`, `Services/` | Tweak states, catalog, system access, backups, and presets |
-| `Assets/` | Embedded artwork, startup sound, GTA V preset, and reference material |
+| `Assets/` | Embedded artwork, GTA V preset, and reference material |
 | `tests/` | xUnit tests for core behavior and bundled resources |
 | `pipelines/`, `.github/workflows/` | Local pipeline entry points and GitHub Actions workflows |
 | `docs/` | Research notes and manual verification checklist |

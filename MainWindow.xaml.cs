@@ -373,18 +373,15 @@ public partial class MainWindow : Window
     {
         if (SettingsOverlay.IsVisible) return;
 
-        FilterButton.IsChecked = false;
-        SortBox.IsDropDownOpen = false;
-        TweakScroll?.StopWheelAnimation();
-        MainLayout.IsHitTestVisible = false;
-        KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.None);
-        MainLayout.Effect = new BlurEffect { Radius = 13, RenderingBias = RenderingBias.Performance };
+        BlurCatalog();
         SettingsOverlay.Visibility = Visibility.Visible;
         CloseSettingsButton.Focus();
         if (SystemParameters.ClientAreaAnimation)
         {
             SettingsOverlay.BeginAnimation(OpacityProperty, EaseTo(0, 1, 220));
             SettingsMotion.BeginAnimation(TranslateTransform.YProperty, EaseTo(9, 0, 240));
+            SidebarGearRotation.BeginAnimation(RotateTransform.AngleProperty, EaseTo(0, 360, 630));
+            SettingsGearRotation.BeginAnimation(RotateTransform.AngleProperty, EaseTo(0, 360, 630));
         }
     }
 
@@ -415,9 +412,7 @@ public partial class MainWindow : Window
             SettingsOverlay.Visibility = Visibility.Collapsed;
             SettingsOverlay.BeginAnimation(OpacityProperty, null);
             LanguageDropdown.IsChecked = false;
-            MainLayout.Effect = null;
-            MainLayout.IsHitTestVisible = true;
-            KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.Continue);
+            RestoreCatalog();
             SettingsButton.Focus();
             _settingsClosing = false;
         }
@@ -474,10 +469,37 @@ public partial class MainWindow : Window
             ((App)Application.Current).Preferences.HoverVolume = (int)e.NewValue;
     }
 
+    private void BlurCatalog()
+    {
+        FilterButton.IsChecked = false;
+        SortBox.IsDropDownOpen = false;
+        TweakScroll?.StopWheelAnimation();
+        MainLayout.IsHitTestVisible = false;
+        KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.None);
+        var blur = new BlurEffect { Radius = 13, RenderingBias = RenderingBias.Performance };
+        MainLayout.Effect = blur;
+        if (SystemParameters.ClientAreaAnimation)
+            blur.BeginAnimation(BlurEffect.RadiusProperty, EaseTo(0, 13, 220));
+    }
+
+    private void RestoreCatalog()
+    {
+        MainLayout.Effect = null;
+        MainLayout.IsHitTestVisible = true;
+        KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.Continue);
+    }
+
     private void Reference_Click(object sender, RoutedEventArgs e)
     {
+        if (SettingsOverlay.IsVisible) return;
         var guide = new ReferenceWindow(_profileItems) { Owner = this };
-        guide.ShowDialog();
+        BlurCatalog();
+        try { guide.ShowDialog(); }
+        finally
+        {
+            RestoreCatalog();
+            SidebarGuide.Focus();
+        }
         if (guide.SelectedTweak is not { } tweak) return;
         CategoryList.SelectedIndex = 0;
         StatusAny.IsChecked = true;
