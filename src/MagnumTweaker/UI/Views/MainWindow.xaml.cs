@@ -26,7 +26,10 @@ public partial class MainWindow : Window
         AnimateSidebarValue(Sidebar, WidthProperty, compact ? 64 : 215);
         AnimateSidebarValue(SidebarBrand, WidthProperty, compact ? 50 : 163);
         AnimateSidebarValue(SidebarArrowRotation, RotateTransform.AngleProperty, compact ? 180 : 0);
-        SidebarHeading.Visibility = SidebarSettingsLabel.Visibility = ProfileText.Visibility = visibility;
+        SidebarHeading.Visibility = SidebarSettingsLabel.Visibility = visibility;
+        // Keep the profile row in the layout so the footer divider stays level as the labels fade.
+        AnimateSidebarValue(ProfileText, OpacityProperty, compact ? 0 : 1);
+        AnimateSidebarValue(CompactProfileText, OpacityProperty, compact ? 1 : 0);
         SidebarGear.Margin = compact ? new Thickness(0) : new Thickness(0, 0, 9, 0);
         if (compact)
             SidebarGuide.Content = new System.Windows.Shapes.Path
@@ -45,6 +48,12 @@ public partial class MainWindow : Window
         var animation = SystemParameters.ClientAreaAnimation ? EaseTo(current, value, 230) : null;
         element.SetValue(property, value);
         target.BeginAnimation(property, animation);
+    }
+
+    private void UpdateSidebarProfile()
+    {
+        ProfileText.Text = $"Windows {_windowsVersion} · x64";
+        CompactProfileText.Text = $"Win{_windowsVersion} x64";
     }
     private SmoothScrollViewer? TweakScroll => TweaksList.Template?.FindName("PART_TweakScroll", TweaksList) as SmoothScrollViewer;
     private IEnumerable<Tweak> PresetItems => GamingPreset.Select(_profileItems);
@@ -79,8 +88,9 @@ public partial class MainWindow : Window
         _profileItems = catalog.ForProfile(windowsVersion);
         _windowsVersion = windowsVersion;
         InitializeComponent();
+        VersionLabel.Text = $"v{typeof(MainWindow).Assembly.GetName().Version?.ToString(2)}";
         WindowTransitions.PrepareEntrance(this);
-        ProfileText.Text = $"Windows {_windowsVersion} · x64";
+        UpdateSidebarProfile();
         ProfilePicker.ItemsSource = new[] { "Windows 10", "Windows 11" };
         ProfilePicker.SelectedIndex = windowsVersion == "11" ? 1 : 0;
         TweaksList.ItemsSource = _visible;
@@ -143,7 +153,7 @@ public partial class MainWindow : Window
         _hasScanSummary = true;
         UpdatePreset();
         int applied = _profileItems.Count(tweak => !tweak.ReadOnly && tweak.State == TweakState.Applied);
-        int checkedCount = _profileItems.Count(tweak => tweak.State is not (TweakState.Unknown or TweakState.Checking));
+        int checkedCount = _profileItems.Count(tweak => tweak.State is not (TweakState.Unknown or TweakState.Checking or TweakState.Applying));
         int unavailable = _profileItems.Count(tweak => tweak.State is TweakState.Unsupported or TweakState.Error);
         SummaryText.Text = UiLanguage.Text($"Проверено {checkedCount}/{_profileItems.Count} · применено {applied} · недоступно {unavailable}",
             $"Checked {checkedCount}/{_profileItems.Count} · {applied} applied · {unavailable} unavailable");
@@ -170,14 +180,16 @@ public partial class MainWindow : Window
         if (_busy) return;
         var pending = PresetItems.Where(t => t.CanApply).ToArray();
         if (pending.Length == 0) return;
+        if (!confirmed && !ConfirmFirstRestorePoint()) return;
         if (!confirmed && MessageBox.Show(this, UiLanguage.Text(
-            $"Применить {pending.Length} оставшихся настроек? Параметры питания действуют от сети и могут увеличить нагрев и расход энергии. Пресет GTA V использует 1920 × 1080 при 239 Гц.",
-            $"Apply the {pending.Length} remaining tweaks? AC power settings may increase heat and energy use. The GTA V preset uses 1920 × 1080 at 239 Hz."),
+            $"Применить {pending.Length} оставшихся настроек? Параметры питания действуют от сети и могут увеличить нагрев и расход энергии.",
+            $"Apply the {pending.Length} remaining tweaks? AC power settings may increase heat and energy use."),
             UiLanguage.Text("Подтверждение", "Confirm"), MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
 
         _busy = true;
         UpdatePreset();
         StatusText.Text = UiLanguage.Text("Применяем оставшиеся настройки…", "Applying remaining tweaks…");
+        foreach (var tweak in pending) tweak.State = TweakState.Applying;
         try
         {
             var result = pending.Any(t => t.RequiresAdmin) && !TweakCatalog.IsAdministrator()
@@ -187,9 +199,8 @@ public partial class MainWindow : Window
             _catalog.ReloadBackups();
             foreach (var tweak in pending)
             {
-                tweak.State = await ScanWindow.Inspect(tweak, CancellationToken.None);
-                if (tweak.State == TweakState.Applied && SystemParameters.ClientAreaAnimation)
-                    _ = HighlightAppliedAsync(tweak);
+                var verified = await ScanWindow.Inspect(tweak, CancellationToken.None);
+                CompleteApplication(tweak, verified);
             }
             if (pending.Any(t => t.IncludeInAcPreset)) await RefreshAcCards();
 
@@ -213,6 +224,8 @@ public partial class MainWindow : Window
         }
         finally
         {
+            foreach (var tweak in pending.Where(tweak => tweak.State == TweakState.Applying))
+                tweak.State = TweakState.NotApplied;
             _busy = false;
             UpdateSummary();
         }
@@ -242,27 +255,33 @@ public partial class MainWindow : Window
     private async Task Execute(Tweak tweak, bool apply, bool ask = true)
     {
         if (_busy || !_profileItems.Contains(tweak) || (apply ? !tweak.CanApply : !tweak.CanRestore)) return;
+        if (apply && ask && !ConfirmFirstRestorePoint()) return;
         string action = apply ? UiLanguage.Text("Применить", "Apply") : UiLanguage.Text("Откатить", "Restore");
         if (ask && !ConfirmAction($"{action} «{tweak.DisplayTitle}»?\n\n{tweak.DisplayDescription}\n{tweak.Mechanism}",
             tweak.RequiresAdmin, apply ? ElevationRequest.Apply : ElevationRequest.Restore, tweak.Id)) return;
-        // Serialize backup and settings writes across running instances in this Windows session.
-        using var gate = new Mutex(false, @"Local\MagnumTweaker.SettingsWrite");
-        bool acquired;
-        try { acquired = gate.WaitOne(0); } catch (AbandonedMutexException) { acquired = true; }
-        if (!acquired) { StatusText.Text = UiLanguage.Text("Другое окно меняет настройки.", "Another window is changing settings."); return; }
-        bool highlight = apply && tweak.State != TweakState.Applied;
+        var previousState = tweak.State;
+        bool highlight = apply && previousState != TweakState.Applied;
         try
         {
-            _busy = true; tweak.State = TweakState.Checking; StatusText.Text = $"{action} · {tweak.DisplayTitle}";
-            _catalog.ReloadBackups();
-            if (apply) await tweak.Apply(CancellationToken.None); else await tweak.Restore(CancellationToken.None);
-            tweak.State = await ScanWindow.Inspect(tweak, CancellationToken.None);
+            _busy = true;
+            tweak.State = apply ? TweakState.Applying : TweakState.Checking;
+            StatusText.Text = $"{action} · {tweak.DisplayTitle}";
+            // Let fast registry writes show the sweep without delaying the operation itself.
+            var sweep = apply && SystemParameters.ClientAreaAnimation ? Task.Delay(320) : Task.CompletedTask;
+            if (!await Task.Run(() => WriteSingleTweak(tweak, apply)))
+            {
+                tweak.State = previousState;
+                StatusText.Text = UiLanguage.Text("Другое окно меняет настройки.", "Another window is changing settings.");
+                return;
+            }
+            var verified = await ScanWindow.Inspect(tweak, CancellationToken.None);
+            await sweep;
+            if (apply) CompleteApplication(tweak, verified);
+            else tweak.State = verified;
             if (apply && tweak.State != TweakState.Applied) throw new InvalidOperationException(UiLanguage.Text("Повторная проверка не подтвердила изменение.", "The read-back did not confirm the change."));
             if (tweak.Id.StartsWith("ac-") || tweak.Id is "ultimate" or "high-performance")
                 await RefreshAcCards(tweak);
             if (highlight) ((App)Application.Current).PlaySound(InterfaceSound.Success);
-            if (highlight && tweak.State == TweakState.Applied && SystemParameters.ClientAreaAnimation)
-                _ = HighlightAppliedAsync(tweak);
             StatusText.Text = tweak.RequiresRestart
                 ? UiLanguage.Text("Готово. Для полного эффекта нужна перезагрузка.", "Done. Restart Windows to complete the change.")
                 : UiLanguage.Text("Готово", "Ready");
@@ -279,7 +298,33 @@ public partial class MainWindow : Window
             MessageBox.Show(ex.Message, UiLanguage.Text("Не удалось выполнить действие", "Action failed"), MessageBoxButton.OK, MessageBoxImage.Error);
             tweak.State = TweakState.Error;
         }
-        finally { gate.ReleaseMutex(); _busy = false; UpdateSummary(); }
+        finally { _busy = false; UpdateSummary(); }
+    }
+
+    private bool WriteSingleTweak(Tweak tweak, bool apply)
+    {
+        // A Windows mutex must be released on the thread that acquired it.
+        using var gate = new Mutex(false, PresetBatch.SettingsMutexName);
+        bool acquired;
+        try { acquired = gate.WaitOne(0); }
+        catch (AbandonedMutexException) { acquired = true; }
+        if (!acquired) return false;
+
+        try
+        {
+            _catalog.ReloadBackups();
+            var write = apply ? tweak.Apply(CancellationToken.None) : tweak.Restore(CancellationToken.None);
+            write.GetAwaiter().GetResult();
+            return true;
+        }
+        finally { gate.ReleaseMutex(); }
+    }
+
+    private static void CompleteApplication(Tweak tweak, TweakState verified)
+    {
+        if (verified == TweakState.Applied && SystemParameters.ClientAreaAnimation)
+            _ = HighlightAppliedAsync(tweak);
+        tweak.State = verified;
     }
 
     private static async Task HighlightAppliedAsync(Tweak tweak)
@@ -539,6 +584,29 @@ public partial class MainWindow : Window
             ((App)Application.Current).Preferences.HoverVolume = (int)e.NewValue;
     }
 
+    private bool ConfirmFirstRestorePoint()
+    {
+        var preferences = ((App)Application.Current).Preferences;
+        if (preferences.RestorePointPromptHandled) return true;
+
+        var dialog = new RestorePointWindow { Owner = this };
+        BlurCatalog();
+        try
+        {
+            bool proceed = dialog.ShowDialog() == true;
+            if (proceed || dialog.PointCreated)
+            {
+                preferences.RestorePointPromptHandled = true;
+                preferences.Save();
+            }
+            return proceed;
+        }
+        finally
+        {
+            RestoreCatalog();
+        }
+    }
+
     private void BlurCatalog()
     {
         FilterButton.IsChecked = false;
@@ -557,6 +625,20 @@ public partial class MainWindow : Window
         MainLayout.Effect = null;
         MainLayout.IsHitTestVisible = true;
         KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.Continue);
+    }
+
+    private void DeveloperLink_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string address }) return;
+
+        try
+        {
+            Process.Start(new ProcessStartInfo(address) { UseShellExecute = true });
+        }
+        catch (System.ComponentModel.Win32Exception)
+        {
+            StatusText.Text = UiLanguage.Text("Не удалось открыть ссылку в браузере.", "Could not open the link in your browser.");
+        }
     }
 
     private void Reference_Click(object sender, RoutedEventArgs e)
@@ -619,7 +701,7 @@ public partial class MainWindow : Window
             _windowsVersion = requested;
             ((App)Application.Current).Preferences.WindowsProfile = requested;
             _profileItems = items;
-            ProfileText.Text = $"Windows {requested} · x64";
+            UpdateSidebarProfile();
             UpdateSummary();
             RefreshFilter();
         }

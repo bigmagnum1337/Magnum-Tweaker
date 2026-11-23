@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace MagnumTweaker.Models;
 
-public enum TweakState { Unknown, Checking, Applied, NotApplied, Unsupported, Error }
+public enum TweakState { Unknown, Checking, Applied, NotApplied, Unsupported, Error, Applying }
 public enum TweakRisk { Safe, Moderate, Experimental }
 
 public sealed class Tweak : INotifyPropertyChanged
@@ -35,7 +35,7 @@ public sealed class Tweak : INotifyPropertyChanged
     public string DisplayTitle => UiLanguage.IsEnglish ? EnglishTitle ?? (EnglishTweakText.Entries.TryGetValue(Id, out var t) ? t.Title : Title) : Title;
     public string DisplayDescription => UiLanguage.IsEnglish ? EnglishDescription ?? (EnglishTweakText.Entries.TryGetValue(Id, out var t) ? t.Description : Description) : Description;
     public bool CanApply => !ReadOnly && State == TweakState.NotApplied;
-    public bool CanRestore => !ReadOnly && State is not (TweakState.Unknown or TweakState.Checking or TweakState.Unsupported)
+    public bool CanRestore => !ReadOnly && State is not (TweakState.Unknown or TweakState.Checking or TweakState.Applying or TweakState.Unsupported)
         && HasBackup?.Invoke() == true;
     public required Func<CancellationToken, Task<TweakState>> Check { get; init; }
     public required Func<CancellationToken, Task> Apply { get; init; }
@@ -70,6 +70,7 @@ public sealed class Tweak : INotifyPropertyChanged
         TweakState.Applied => UiLanguage.Text("ПРИМЕНЕНО", "APPLIED"),
         TweakState.NotApplied => UiLanguage.Text("НЕ ПРИМЕНЕНО", "NOT APPLIED"),
         TweakState.Checking => UiLanguage.Text("ПРОВЕРКА", "CHECKING"),
+        TweakState.Applying => UiLanguage.Text("ПРИМЕНЯЕТСЯ", "APPLYING"),
         TweakState.Unsupported => UiLanguage.Text("НЕ ПОДДЕРЖИВАЕТСЯ", "UNSUPPORTED"),
         TweakState.Error => UiLanguage.Text("ОШИБКА", "ERROR"),
         _ => UiLanguage.Text("НЕ ПРОВЕРЕНО", "NOT CHECKED")
@@ -77,6 +78,7 @@ public sealed class Tweak : INotifyPropertyChanged
     public string StateColor => State switch
     {
         TweakState.Applied => "#35D07F", TweakState.NotApplied => "#FF5D70",
+        TweakState.Applying => "#A4D6B9",
         TweakState.Checking => "#F7C948", TweakState.Unsupported => "#667085",
         TweakState.Error => "#FF8A4C", _ => "#667085"
     };

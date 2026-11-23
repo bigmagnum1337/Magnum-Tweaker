@@ -5,10 +5,13 @@ namespace MagnumTweaker.Services;
 
 internal static class SystemTool
 {
-    public static async Task<string> Run(string relativeExe, CancellationToken token, params string[] arguments)
+    public static Task<string> Run(string relativeExe, CancellationToken token, params string[] arguments) =>
+        Run(relativeExe, TimeSpan.FromSeconds(15), token, arguments);
+
+    internal static async Task<string> Run(string relativeExe, TimeSpan limit, CancellationToken token, params string[] arguments)
     {
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
-        timeout.CancelAfter(TimeSpan.FromSeconds(15));
+        timeout.CancelAfter(limit);
         var start = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, relativeExe))
         {
             UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true

@@ -1,7 +1,7 @@
 <Window x:Class="MagnumTweaker.SetupWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Magnum Tweaker · Setup" Icon="Assets/MagnumTweaker.ico" Width="462" Height="362" WindowStartupLocation="CenterScreen"
+        Title="Magnum Tweaker · Setup" Icon="../../Assets/MagnumTweaker.ico" Width="462" Height="362" WindowStartupLocation="CenterScreen"
         WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent"
         Foreground="#F5F5F6" FontFamily="{StaticResource InterfaceFont}" UseLayoutRounding="True" Loaded="Window_Loaded">
   <Window.Resources>

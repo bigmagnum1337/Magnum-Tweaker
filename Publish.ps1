@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 
-$project = Join-Path $PSScriptRoot 'MagnumTweaker.csproj'
+$project = Join-Path $PSScriptRoot 'src/MagnumTweaker/MagnumTweaker.csproj'
 $distPath = Join-Path $PSScriptRoot 'dist'
 $dist = New-Item -ItemType Directory -Path $distPath -Force
 if ($dist.Attributes -band [IO.FileAttributes]::ReparsePoint) {

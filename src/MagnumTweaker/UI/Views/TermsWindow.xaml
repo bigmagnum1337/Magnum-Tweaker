@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:local="clr-namespace:MagnumTweaker"
-        Icon="Assets/MagnumTweaker.ico" Width="665" Height="550" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Icon="../../Assets/MagnumTweaker.ico" Width="665" Height="550" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         WindowStyle="None" Background="#0B0B0D" Foreground="#F5F5F6" FontFamily="{StaticResource InterfaceFont}"
         UseLayoutRounding="True" PreviewKeyDown="Window_PreviewKeyDown">
   <shell:WindowChrome.WindowChrome>

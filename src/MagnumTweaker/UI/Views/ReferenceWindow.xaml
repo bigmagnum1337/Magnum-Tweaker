@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:MagnumTweaker"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         Title="{DynamicResource Reference}" Width="760" Height="540" MinWidth="460" MinHeight="340" WindowStyle="None"
-        WindowStartupLocation="CenterOwner" Icon="Assets/MagnumTweaker.ico" Background="#0B0B0D"
+        WindowStartupLocation="CenterOwner" Icon="../../Assets/MagnumTweaker.ico" Background="#0B0B0D"
         FontFamily="{StaticResource InterfaceFont}" Foreground="White" ShowInTaskbar="False">
   <shell:WindowChrome.WindowChrome><shell:WindowChrome CaptionHeight="42" GlassFrameThickness="0" ResizeBorderThickness="5" CornerRadius="10" UseAeroCaptionButtons="False"/></shell:WindowChrome.WindowChrome>
   <Border CornerRadius="10" BorderThickness="1" BorderBrush="#3A3A3E"><Grid Margin="20,14">

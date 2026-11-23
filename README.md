@@ -1,99 +1,88 @@
 <p align="center">
-  <img src="Assets/Brand.png" width="360" alt="Magnum Tweaker">
+  <img src="src/MagnumTweaker/Assets/Brand.png" width="360" alt="Magnum Tweaker">
 </p>
 
 # Magnum Tweaker
 
-**Portable Windows 10/11 x64 performance and gaming settings manager** · **Портативный менеджер настроек Windows 10/11 x64**
+**Portable Windows 10/11 x64 performance and gaming settings manager**
 
-[Русский](#русский) · [English](#english) · [Releases](../../releases) · [Contributor guide](AGENTS.md)
+[Русский](#русский) · [English](#english) · [Releases](../../releases) · [Telegram @bigmagnum1337](https://t.me/bigmagnum1337) · [Contributor guide](AGENTS.md)
 
 ## Русский
 
-Magnum Tweaker — приложение на C#, .NET 8 и WPF. Оно проверяет настройки Windows и игр, показывает текущее состояние и позволяет менять поддерживаемые параметры с откатом.
+Magnum Tweaker проверяет настройки производительности Windows и позволяет применять и откатывать поддерживаемые изменения. Приложение написано на C#, .NET 8 и WPF.
 
-### Возможности
-
-| Раздел | Что доступно |
-| --- | --- |
-| Каталог | **87 базовых карточек** для каждого профиля Windows, включая четыре проверки служб RP. Дополнительные сетевые карточки зависят от обнаруженных свойств адаптера. |
-| Категории | FPS и игры, задержка ввода, производительность, сеть, отзывчивость, готовые настройки и GTA V. Панель категорий сворачивается до значков. |
-| Готовые настройки | Игровой набор без разгона, включая 14 параметров повышенного энергопотребления от сети в активной схеме. Настройки от батареи сохраняются. Возможны дополнительный нагрев, шум и расход электроэнергии. Счётчики показывают, сколько изменений уже применено, доступно и недоступно. |
-| GTA V Settings | Пресет для **GTA V Legacy** заменяет `settings.xml` в папке документов Rockstar Games, переносит название видеокарты и сохраняет исходный файл. Пресет задаёт **1920 × 1080 при 239 Гц**. |
-| Справочник | **236 записей**, включая 217 исходных пунктов и материалы по приложенным пакетам. У части записей есть переход к карточке или параметрам Windows. |
-| Интерфейс | Русский и английский языки, выбор профиля Windows 10/11, тёмное оформление, поиск и фильтры, раскрываемые описания, единый ползунок громкости. |
+- **Каталог.** 86 базовых карточек для каждого профиля Windows. Сетевые карты могут добавлять настройки в зависимости от драйвера. Есть поиск, фильтры по состоянию и риску, сортировка и раскрываемые описания.
+- **Magnum pack.** Применяет оставшиеся доступные настройки набора за одно действие. В набор входят игровые и сетевые параметры, настройки отзывчивости и 14 параметров питания от сети. Профиль батареи сохраняется. Повышенное энергопотребление может увеличить нагрев и шум.
+- **GTA V.** В базовый каталог входят четыре проверки служб Windows, отмеченных в памятке Majestic / GTA5RP. Эти карточки работают в режиме чтения.
+- **Справочник.** 236 записей. Некоторые открывают соответствующую карточку или страницу параметров Windows. Большая часть исходного материала на русском.
+- **Интерфейс.** Русский и английский языки, профили Windows 10/11, сворачиваемая панель категорий и общая регулировка громкости.
 
 ### Как пользоваться
 
-1. Запустите портативный EXE, выберите язык и профиль Windows. При первом запуске прочтите пользовательское соглашение.
-2. Дождитесь обязательной проверки. Она читает параметры без применения твиков. Зелёный статус показывает совпадение значения, красный — доступную настройку с другим значением, серый — недоступность, оранжевый — ошибку проверки.
-3. Выберите настройку или готовый набор. Для части системных изменений требуются права администратора. Если приложение сохранило исходное значение, в карточке будет доступен откат.
+1. Откройте раздел **Assets** на странице релиза, скачайте `Windows.x64.Portable.zip` и распакуйте архив. Запустите `Magnum Tweaker.exe`. [Скачать релиз](../../releases/latest)
+2. Выберите язык и свою версию Windows, примите условия использования и дождитесь проверки. Она покажет состояние настроек.
+3. Найдите нужный твик и нажмите **Применить**. Набор твиков доступен в категории **Готовые настройки**. Если приложение предложит создать точку восстановления, её можно создать прямо в этом окне. Для некоторых изменений Windows запросит права администратора.
+4. Чтобы вернуть исходное значение, нажмите **Откат** на карточке, если кнопка доступна. Чтобы обновить статусы, нажмите **Проверить всё**.
 
-Настройки интерфейса и снимки для отката хранятся в `%LOCALAPPDATA%\MagnumTweaker` отдельно от EXE. Доступность зависит от версии и редакции Windows, драйверов и установленных приложений. Статус подтверждает значение параметра. FPS, пинг и время кадра проверяются отдельно в игре. Пометки Majestic / GTA5RP следуют исходной памятке, приведённой в разборе материалов.
+Настройки интерфейса и данные для отката хранятся в `%LOCALAPPDATA%\MagnumTweaker`. [VirusTotal для EXE из опубликованного релиза 1.1](https://www.virustotal.com/gui/file/56d4549d1cf071d777a911273608143ee52203826f3ac60c9388f806ec82d97e)
 
-### Совместимость
+Один автономный EXE предназначен для Windows 10 и 11 на x64. Доступность отдельных твиков зависит от версии и редакции Windows, драйверов и оборудования. Статус подтверждает значение настройки. FPS, задержка ввода и пинг оцениваются отдельными замерами в игре. [Поддерживаемые версии Windows для .NET](https://learn.microsoft.com/dotnet/core/install/windows#supported-versions)
 
-Один автономный EXE для Windows 10 и 11 на x64. Поддержка конкретной сборки Windows зависит от .NET 8 и жизненного цикла Windows. Смена профиля в приложении управляет каталогом, а применимость определяется фактической системой. [Таблица Microsoft](https://learn.microsoft.com/dotnet/core/install/windows#supported-versions)
+### Сборка и тесты
 
-### Сборка и проверка
-
-Запустите эти команды из корня репозитория в Windows с .NET 8 SDK.
+Откройте [Magnum-Tweaker.sln](Magnum-Tweaker.sln) в Visual Studio или VS Code с C# Dev Kit. Команды ниже запускаются из корня репозитория в Windows с .NET 8 SDK.
 
 ```powershell
 .\pipelines\Build.ps1
 .\pipelines\Run-Test.ps1
 ```
 
-Сборка создаёт один автономный файл `dist\Magnum Tweaker.exe`. Для запуска этого файла отдельный .NET Runtime не нужен. Проверки **Build** и **Run Test** также запускаются в GitHub Actions на push, pull request и вручную.
+Готовый EXE находится в `dist\Magnum Tweaker.exe`, отчёт тестов — в `artifacts\test-results\MagnumTweaker.trx`. Для запуска готового EXE отдельный .NET Runtime не требуется. GitHub Actions запускает **Build** и **Run Test** на push, pull request и вручную.
 
 ## English
 
-Magnum Tweaker is a C#, .NET 8, and WPF desktop tool for inspecting, applying, and restoring supported Windows and game settings.
+Magnum Tweaker is a C#, .NET 8, and WPF desktop app for checking, applying, and restoring supported Windows performance settings.
 
-### Features
+- **Catalog.** 86 base cards per Windows profile. Network adapters may expose additional settings depending on the driver. Search, status and risk filters, sorting, and expandable descriptions help you find each setting.
+- **Magnum pack.** Applies the remaining available preset changes in one action. It groups gaming, networking, responsiveness, and 14 AC power settings. Battery settings stay as configured. Higher power draw may increase heat and fan noise.
+- **GTA V.** The base catalog includes four read-only checks for Windows services flagged in the Majestic / GTA5RP reference material.
+- **Reference guide.** 236 entries. Some open the corresponding catalog card or Windows settings page. Most source material is in Russian.
+- **Interface.** Russian and English, Windows 10/11 profiles, a collapsible sidebar, and one volume control for interface sounds.
 
-| Area | What you get |
-| --- | --- |
-| Catalog | **87 base cards** per Windows profile, including four read-only RP service checks. Additional network cards depend on detected adapter capabilities. |
-| Categories | FPS and gaming, input lag, performance, network, responsiveness, presets, and GTA V. The sidebar collapses to icons. |
-| Presets | A gaming preset with 14 higher-power AC settings in the active plan and counts for applied, available, and unavailable tweaks. It uses stock boost, leaves battery settings alone, and may increase heat, fan noise, and energy use. |
-| GTA V Settings | A **GTA V Legacy** preset replaces `settings.xml` in the Rockstar Games Documents folder, preserves the existing GPU name, and keeps a copy of the original file. It sets **1920 × 1080 at 239 Hz**. |
-| Reference guide | **236 entries**, including 217 numbered source items and notes on the supplied optimization packs. Selected entries link to matching cards or Windows settings. Much of the source material is in Russian. |
-| Interface | Russian and English UI, Windows 10/11 profile selector, dark theme, search and filters, expandable descriptions, and a shared volume slider. |
+### Getting started
 
-### Using the app
+1. Under **Assets** on the release page, download and extract `Windows.x64.Portable.zip`, then run `Magnum Tweaker.exe`. [Download the release](../../releases/latest)
+2. Choose your language and Windows version, accept the terms, and wait for the scan to show the current status of your settings.
+3. Find a tweak and click **Apply**. The preset is available under **Presets**. If prompted to create a restore point, you can make one in the app. Windows may request administrator permission for some changes.
+4. To bring back the original setting, click **Restore** on its card when available. Click **Check all** to refresh the status of the tweaks.
 
-1. Launch the portable EXE, select a language and Windows profile, and read the terms on first launch.
-2. Wait for the mandatory scan. It reads the current settings without applying tweaks. Green means the value matches, red means an available setting has a different value, gray means unavailable, and orange means the check failed.
-3. Apply an individual tweak or a preset. Some changes require administrator rights. A card offers Restore when the application has a snapshot.
+Preferences and rollback data are stored in `%LOCALAPPDATA%\MagnumTweaker`. [VirusTotal for the published 1.1 executable](https://www.virustotal.com/gui/file/56d4549d1cf071d777a911273608143ee52203826f3ac60c9388f806ec82d97e)
 
-Interface preferences and rollback snapshots live in `%LOCALAPPDATA%\MagnumTweaker`, separate from the EXE. Availability depends on the Windows build and edition, drivers, and installed applications. Status checks verify settings. FPS, latency, and frame times require in-game measurements. Majestic / GTA5RP labels reflect the supplied guide referenced in the research notes.
-
-### Compatibility
-
-The same self-contained x64 EXE targets Windows 10 and 11. Support for a specific Windows build depends on .NET 8 and the Windows lifecycle. The in-app profile filters the catalog, and the actual host determines tweak eligibility. [Microsoft support matrix](https://learn.microsoft.com/dotnet/core/install/windows#supported-versions)
+One self-contained x64 EXE targets Windows 10 and 11. Individual tweaks depend on the Windows release and edition, drivers, and hardware. The status verifies the setting value. FPS, input latency, and ping require separate in-game measurements. [Windows versions supported by .NET](https://learn.microsoft.com/dotnet/core/install/windows#supported-versions)
 
 ### Build and test
 
-Run these commands from the repository root on Windows with the .NET 8 SDK.
+Open [Magnum-Tweaker.sln](Magnum-Tweaker.sln) in Visual Studio or VS Code with C# Dev Kit. Run these commands from the repository root on Windows with the .NET 8 SDK.
 
 ```powershell
 .\pipelines\Build.ps1
 .\pipelines\Run-Test.ps1
 ```
 
-The Build pipeline produces one self-contained executable at `dist\Magnum Tweaker.exe`. The executable runs without a separately installed .NET Runtime. GitHub Actions runs **Build** and **Run Test** on pushes, pull requests, and manual dispatch.
+The portable EXE is written to `dist\Magnum Tweaker.exe` and the test report to `artifacts\test-results\MagnumTweaker.trx`. The published EXE includes the .NET Runtime. GitHub Actions runs **Build** and **Run Test** on pushes, pull requests, and manual dispatch.
 
-### Repository map
+## Структура репозитория / Repository layout
 
-| Path | Purpose |
+| Path | Назначение / Purpose |
 | --- | --- |
-| `App.xaml`, `*Window.xaml` | Shared WPF design resources and window layouts |
-| `Models/`, `Services/` | Tweak states, catalog, system access, backups, and presets |
-| `Assets/` | Embedded artwork, GTA V preset, and reference material |
-| `tests/` | xUnit tests for core behavior and bundled resources |
-| `pipelines/`, `.github/workflows/` | Local pipeline entry points and GitHub Actions workflows |
+| [src/MagnumTweaker](src/MagnumTweaker) | Приложение, манифест и общие стили / WPF app, manifest, and shared styles |
+| [UI](src/MagnumTweaker/UI) | Окна, элементы управления и локализация / Windows, controls, and localization |
+| [Models](src/MagnumTweaker/Models), [Services](src/MagnumTweaker/Services) | Каталог, наборы, настройки Windows и откат / Catalog, presets, Windows operations, and rollback |
+| [Assets](src/MagnumTweaker/Assets) | Логотип, иконка, шрифты и справочник / Logo, icon, fonts, and reference data |
+| [tests](tests) | Тесты xUnit / xUnit tests |
+| [pipelines](pipelines), [.github/workflows](.github/workflows) | Сборка и проверки / Build and test automation |
 
-See [AGENTS.md](AGENTS.md) for branch naming, review expectations, and the application-wide design rules.
+Правила работы с репозиторием / Contribution rules in [AGENTS.md](AGENTS.md).
 
-Typography / Шрифты: [Inter](https://rsms.me/inter/) and [Manrope](https://fonts.google.com/specimen/Manrope). [Inter license](Assets/Fonts/Inter-OFL.txt) · [Manrope license](Assets/Fonts/Manrope-OFL.txt)
+Шрифты / Fonts: [Inter](src/MagnumTweaker/Assets/Fonts/Inter-OFL.txt) · [Manrope](src/MagnumTweaker/Assets/Fonts/Manrope-OFL.txt).

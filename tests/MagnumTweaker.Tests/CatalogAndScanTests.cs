@@ -16,7 +16,7 @@ public sealed class CatalogAndScanTests(ITestOutputHelper output)
         Assert.DoesNotContain(items, t => t.Id == excluded);
         Assert.Equal(items.Count, items.Select(t => t.Id).Distinct().Count());
         Assert.All(items, t => Assert.True(t.WindowsProfile == null || t.WindowsProfile == profile));
-        Assert.Single(items, t => t.Id == "gta-preset");
+        Assert.DoesNotContain(items, t => t.Id == "gta-preset");
         output.WriteLine($"Windows {profile}: {items.Count(t => !t.Id.StartsWith("nic-", StringComparison.Ordinal))} base cards, {items.Count} on this host.");
     }
 
@@ -39,6 +39,7 @@ public sealed class CatalogAndScanTests(ITestOutputHelper output)
     [InlineData(TweakState.NotApplied, false, true, false)]
     [InlineData(TweakState.Applied, true, false, true)]
     [InlineData(TweakState.Applied, false, false, false)]
+    [InlineData(TweakState.Applying, true, false, false)]
     [InlineData(TweakState.Unsupported, true, false, false)]
     [InlineData(TweakState.Error, true, false, true)]
     public void CardOffersOnlyAnActionThatCanRun(TweakState state, bool backup, bool apply, bool restore)

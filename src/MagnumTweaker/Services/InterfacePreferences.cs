@@ -13,6 +13,7 @@ internal sealed class InterfacePreferences
     public string? WindowsProfile { get; set; }
     public int HoverVolume { get; set; } = 10;
     public int AcceptedTermsVersion { get; set; }
+    public bool RestorePointPromptHandled { get; set; }
 
     public static InterfacePreferences Load() => Load(FilePath);
 

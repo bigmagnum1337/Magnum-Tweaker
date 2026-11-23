@@ -4,7 +4,7 @@ internal static class GamingPreset
 {
     internal static IEnumerable<Tweak> Select(IEnumerable<Tweak> profile) =>
         profile.Where(tweak => !tweak.ReadOnly && (tweak.Risk == TweakRisk.Safe || tweak.IncludeInAcPreset ||
-            tweak.Id is "menu-animation" or "gta-preset" or "game-config" or "taskbar-motion" or "tips" or "start-suggestions" or
+            tweak.Id is "menu-animation" or "game-config" or "taskbar-motion" or "tips" or "start-suggestions" or
                         "widgets11" or "search-highlights" or "aero-peek" or "controller-bar" or "tcp-rss" or "tcp-autotuning" or
                         "delivery-background-limit" or "combo-animation" or "tooltip-animation"));
 

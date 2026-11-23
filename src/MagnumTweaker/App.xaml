@@ -144,6 +144,12 @@
       </Setter>
     </Style>
 
+    <DataTemplate x:Key="CloseGlyph">
+      <Path Width="13" Height="13" Stretch="Uniform" StrokeThickness="1.2"
+            Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+            Data="M1,1 L11,11 M11,1 L1,11"/>
+    </DataTemplate>
+
     <Style x:Key="ChromeButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
       <Setter Property="Width" Value="34"/>
       <Setter Property="Padding" Value="0"/>

@@ -61,8 +61,6 @@ public sealed class TweakCatalog
         Items.AddRange(AdditionalTweaks.Build(f, backups));
         Items.Add(MenuAnimationTweak.Create(backups));
         Items.AddRange(MenuAnimationTweak.CreateAdditional(backups));
-        Items.Add(GtaGraphics.Create(backups,System.IO.Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"Rockstar Games","GTA V","settings.xml")));
         Items.Single(x => x.Id == "hags").Hardware = "GPU · WDDM 2.7+";
     }
 

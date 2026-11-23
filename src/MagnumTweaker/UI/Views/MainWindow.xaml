@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:local="clr-namespace:MagnumTweaker"
-        Title="Magnum Tweaker" Icon="Assets/MagnumTweaker.ico" Width="1120" Height="740" MinWidth="820" MinHeight="530"
+        Title="Magnum Tweaker" Icon="../../Assets/MagnumTweaker.ico" Width="1120" Height="740" MinWidth="820" MinHeight="530"
         WindowStartupLocation="CenterScreen" Background="#080809"
         Foreground="#F5F5F6" FontFamily="{StaticResource InterfaceFont}" UseLayoutRounding="True">
   <shell:WindowChrome.WindowChrome>
@@ -168,8 +168,20 @@
             <ContentControl x:Name="SidebarBrand" ContentTemplate="{StaticResource BrandMark}" Content="Magnum Tweaker"
                             Width="163" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Grid>
-          <Border DockPanel.Dock="Bottom" BorderBrush="#303032" BorderThickness="0,1,0,0" Padding="12,9,12,12">
+          <Border x:Name="SidebarFooter" DockPanel.Dock="Bottom" BorderBrush="#303032" BorderThickness="0,1,0,0" Padding="12,9,12,12">
             <StackPanel>
+              <UniformGrid Columns="2" Width="50" HorizontalAlignment="Center" Margin="-6,0,-6,5">
+                <Button Height="26" Padding="0" Margin="1,0" Click="DeveloperLink_Click"
+                        Tag="https://t.me/bigmagnum1337" ToolTip="Telegram · @bigmagnum1337" AutomationProperties.Name="Telegram">
+                  <Path Width="14" Height="14" Stretch="Uniform" Fill="#B8C6D6"
+                        Data="F0 M1.1,10.3 L21.6,2.4 C22.3,2.1 22.8,2.7 22.6,3.6 L19.1,20.5 C18.9,21.5 18.2,21.8 17.4,21.3 L12,17.3 L9.3,19.9 C9.1,20.1 8.9,20.2 8.5,20.2 L8.9,14.8 L18.8,5.8 C19.2,5.4 18.7,5.2 18.2,5.5 L6.1,13.1 L1,11.5 C0.1,11.2 0.2,10.7 1.1,10.3 Z"/>
+                </Button>
+                <Button Height="26" Padding="0" Margin="1,0" Click="DeveloperLink_Click"
+                        Tag="https://github.com/bigmagnum1337" ToolTip="GitHub · bigmagnum1337" AutomationProperties.Name="GitHub">
+                  <Path Width="14" Height="14" Stretch="Uniform" Fill="#C3C5CB"
+                        Data="F0 M12,0.75 C5.79,0.75 0.75,5.79 0.75,12 C0.75,16.97 3.97,21.18 8.44,22.67 C9,22.77 9.21,22.43 9.21,22.13 L9.21,20.04 C6.08,20.72 5.42,18.71 5.42,18.71 C4.91,17.41 4.17,17.06 4.17,17.06 C3.15,16.37 4.25,16.38 4.25,16.38 C5.38,16.46 5.97,17.54 5.97,17.54 C6.98,19.26 8.61,18.77 9.25,18.48 C9.35,17.74 9.64,17.25 9.96,16.97 C7.46,16.69 4.84,15.72 4.84,11.41 C4.84,10.18 5.28,9.18 6,8.39 C5.88,8.11 5.5,6.97 6.11,5.44 C6.11,5.44 7.06,5.14 9.21,6.59 C10.1,6.34 11.05,6.21 12,6.2 C12.95,6.21 13.9,6.34 14.79,6.59 C16.94,5.14 17.89,5.44 17.89,5.44 C18.5,6.97 18.12,8.11 18,8.39 C18.72,9.18 19.16,10.18 19.16,11.41 C19.16,15.73 16.53,16.68 14.02,16.96 C14.42,17.31 14.79,17.99 14.79,19.04 L14.79,22.13 C14.79,22.43 15,22.78 15.56,22.67 C20.03,21.18 23.25,16.97 23.25,12 C23.25,5.79 18.21,0.75 12,0.75 Z"/>
+                </Button>
+              </UniformGrid>
               <Button x:Name="SidebarGuide" AutomationProperties.Name="{DynamicResource Reference}" Content="{DynamicResource Reference}" ToolTip="{DynamicResource Reference}" Padding="0" Background="#131316" Height="34" Margin="0,0,0,5" Click="Reference_Click"/>
               <Button x:Name="SettingsButton" Background="#131316" Height="38" Click="Settings_Click" ToolTip="{DynamicResource Settings}" AutomationProperties.Name="{DynamicResource Settings}">
                 <StackPanel Orientation="Horizontal">
@@ -187,7 +199,11 @@
                   <TextBlock x:Name="SidebarSettingsLabel" Text="{DynamicResource Settings}" VerticalAlignment="Center"/>
                 </StackPanel>
               </Button>
-              <TextBlock x:Name="ProfileText" Foreground="{StaticResource MutedBrush}" FontSize="11" Margin="11,10,0,0"/>
+              <Grid Margin="-6,10,-6,0" ClipToBounds="True" ToolTip="{Binding Text, ElementName=ProfileText}">
+                <TextBlock x:Name="ProfileText" Foreground="{StaticResource MutedBrush}" FontSize="11" Margin="17,0,0,0"/>
+                <TextBlock x:Name="CompactProfileText" Foreground="{StaticResource MutedBrush}" FontSize="10" Opacity="0"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Grid>
             </StackPanel>
           </Border>
           <StackPanel>
@@ -246,16 +262,15 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-14,0"
                     shell:WindowChrome.IsHitTestVisibleInChrome="True">
-          <TextBlock Text="v1.1" VerticalAlignment="Center" Foreground="{StaticResource MutedBrush}" Margin="0,0,10,0" FontSize="11"/>
+          <TextBlock x:Name="VersionLabel" VerticalAlignment="Center" Foreground="{StaticResource MutedBrush}" Margin="0,0,10,0" FontSize="11"/>
           <Button Style="{StaticResource ChromeButton}" ToolTip="{DynamicResource Minimize}" AutomationProperties.Name="{DynamicResource Minimize}" Click="Minimize_Click">
             <Path Width="13" Height="13" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.2" Data="M 0,7 L 12,7"/>
           </Button>
           <Button Style="{StaticResource ChromeButton}" ToolTip="{DynamicResource Maximize}" AutomationProperties.Name="{DynamicResource Maximize}" Click="Maximize_Click">
             <Path x:Name="MaximizeGlyph" Width="13" Height="13" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.2" Data="M 1,1 H 11 V 11 H 1 Z"/>
           </Button>
-          <Button Style="{StaticResource ChromeButton}" ToolTip="{DynamicResource Close}" AutomationProperties.Name="{DynamicResource Close}" Click="Close_Click">
-            <Path Width="13" Height="13" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.2" Data="M 1,1 L 11,11 M 11,1 L 1,11"/>
-          </Button>
+          <Button Style="{StaticResource ChromeButton}" ContentTemplate="{StaticResource CloseGlyph}"
+                  ToolTip="{DynamicResource Close}" AutomationProperties.Name="{DynamicResource Close}" Click="Close_Click"/>
         </StackPanel>
 
         <Grid Grid.Row="1" Margin="0,6,18,0">
@@ -294,7 +309,42 @@
             <Border Background="#18181A" BorderBrush="#3B3B40" BorderThickness="1" CornerRadius="7" Padding="14" Width="216"
                     PreviewKeyDown="FilterPopup_PreviewKeyDown">
               <Border.Resources>
-                <Style TargetType="RadioButton"><Setter Property="Foreground" Value="#E4E4E7"/></Style>
+                <Style TargetType="RadioButton">
+                  <Setter Property="Foreground" Value="#C8C8CD"/>
+                  <Setter Property="Cursor" Value="Hand"/>
+                  <Setter Property="MinHeight" Value="21"/>
+                  <Setter Property="Template">
+                    <Setter.Value>
+                      <ControlTemplate TargetType="RadioButton">
+                        <Grid Background="Transparent">
+                          <Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                          <Border x:Name="Box" Width="16" Height="16" CornerRadius="4" BorderThickness="1"
+                                  BorderBrush="#49494F" Background="#18181A" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Path x:Name="Tick" Data="M2,5 L4.5,7.5 L9,2.5" Stroke="#151519" StrokeThickness="1.5"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                          </Border>
+                          <ContentPresenter Grid.Column="1" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                          <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Box" Property="BorderBrush" Value="#777781"/>
+                            <Setter Property="Foreground" Value="#F5F5F7"/>
+                          </Trigger>
+                          <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Box" Property="Background" Value="{StaticResource AccentBrush}"/>
+                            <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                            <Setter TargetName="Tick" Property="Visibility" Value="Visible"/>
+                            <Setter Property="Foreground" Value="#F5F5F7"/>
+                          </Trigger>
+                          <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                          </Trigger>
+                        </ControlTemplate.Triggers>
+                      </ControlTemplate>
+                    </Setter.Value>
+                  </Setter>
+                </Style>
               </Border.Resources>
               <StackPanel>
                 <TextBlock Text="{DynamicResource StatusFilter}" FontWeight="SemiBold" Margin="0,0,0,7"/>
@@ -327,6 +377,17 @@
                 <DataTemplate>
                   <Grid Margin="0,0,0,6">
                     <Border CornerRadius="8" Background="#111114" BorderBrush="#1D1D23" BorderThickness="1"/>
+                    <Border x:Name="ApplySweep" Opacity="0" CornerRadius="8" IsHitTestVisible="False"
+                            RenderTransformOrigin="0,0.5">
+                      <Border.RenderTransform><ScaleTransform ScaleX="0"/></Border.RenderTransform>
+                      <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                          <GradientStop Color="#2335D07F" Offset="0"/>
+                          <GradientStop Color="#4235D07F" Offset="0.82"/>
+                          <GradientStop Color="#8035D07F" Offset="1"/>
+                        </LinearGradientBrush>
+                      </Border.Background>
+                    </Border>
                     <Border x:Name="ActivationGlow" Background="#1535D07F" BorderBrush="#42D789" BorderThickness="1"
                             CornerRadius="8" Opacity="0" IsHitTestVisible="False"/>
                     <Grid Margin="12,8">
@@ -376,13 +437,36 @@
                     </Grid>
                   </Grid>
                   <DataTemplate.Triggers>
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding State}" Value="Applying"/>
+                        <Condition Binding="{Binding Source={x:Static SystemParameters.ClientAreaAnimation}}" Value="True"/>
+                      </MultiDataTrigger.Conditions>
+                      <MultiDataTrigger.EnterActions>
+                        <BeginStoryboard x:Name="SweepStart">
+                          <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="ApplySweep" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.12"/>
+                            <DoubleAnimation Storyboard.TargetName="ApplySweep" Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                             From="0" To="0.91" Duration="0:0:0.52">
+                              <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                          </Storyboard>
+                        </BeginStoryboard>
+                      </MultiDataTrigger.EnterActions>
+                      <MultiDataTrigger.ExitActions><RemoveStoryboard BeginStoryboardName="SweepStart"/></MultiDataTrigger.ExitActions>
+                    </MultiDataTrigger>
                     <DataTrigger Binding="{Binding IsActivationHighlighted}" Value="True">
                       <DataTrigger.EnterActions>
                         <BeginStoryboard>
                           <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="ApplySweep" Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                             From="0.86" To="1" Duration="0:0:0.18" FillBehavior="HoldEnd"/>
+                            <DoubleAnimation Storyboard.TargetName="ApplySweep" Storyboard.TargetProperty="Opacity"
+                                             From="1" To="0" BeginTime="0:0:0" Duration="0:0:0.48" FillBehavior="Stop"/>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ActivationGlow" Storyboard.TargetProperty="Opacity" FillBehavior="Stop">
                               <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0"/>
-                              <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.16">
+                              <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.14"/>
+                              <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.28">
                                 <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                               </EasingDoubleKeyFrame>
                               <EasingDoubleKeyFrame Value="0" KeyTime="0:0:0.75">
@@ -429,8 +513,9 @@
               </Path>
               <TextBlock Text="{DynamicResource Settings}" FontFamily="{StaticResource HeadingFont}" FontSize="19" FontWeight="Bold" VerticalAlignment="Center"/>
             </StackPanel>
-            <Button x:Name="CloseSettingsButton" Style="{StaticResource ChromeButton}" Background="#1A1A1D" Content="×" FontSize="20"
-                    HorizontalAlignment="Right" AutomationProperties.Name="{DynamicResource Close}" Click="CloseSettings_Click"/>
+            <Button x:Name="CloseSettingsButton" Style="{StaticResource ChromeButton}" Background="#1A1A1D" Height="34"
+                    HorizontalAlignment="Right" ContentTemplate="{StaticResource CloseGlyph}"
+                    ToolTip="{DynamicResource Close}" AutomationProperties.Name="{DynamicResource Close}" Click="CloseSettings_Click"/>
           </Grid>
           <TextBlock Text="{DynamicResource Language}" FontWeight="SemiBold" FontSize="14"/>
           <TextBlock Text="{DynamicResource LanguageDescription}" Foreground="{StaticResource MutedBrush}" Margin="0,6,0,12"/>
