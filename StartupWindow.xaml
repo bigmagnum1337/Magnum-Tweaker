@@ -2,11 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Загрузка Magnum Tweaker" Width="342" Height="320" WindowStartupLocation="CenterScreen"
-        WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent" ShowInTaskbar="False">
+        WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent" FontFamily="{StaticResource InterfaceFont}" ShowInTaskbar="False">
   <Border BorderBrush="#414144" BorderThickness="1" CornerRadius="11">
     <Border.Background>
       <RadialGradientBrush Center="0.5,0.39" GradientOrigin="0.5,0.39" RadiusX="0.74" RadiusY="0.67">
-        <GradientStop Color="#27080F" Offset="0"/>
+        <GradientStop Color="#35353B" Offset="0"/>
         <GradientStop Color="#0A0A0C" Offset="1"/>
       </RadialGradientBrush>
     </Border.Background>
@@ -20,9 +20,10 @@
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,31">
         <Grid Width="17" Height="17" Margin="0,0,8,0">
           <Ellipse Stroke="#414145" StrokeThickness="2" Margin="1"/>
-          <Path Stroke="#FF1637" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+          <Path Stroke="White" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                 Data="M 8.5,2 A 6.5,6.5 0 0 1 15,8.5" RenderTransformOrigin="0.5,0.5">
             <Path.RenderTransform><RotateTransform/></Path.RenderTransform>
+            <Path.Effect><DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="7" Opacity="0.6"/></Path.Effect>
             <Path.Triggers>
               <EventTrigger RoutedEvent="Loaded">
                 <BeginStoryboard>

@@ -4,7 +4,7 @@
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:local="clr-namespace:MagnumTweaker"
         Title="Magnum Tweaker" Icon="Assets/MagnumTweaker.ico" Width="1120" Height="740" MinWidth="820" MinHeight="530"
-        WindowStartupLocation="CenterScreen" WindowStyle="None" Background="#080809"
+        WindowStartupLocation="CenterScreen" Background="#080809"
         Foreground="#F5F5F6" FontFamily="{StaticResource InterfaceFont}" UseLayoutRounding="True">
   <shell:WindowChrome.WindowChrome>
     <shell:WindowChrome CaptionHeight="42" ResizeBorderThickness="6" GlassFrameThickness="0"
@@ -12,6 +12,31 @@
   </shell:WindowChrome.WindowChrome>
 
   <Window.Resources>
+    <RadialGradientBrush x:Key="MainAmbientGlow" Center="0.5,0.48" GradientOrigin="0.5,0.48" RadiusX="0.5" RadiusY="0.5">
+      <GradientStop Color="#46F5F5FF" Offset="0"/>
+      <GradientStop Color="#25E7E7F5" Offset="0.54"/>
+      <GradientStop Color="#00E7E7F5" Offset="1"/>
+    </RadialGradientBrush>
+    <BooleanToVisibilityConverter x:Key="BooleanVisibility"/>
+    <Style x:Key="DetailsChevron" TargetType="ToggleButton">
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton">
+        <Border x:Name="Surface" CornerRadius="5" Background="Transparent">
+          <Grid Width="12" Height="12">
+            <Path Stroke="#CCCCD0" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                  Data="M2,4 L6,8 L10,4" RenderTransformOrigin="0.5,0.5">
+              <Path.RenderTransform><RotateTransform x:Name="Turn"/></Path.RenderTransform>
+            </Path>
+          </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+          <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="#333339"/></Trigger>
+          <Trigger Property="IsChecked" Value="True">
+            <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="Turn" Storyboard.TargetProperty="Angle" To="180" Duration="0:0:0.16"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+            <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="Turn" Storyboard.TargetProperty="Angle" To="0" Duration="0:0:0.16"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+          </Trigger>
+        </ControlTemplate.Triggers>
+      </ControlTemplate></Setter.Value></Setter>
+    </Style>
     <Style x:Key="Badge" TargetType="Border">
       <Setter Property="CornerRadius" Value="5"/>
       <Setter Property="BorderBrush" Value="#323238"/>
@@ -53,7 +78,7 @@
                   <Thumb Height="16" Width="16" Focusable="False">
                     <Thumb.Template>
                       <ControlTemplate TargetType="Thumb">
-                        <Border x:Name="Knob" CornerRadius="8" Background="#E7E7EA" BorderBrush="#8F3641" BorderThickness="2"/>
+                        <Border x:Name="Knob" CornerRadius="8" Background="#E7E7EA" BorderBrush="#A4A4AB" BorderThickness="2"/>
                         <ControlTemplate.Triggers>
                           <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Knob" Property="BorderBrush" Value="#DF4D62"/></Trigger>
                           <Trigger Property="IsDragging" Value="True"><Setter TargetName="Knob" Property="Background" Value="White"/></Trigger>
@@ -86,7 +111,7 @@
               <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Selection" Property="Background" Value="#262628"/></Trigger>
               <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="White"/>
-                <Setter TargetName="Selection" Property="Background" Value="#352126"/>
+                <Setter TargetName="Selection" Property="Background" Value="#26262C"/>
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -120,7 +145,7 @@
                 <Setter TargetName="Watermark" Property="Visibility" Value="Visible"/>
               </MultiTrigger>
               <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter TargetName="Frame" Property="BorderBrush" Value="#9B3442"/>
+                <Setter TargetName="Frame" Property="BorderBrush" Value="#B8B8BC"/>
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -130,25 +155,26 @@
 
   </Window.Resources>
 
-  <Border x:Name="WindowFrame" Background="{StaticResource BackgroundBrush}" BorderBrush="#343436" BorderThickness="1" CornerRadius="10"
-          ClipToBounds="True" RenderTransformOrigin="0.5,0.85">
-    <Border.RenderTransform>
-      <TransformGroup><ScaleTransform x:Name="MinimizeScale"/><TranslateTransform x:Name="MinimizeMotion"/></TransformGroup>
-    </Border.RenderTransform>
+  <Border Background="{StaticResource BackgroundBrush}" BorderBrush="#343436" BorderThickness="1" CornerRadius="10"
+          ClipToBounds="True">
     <Grid>
     <Grid x:Name="MainLayout" RenderTransformOrigin="0.5,0.5">
       <Grid.RenderTransform><ScaleTransform x:Name="WindowScale"/></Grid.RenderTransform>
       <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/></Grid.ColumnDefinitions>
       <Border x:Name="Sidebar" Width="215" ClipToBounds="True" Background="#0C0C0F" BorderBrush="#303032" BorderThickness="0,0,1,0" CornerRadius="9,0,0,9">
         <DockPanel LastChildFill="True">
-          <ContentControl x:Name="SidebarBrand" DockPanel.Dock="Top" ContentTemplate="{StaticResource BrandMark}" Content="Magnum Tweaker"
-                          Width="163" Height="60" HorizontalAlignment="Center" Margin="0,30,0,30"/>
+          <Grid DockPanel.Dock="Top" Height="120">
+            <Border Background="{StaticResource MainAmbientGlow}" Margin="0,5" IsHitTestVisible="False"/>
+            <ContentControl x:Name="SidebarBrand" ContentTemplate="{StaticResource BrandMark}" Content="Magnum Tweaker"
+                            Width="163" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Grid>
           <Border DockPanel.Dock="Bottom" BorderBrush="#303032" BorderThickness="0,1,0,0" Padding="12,9,12,12">
             <StackPanel>
-              <Button x:Name="SidebarGuide" Content="{DynamicResource Reference}" ToolTip="{DynamicResource Reference}" Padding="0" Background="#131316" Height="34" Margin="0,0,0,5" Click="Reference_Click"/>
+              <Button x:Name="SidebarGuide" AutomationProperties.Name="{DynamicResource Reference}" Content="{DynamicResource Reference}" ToolTip="{DynamicResource Reference}" Padding="0" Background="#131316" Height="34" Margin="0,0,0,5" Click="Reference_Click"/>
               <Button x:Name="SettingsButton" Background="#131316" Height="38" Click="Settings_Click" ToolTip="{DynamicResource Settings}" AutomationProperties.Name="{DynamicResource Settings}">
                 <StackPanel Orientation="Horizontal">
-                  <Path x:Name="SidebarGear" Data="{StaticResource GearIcon}" Width="15" Height="15" Stretch="Uniform" Margin="0,0,9,0">
+                  <Path x:Name="SidebarGear" Data="{StaticResource GearIcon}" Width="15" Height="15" Stretch="Uniform" Margin="0,0,9,0" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform><RotateTransform x:Name="SidebarGearRotation"/></Path.RenderTransform>
                     <Path.Style><Style TargetType="Path">
                       <Setter Property="Fill" Value="#A4A4A8"/>
                       <Style.Triggers>
@@ -184,7 +210,7 @@
             </Grid>
             <Grid>
               <ListBox x:Name="CategoryList" Background="Transparent" BorderThickness="0" Padding="0"
-                       ItemContainerStyle="{StaticResource NavigationItem}" SelectionChanged="CategoryList_SelectionChanged">
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource NavigationItem}" SelectionChanged="CategoryList_SelectionChanged">
                 <ListBox.ItemTemplate>
                   <DataTemplate>
                     <StackPanel Orientation="Horizontal" AutomationProperties.Name="{Binding Label}" ToolTip="{Binding Label}">
@@ -206,7 +232,7 @@
               </ListBox>
               <Border Width="3" Height="18" CornerRadius="0,3,3,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                       Margin="0,14,0,0" Background="{StaticResource AccentBrush}" IsHitTestVisible="False">
-                <Border.RenderTransform><TranslateTransform x:Name="CategoryMarker"/></Border.RenderTransform>
+                <Border.RenderTransform><TranslateTransform x:Name="CategoryMarker"/></Border.RenderTransform><Border.Effect><DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="9" Opacity="0.5"/></Border.Effect>
               </Border>
             </Grid>
           </StackPanel>
@@ -220,7 +246,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-14,0"
                     shell:WindowChrome.IsHitTestVisibleInChrome="True">
-          <TextBlock Text="v1.0" VerticalAlignment="Center" Foreground="{StaticResource MutedBrush}" Margin="0,0,10,0" FontSize="11"/>
+          <TextBlock Text="v1.1" VerticalAlignment="Center" Foreground="{StaticResource MutedBrush}" Margin="0,0,10,0" FontSize="11"/>
           <Button Style="{StaticResource ChromeButton}" ToolTip="{DynamicResource Minimize}" AutomationProperties.Name="{DynamicResource Minimize}" Click="Minimize_Click">
             <Path Width="13" Height="13" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.2" Data="M 0,7 L 12,7"/>
           </Button>
@@ -235,21 +261,25 @@
         <Grid Grid.Row="1" Margin="0,6,18,0">
           <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
           <StackPanel Margin="0,0,12,0">
-            <TextBlock x:Name="SectionTitle" FontSize="25" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
+            <TextBlock x:Name="SectionTitle" FontFamily="{StaticResource HeadingFont}" FontSize="25" FontWeight="ExtraBold" TextTrimming="CharacterEllipsis"/>
             <TextBlock x:Name="SummaryText" Text="{DynamicResource ScanPrompt}"
                        TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Margin="0,5,0,0"/>
           </StackPanel>
-          <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-            <Button Content="{DynamicResource ScanAll}" Background="{StaticResource AccentBrush}" Click="ScanAll_Click" Margin="0,0,8,0"/>
-            <Button Content="{DynamicResource SafeSet}" ToolTip="{DynamicResource ApplySafe}" Click="ApplySafe_Click"/>
-          </StackPanel>
+          <Grid Grid.Column="1" VerticalAlignment="Center" Margin="0,0,8,0">
+            <Border Background="{StaticResource MainAmbientGlow}" Margin="-29,-18,-29,-18" IsHitTestVisible="False"/>
+            <Button Content="{DynamicResource ScanAll}" Background="{StaticResource AccentBrush}" Foreground="#171719" Click="ScanAll_Click"/>
+          </Grid>
         </Grid>
 
         <Grid Grid.Row="2" Margin="0,16,18,15">
-          <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="10"/><ColumnDefinition Width="172"/><ColumnDefinition Width="10"/><ColumnDefinition Width="150"/></Grid.ColumnDefinitions>
+          <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="10"/><ColumnDefinition Width="222"/><ColumnDefinition Width="10"/><ColumnDefinition Width="150"/></Grid.ColumnDefinitions>
           <TextBox x:Name="SearchBox" Style="{StaticResource SearchField}" Height="43" AutomationProperties.Name="{DynamicResource Search}" TextChanged="SearchBox_TextChanged"/>
-          <ComboBox x:Name="SortBox" Grid.Column="2" Style="{StaticResource ToolbarCombo}"
-                    AutomationProperties.Name="{DynamicResource Sort}" SelectionChanged="SearchOptions_SelectionChanged"/>
+          <ComboBox x:Name="SortBox" Grid.Column="2" Style="{StaticResource ToolbarCombo}" SelectedValuePath="Mode"
+                    AutomationProperties.Name="{DynamicResource Sort}" SelectionChanged="SearchOptions_SelectionChanged">
+            <ComboBox.ItemTemplate>
+              <DataTemplate><TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis"/></DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
           <ToggleButton x:Name="FilterButton" Grid.Column="4" Style="{StaticResource ToolbarToggle}" FontWeight="SemiBold"
                         AutomationProperties.Name="{DynamicResource Filters}">
             <StackPanel Orientation="Horizontal">
@@ -258,7 +288,7 @@
               <TextBlock x:Name="FilterLabel" Text="{DynamicResource Filters}" VerticalAlignment="Center"/>
             </StackPanel>
           </ToggleButton>
-          <Popup x:Name="FilterPopup" PlacementTarget="{Binding ElementName=FilterButton}" Placement="Bottom" VerticalOffset="5"
+          <Popup TextElement.FontFamily="{StaticResource InterfaceFont}" x:Name="FilterPopup" PlacementTarget="{Binding ElementName=FilterButton}" Placement="Bottom" VerticalOffset="5"
                  IsOpen="{Binding IsChecked, ElementName=FilterButton, Mode=TwoWay}" StaysOpen="False"
                  AllowsTransparency="True" PopupAnimation="Fade" Opened="FilterPopup_Opened">
             <Border Background="#18181A" BorderBrush="#3B3B40" BorderThickness="1" CornerRadius="7" Padding="14" Width="216"
@@ -287,12 +317,16 @@
         <Grid Grid.Row="3" ClipToBounds="True">
           <Grid x:Name="Results">
           <Grid.RenderTransform><TranslateTransform x:Name="ResultsMotion"/></Grid.RenderTransform>
-          <local:SmoothScrollViewer x:Name="TweakScroll" ShowTopFade="False">
-            <ItemsControl x:Name="TweaksList" Margin="0,0,0,12">
+          <ItemsControl x:Name="TweaksList" Margin="0,0,0,12"
+                        VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Pixel">
+              <ItemsControl.ItemsPanel><ItemsPanelTemplate><VirtualizingStackPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+              <ItemsControl.Template><ControlTemplate TargetType="ItemsControl">
+                <local:SmoothScrollViewer x:Name="PART_TweakScroll" AutomationProperties.AutomationId="TweakScroll" CanContentScroll="True" ShowTopFade="False"><ItemsPresenter/></local:SmoothScrollViewer>
+              </ControlTemplate></ItemsControl.Template>
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
                   <Grid Margin="0,0,0,6">
-                    <Border CornerRadius="8" Background="#111114" BorderBrush="#303033" BorderThickness="1"/>
+                    <Border CornerRadius="8" Background="#111114" BorderBrush="#1D1D23" BorderThickness="1"/>
                     <Border x:Name="ActivationGlow" Background="#1535D07F" BorderBrush="#42D789" BorderThickness="1"
                             CornerRadius="8" Opacity="0" IsHitTestVisible="False"/>
                     <Grid Margin="12,8">
@@ -301,8 +335,13 @@
                       <Grid>
                         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
                         <Grid.ColumnDefinitions><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
-                        <Ellipse Width="7" Height="7" Fill="{Binding StateColor}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,7,0,0"/>
-                        <TextBlock Grid.Column="1" Text="{Binding DisplayTitle}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" ToolTip="{Binding DisplayTitle}"/>
+                        <Ellipse Width="7" Height="7" Fill="{Binding StateColor}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,9,0,0"/>
+                        <DockPanel Grid.Column="1">
+                          <ToggleButton DockPanel.Dock="Left" Width="24" Height="24" Margin="0,0,5,0"
+                                        IsChecked="{Binding DetailsExpanded}" Style="{StaticResource DetailsChevron}"
+                                        ToolTip="{DynamicResource Details}" AutomationProperties.Name="{DynamicResource Details}"/>
+                          <TextBlock Text="{Binding DisplayTitle}" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </DockPanel>
                         <WrapPanel Grid.Row="1" Grid.Column="1" Margin="0,3,0,0">
                           <Border Style="{StaticResource Badge}"><StackPanel Orientation="Horizontal">
                             <Path Width="9" Height="9" Margin="0,0,5,0" Stretch="Uniform" Fill="#A6A6AC" Data="M0,0 H4 V4 H0 Z M6,0 H10 V4 H6 Z M0,6 H4 V10 H0 Z M6,6 H10 V10 H6 Z"/>
@@ -321,20 +360,15 @@
                       <StackPanel Grid.Column="2" VerticalAlignment="Center">
                         <TextBlock Text="{Binding StateText}" Foreground="{Binding StateColor}" FontSize="11" FontWeight="SemiBold"
                                    HorizontalAlignment="Right" Margin="0,0,0,9"/>
-                        <DockPanel>
-                          <ToggleButton x:Name="DetailsToggle" DockPanel.Dock="Right" Width="38" Height="27"
-                                        Style="{StaticResource ToolbarToggle}" ToolTip="{DynamicResource Details}" AutomationProperties.Name="{DynamicResource Details}"/>
-                          <UniformGrid Columns="3">
-                            <Button Height="27" Content="{DynamicResource Check}" Padding="0" Margin="2,0" Click="CheckOne_Click" Tag="{Binding}"/>
-                            <Button Height="27" Content="{DynamicResource Apply}" IsEnabled="{Binding CanApply}" Padding="0" Margin="2,0" Click="ApplyOne_Click" Tag="{Binding}"/>
-                            <Button Height="27" Content="{DynamicResource Restore}" IsEnabled="{Binding CanRestore}" Padding="0" Margin="2,0" Click="RestoreOne_Click" Tag="{Binding}"/>
-                          </UniformGrid>
-                        </DockPanel>
+                        <Grid HorizontalAlignment="Right" Margin="0,-4,0,0">
+                          <Button Height="27" Style="{StaticResource GlassApplyButton}" Content="{DynamicResource Apply}" Visibility="{Binding ShowApply, Converter={StaticResource BooleanVisibility}}" Click="ApplyOne_Click" Tag="{Binding}"/>
+                          <Button Height="27" Style="{StaticResource GlassRestoreButton}" Content="{DynamicResource Restore}" Visibility="{Binding CanRestore, Converter={StaticResource BooleanVisibility}}" Click="RestoreOne_Click" Tag="{Binding}"/>
+                        </Grid>
                       </StackPanel>
                       <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Margin="16,8,0,0">
                         <StackPanel.Style><Style TargetType="StackPanel">
                           <Setter Property="Visibility" Value="Collapsed"/>
-                          <Style.Triggers><DataTrigger Binding="{Binding IsChecked, ElementName=DetailsToggle}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+                          <Style.Triggers><DataTrigger Binding="{Binding DetailsExpanded}" Value="True"><Setter Property="Visibility" Value="Visible"/><DataTrigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.18"/></Storyboard></BeginStoryboard></DataTrigger.EnterActions></DataTrigger></Style.Triggers>
                         </Style></StackPanel.Style>
                         <TextBlock Text="{Binding DisplayDescription}" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap"/>
                         <TextBlock Text="{Binding Mechanism}" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"/>
@@ -363,7 +397,18 @@
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
-          </local:SmoothScrollViewer>
+          <Border x:Name="PresetPanel" Visibility="Collapsed" VerticalAlignment="Top" Padding="22" CornerRadius="10"
+                  BorderThickness="1" BorderBrush="{StaticResource GlassEdge}" Background="{StaticResource GlassSurface}">
+            <StackPanel>
+              <TextBlock Text="{DynamicResource PresetTitle}" FontFamily="{StaticResource HeadingFont}" FontSize="18" FontWeight="Bold"/>
+              <TextBlock Text="{DynamicResource PresetDescription}" TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Margin="0,7"/>
+              <TextBlock x:Name="PresetCounts" Margin="0,5,0,13"/>
+              <StackPanel Orientation="Horizontal">
+                <Button Content="{DynamicResource Check}" Click="ScanAll_Click" Margin="0,0,8,0"/>
+                <Button x:Name="PresetApply" Style="{StaticResource GlassApplyButton}" Content="{DynamicResource Apply}" Click="ApplySafe_Click"/>
+              </StackPanel>
+            </StackPanel>
+          </Border>
           <TextBlock x:Name="EmptyText" Text="{DynamicResource Empty}" Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" IsHitTestVisible="False"/>
           </Grid>
         </Grid>
@@ -374,13 +419,15 @@
           PreviewKeyDown="SettingsOverlay_PreviewKeyDown">
       <Border Background="#A6000000" MouseLeftButtonDown="SettingsBackdrop_Click"/>
       <Border x:Name="SettingsPanel" Width="565" MinHeight="292" HorizontalAlignment="Center" VerticalAlignment="Center"
-              Background="#0B0B0D" BorderBrush="#3A3A3E" BorderThickness="1" CornerRadius="12" Padding="25">
+              Background="{StaticResource GlassSurface}" BorderBrush="{StaticResource GlassEdge}" BorderThickness="1" CornerRadius="12" Padding="25">
         <Border.RenderTransform><TranslateTransform x:Name="SettingsMotion"/></Border.RenderTransform>
         <StackPanel>
           <Grid Margin="0,0,0,24">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-              <Path Data="{StaticResource GearIcon}" Fill="#FF1637" Width="17" Height="17" Stretch="Uniform" Margin="0,0,10,0"/>
-              <TextBlock Text="{DynamicResource Settings}" FontSize="19" FontWeight="Bold" VerticalAlignment="Center"/>
+              <Path Data="{StaticResource GearIcon}" Fill="#F5F5F7" Width="17" Height="17" Stretch="Uniform" Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5">
+                <Path.RenderTransform><RotateTransform x:Name="SettingsGearRotation"/></Path.RenderTransform>
+              </Path>
+              <TextBlock Text="{DynamicResource Settings}" FontFamily="{StaticResource HeadingFont}" FontSize="19" FontWeight="Bold" VerticalAlignment="Center"/>
             </StackPanel>
             <Button x:Name="CloseSettingsButton" Style="{StaticResource ChromeButton}" Background="#1A1A1D" Content="×" FontSize="20"
                     HorizontalAlignment="Right" AutomationProperties.Name="{DynamicResource Close}" Click="CloseSettings_Click"/>

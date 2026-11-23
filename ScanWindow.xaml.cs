@@ -20,8 +20,17 @@ public partial class ScanWindow : Window
 
     internal static async Task<TweakState> Inspect(Tweak tweak, CancellationToken ct)
     {
+        // The selected profile controls the catalog, but eligibility uses the actual host OS.
         string host = Environment.OSVersion.Version.Build >= 22000 ? "11" : "10";
         if (tweak.WindowsProfile is not null && tweak.WindowsProfile != host) return TweakState.Unsupported;
+        if (tweak.Id == "delivery-background-limit" && Environment.OSVersion.Version.Build < 17134) return TweakState.Unsupported;
+        if (tweak.Id == "widgets-policy")
+        {
+            using var version = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+            if (version?.GetValue("EditionID") is not string edition ||
+                !new[] { "Professional", "Enterprise", "Education", "IoTEnterprise" }.Any(prefix => edition.StartsWith(prefix, StringComparison.Ordinal)))
+                return TweakState.Unsupported;
+        }
         if (tweak.Id == "hags" && Environment.OSVersion.Version.Build < 19041) return TweakState.Unsupported;
         try { return await Task.Run(() => tweak.Check(ct), ct); }
         catch (NotSupportedException) { return TweakState.Unsupported; }

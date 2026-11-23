@@ -7,14 +7,16 @@ namespace MagnumTweaker.Services;
 
 public sealed class TweakCatalog
 {
-    private readonly BackupStore _backups = new();
+    private readonly BackupStore _backups;
     internal void ReloadBackups() => _backups.Reload();
     public List<Tweak> Items { get; }
     public List<Tweak> ForProfile(string windows) => Items.Where(t => t.WindowsProfile is null || t.WindowsProfile == windows).ToList();
 
-    public TweakCatalog()
+    public TweakCatalog() : this(new BackupStore()) { }
+
+    internal TweakCatalog(BackupStore backups)
     {
-        var backups = _backups;
+        _backups = backups;
         var f = new RegistryTweakFactory(backups);
         const string msGame = "https://learn.microsoft.com/windows/apps/develop/settings/settings-windows-11";
         const string msDo = "https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization-reference";
@@ -38,7 +40,27 @@ public sealed class TweakCatalog
             f.Create("search-web", "Отключить веб-поиск в Пуск", "Убирает интернет-запросы и веб-результаты при локальном поиске.", "Производительность", "Фоновая сеть", TweakRisk.Safe, true, RegistryHive.CurrentUser, @"Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", 1, RegistryValueKind.DWord, "https://learn.microsoft.com/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"),
             f.Create("notifications", "Отключить toast-уведомления", "Не даёт всплывающим уведомлениям отвлекать и появляться поверх игры.", "FPS и игры", "Фокус / оверлеи", TweakRisk.Moderate, false, RegistryHive.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\PushNotifications", "ToastEnabled", 0, RegistryValueKind.DWord),
         ];
+        var deliveryLimit = f.Create("delivery-background-limit", "Лимит фоновых загрузок обновлений",
+            "Ограничивает фоновые загрузки через оптимизацию доставки до 20% доступной полосы. Фоновые обновления могут скачиваться дольше.",
+            "Сеть", "Фоновый трафик", TweakRisk.Moderate, false, RegistryHive.LocalMachine,
+            @"SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization", "DOPercentageMaxBackgroundBandwidth", 20, RegistryValueKind.DWord, msDo);
+        deliveryLimit.EnglishTitle = "Limit background update downloads";
+        deliveryLimit.EnglishDescription = "Limits Delivery Optimization background downloads to 20% of available bandwidth. Background downloads may take longer.";
+        Items.Add(deliveryLimit);
+
+        var widgets = f.Create("widgets-policy", "Отключить панель виджетов Windows 11",
+            "Запрещает открытие панели виджетов системной политикой. Поддерживается в Pro, Enterprise и Education.",
+            "Производительность", "Фоновая активность", TweakRisk.Moderate, true, RegistryHive.LocalMachine,
+            @"SOFTWARE\Policies\Microsoft\Dsh", "AllowNewsAndInterests", 0, RegistryValueKind.DWord,
+            "https://learn.microsoft.com/windows/client-management/mdm/policy-csp-newsandinterests");
+        widgets.WindowsProfile = "11";
+        widgets.EnglishTitle = "Disable Windows 11 Widgets";
+        widgets.EnglishDescription = "Turns off the Widgets board through policy on supported Pro, Enterprise and Education editions.";
+        Items.Add(widgets);
+
         Items.AddRange(AdditionalTweaks.Build(f, backups));
+        Items.Add(MenuAnimationTweak.Create(backups));
+        Items.AddRange(MenuAnimationTweak.CreateAdditional(backups));
         Items.Add(GtaGraphics.Create(backups,System.IO.Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"Rockstar Games","GTA V","settings.xml")));
         Items.Single(x => x.Id == "hags").Hardware = "GPU · WDDM 2.7+";

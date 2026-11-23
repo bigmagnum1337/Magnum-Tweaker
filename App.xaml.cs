@@ -14,17 +14,28 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        EventManager.RegisterClassHandler(typeof(ButtonBase), UIElement.MouseEnterEvent, new MouseEventHandler(Control_MouseEnter));
-        EventManager.RegisterClassHandler(typeof(ListBoxItem), UIElement.MouseEnterEvent, new MouseEventHandler(Control_MouseEnter));
+        if (e.Args.FirstOrDefault() == PresetBatchRequest.Command)
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            var result = await RunPresetWorkerAsync(e.Args);
+            Environment.ExitCode = (int)result;
+            Shutdown((int)result);
+            return;
+        }
+        EventManager.RegisterClassHandler(typeof(ButtonBase), ButtonBase.ClickEvent, new RoutedEventHandler((_, _) => PlaySound(InterfaceSound.Click)));
+        var hover = new MouseEventHandler(ReferenceControl_MouseEnter);
+        EventManager.RegisterClassHandler(typeof(ButtonBase), UIElement.MouseEnterEvent, hover);
+        EventManager.RegisterClassHandler(typeof(ComboBoxItem), UIElement.MouseEnterEvent, hover);
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
         var splash = new StartupWindow();
         WindowTransitions.PrepareEntrance(splash);
         splash.Show();
-        await Task.Delay(SystemParameters.ClientAreaAnimation ? 925 : 550);
+        ElevationRequest.TryParse(e.Args, out var action);
+        if (action is null) await Task.Delay(SystemParameters.ClientAreaAnimation ? 925 : 550);
 
-        if (e.Args is ["--resume-setup", "en" or "ru", "10" or "11"])
+        if (action != null || e.Args is ["--resume-setup", "en" or "ru", "10" or "11"])
         {
-            OpenMain(e.Args[1] == "en", e.Args[2], splash);
+            OpenMain(e.Args[1] == "en", e.Args[2], splash, action);
             return;
         }
 
@@ -39,7 +50,31 @@ public partial class App : Application
         OpenMain(setup.English, setup.WindowsVersion);
     }
 
-    private void OpenMain(bool english, string windowsVersion, Window? splash = null)
+    private async Task<PresetBatchResult> RunPresetWorkerAsync(string[] args)
+    {
+        if (!PresetBatchRequest.TryParse(args, out var request) || request == null ||
+            Preferences.AcceptedTermsVersion != TermsWindow.Version)
+            return PresetBatchResult.Rejected;
+
+        using var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+        if (!request.CanRun(TweakCatalog.IsAdministrator(), identity.User?.Value))
+            return PresetBatchResult.Rejected;
+
+        try
+        {
+            UiLanguage.Select(request.Language == "en");
+            var catalog = new TweakCatalog();
+            var pending = request.Resolve(catalog.ForProfile(request.Profile));
+            if (pending == null) return PresetBatchResult.Rejected;
+            return await Task.Run(() => PresetBatch.Apply(pending, catalog.ReloadBackups, ScanWindow.Inspect));
+        }
+        catch (Exception)
+        {
+            return PresetBatchResult.Partial;
+        }
+    }
+
+    private void OpenMain(bool english, string windowsVersion, Window? splash = null, ElevationRequest? action = null)
     {
         UiLanguage.Select(english);
         if (Preferences.AcceptedTermsVersion != TermsWindow.Version)
@@ -71,7 +106,14 @@ public partial class App : Application
         Preferences.WindowsProfile = windowsVersion;
         var window = new MainWindow(windowsVersion, catalog);
         MainWindow = window;
+        if (action != null) window.ContentRendered += ResumeAfterRender;
         window.Show();
+
+        async void ResumeAfterRender(object? sender, EventArgs e)
+        {
+            window.ContentRendered -= ResumeAfterRender;
+            await window.ResumeActionAsync(action!);
+        }
         ShutdownMode = ShutdownMode.OnMainWindowClose;
     }
 
@@ -87,11 +129,17 @@ public partial class App : Application
         }
     }
 
-    private void Control_MouseEnter(object sender, MouseEventArgs e)
+    private void ReferenceControl_MouseEnter(object sender, MouseEventArgs e)
     {
-        if (sender is UIElement { IsEnabled: true, IsMouseOver: true })
-            _hoverSound.Play(Preferences.HoverVolume);
+        if (sender is not FrameworkElement { IsEnabled: true, IsMouseOver: true } control) return;
+
+        // Drop-down items sit in a Popup, so resolve their window via their ComboBox.
+        var owner = control is ComboBoxItem item ? ItemsControl.ItemsControlFromItemContainer(item) : control;
+        if (owner != null && Window.GetWindow(owner) is ReferenceWindow)
+            PlaySound(InterfaceSound.Hover);
     }
+
+    internal void PlaySound(InterfaceSound sound) => _hoverSound.Play(Preferences.HoverVolume, sound);
 
     protected override void OnExit(ExitEventArgs e)
     {

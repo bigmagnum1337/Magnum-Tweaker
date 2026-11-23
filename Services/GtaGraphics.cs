@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -8,7 +8,9 @@ namespace MagnumTweaker.Services;
 
 internal static class GtaGraphics
 {
-    public static Tweak Create(BackupStore backups, string path)
+    public static Tweak Create(BackupStore backups, string path) => Create(backups, path, IsGameRunning);
+
+    internal static Tweak Create(BackupStore backups, string path, Func<bool> isGameRunning)
     {
         string key = "gta-legacy-preset:" + path;
         XDocument Parse(Stream stream)
@@ -25,6 +27,7 @@ internal static class GtaGraphics
             if (string.IsNullOrWhiteSpace(gpu)) throw new NotSupportedException("VideoCardDescription");
             using var source = typeof(GtaGraphics).Assembly.GetManifestResourceStream("MagnumTweaker.GtaPreset.xml")!;
             var document = Parse(source);
+            // Read the adapter name from the user's existing profile so the embedded preset stays portable.
             document.Root!.Element("VideoCardDescription")!.Value = gpu;
             return document;
         }
@@ -36,9 +39,7 @@ internal static class GtaGraphics
         }
         void Replace(byte[] bytes)
         {
-            var processes = Process.GetProcessesByName("GTA5");
-            foreach (var process in processes) process.Dispose();
-            if (processes.Length != 0) throw new IOException(UiLanguage.Text("Сначала закройте GTA V.", "Close GTA V first."));
+            if (isGameRunning()) throw new IOException(UiLanguage.Text("Сначала закройте GTA V.", "Close GTA V first."));
             var temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
             try { File.WriteAllBytes(temporary, bytes); File.Replace(temporary, path, null); }
             finally { File.Delete(temporary); }
@@ -49,9 +50,9 @@ internal static class GtaGraphics
             return XNode.DeepEquals(Parse(stream).Root, preset.Root);
         }
         return new Tweak {
-            Id = "gta-preset", Category = "GTA V", Title = "Графический пресет GTA V Legacy",
-            EnglishTitle = "GTA V Legacy graphics preset",
-            Description = "Подбирает детализацию и эффекты для баланса нагрузки CPU и GPU. Пресет задаёт 1920 × 1080 и 239 Гц, сохраняет название вашей видеокарты. Откат возвращает исходный файл.",
+            Id = "gta-preset", Category = "GTA V", Title = "GTA V Settings",
+            EnglishTitle = "GTA V Settings",
+            Description = "Подбирает детализацию и эффекты для баланса нагрузки CPU и GPU. Пресет задаёт 1920 × 1080 и 239 Гц и автоматически переносит название вашей видеокарты из текущего settings.xml. Откат возвращает исходный файл.",
             EnglishDescription = "Adjusts detail and effects to balance CPU and GPU load. The preset sets 1920 × 1080 at 239 Hz and retains your GPU name. Restore recovers the original file.",
             Hardware = "GTA V Legacy", Impact = "GPU", Mechanism = path,
             Risk = TweakRisk.Moderate, RequiresAdmin = false,
@@ -77,5 +78,12 @@ internal static class GtaGraphics
                 return Task.CompletedTask;
             }
         };
+    }
+
+    private static bool IsGameRunning()
+    {
+        var processes = Process.GetProcessesByName("GTA5");
+        foreach (var process in processes) process.Dispose();
+        return processes.Length != 0;
     }
 }

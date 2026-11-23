@@ -39,6 +39,7 @@ public sealed class BackupStore
     public void Save(string key, object? value, string? kind, bool existed)
     {
         if (_loadError != null) throw new IOException("backup.json", _loadError);
+        // Keep the first snapshot so retries or a second apply still restore the original value.
         if (_values.ContainsKey(key)) return;
         Commit(new(_values) { [key] = new(value?.ToString(), kind, existed) });
     }
@@ -51,6 +52,7 @@ public sealed class BackupStore
 
     private void Commit(Dictionary<string, BackupValue> next)
     {
+        // Stage beside the destination so replacing the JSON does not cross volumes.
         string tmp = _path + "." + Guid.NewGuid().ToString("N") + ".tmp";
         File.WriteAllText(tmp, JsonSerializer.Serialize(next));
         File.Move(tmp, _path, true);

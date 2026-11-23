@@ -2,6 +2,9 @@ using System.Diagnostics;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Animation;
+using MagnumTweaker.Services;
 using MagnumTweaker.Models;
 
 namespace MagnumTweaker;
@@ -12,9 +15,10 @@ public partial class ReferenceWindow : Window
     {
         public Tweak? Action { get; set; }
         public Visibility ActionVisibility => Action is null ? Visibility.Collapsed : Visibility.Visible;
-        public string Label => string.Join(" · ", new[] {Source, Id > 0 ? $"#{Id}" : null,
+        public string DisplaySource => Source.Split(" · ", 2)[0];
+        public string SearchMetadata => string.Join(" · ", new[] {Source, Id > 0 ? $"#{Id}" : null,
             Id is 44 or 45 or 46 or 55 ? "NVIDIA" : Id is 47 or 48 or 56 or 199 or 200 ? "AMD" : Id is 49 or 201 ? "Intel" : null,
-            Rp ? UiLanguage.Text("Majestic / GTA5RP · по памятке", "Majestic / GTA5RP · supplied guide") : null}.Where(x => x != null));
+            Rp ? "Majestic / GTA5RP" : null}.Where(x => x != null));
         public string? SettingsPage => Id switch
         {
             20 or 21 => "gaming-gamemode", 22 or 23 => "gaming-gamedvr",
@@ -33,6 +37,7 @@ public partial class ReferenceWindow : Window
     {
         using var data = typeof(ReferenceWindow).Assembly.GetManifestResourceStream("MagnumTweaker.Reference.json")!;
         _entries = JsonSerializer.Deserialize<Entry[]>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        var byId = tweaks?.ToDictionary(tweak => tweak.Id, StringComparer.Ordinal);
         foreach (var entry in _entries)
         {
             string? id = entry.Id switch {
@@ -46,23 +51,34 @@ public partial class ReferenceWindow : Window
                 117=>"svc-PhoneSvc",118=>"svc-StiSvc",119=>"svc-icssvc",120=>"svc-CscService",121=>"svc-TrkWks",
                 158=>"delivery-p2p",169=>"startup-delay",174=>"mmcss-reserve",177=>"mmcss-priority",178=>"mmcss-games",179=>"cpu-quantum",
                 _=>null };
-            if (id!=null) entry.Action=tweaks?.FirstOrDefault(t=>t.Id==id);
+            if (id != null && byId != null) entry.Action = byId.GetValueOrDefault(id);
         }
         InitializeComponent();
-        Sources.ItemsSource = new[] { UiLanguage.Text("Все источники", "All sources") }.Concat(_entries.Select(x => x.Source).Distinct());
+        Sources.ItemsSource = new[] { UiLanguage.Text("Все источники", "All sources") }.Concat(_entries.Select(x => x.DisplaySource).Distinct());
         Sources.SelectedIndex = 0;
-        WindowTransitions.PrepareEntrance(this);
+        if (SystemParameters.ClientAreaAnimation)
+        {
+            GuideMotion.Y = 4;
+            Loaded += (_, _) => GuideMotion.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty,
+                new DoubleAnimation(4, 0, TimeSpan.FromMilliseconds(120))
+                {
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                });
+        }
     }
+
+    private void Search_MouseEnter(object sender, MouseEventArgs e) =>
+        ((App)Application.Current).PlaySound(InterfaceSound.Hover);
 
     private void FilterChanged(object sender, RoutedEventArgs e)
     {
         if (Entries == null || Sources.SelectedIndex < 0) return;
         var query = Search.Text.Trim();
-        var results = _entries.Where(x => (Sources.SelectedIndex == 0 || x.Source == Sources.SelectedItem as string) &&
-            (x.Label + " " + x.Title + " " + x.Detail).Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
+        var results = _entries.Where(x => (Sources.SelectedIndex == 0 || x.DisplaySource == Sources.SelectedItem as string) &&
+            (x.SearchMetadata + " " + x.Title + " " + x.Detail).Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
         Entries.ItemsSource = results;
         CountLabel.Text = $"{results.Length} / {_entries.Length}";
-        Scroller.ScrollToTop();
+        (Entries.Template?.FindName("GuideScroller", Entries) as SmoothScrollViewer)?.ScrollToTop();
     }
 
     private void OpenSetting_Click(object sender, RoutedEventArgs e)

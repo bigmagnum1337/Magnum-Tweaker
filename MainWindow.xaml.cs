@@ -1,8 +1,8 @@
 using System.Diagnostics;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
@@ -28,7 +28,13 @@ public partial class MainWindow : Window
         AnimateSidebarValue(SidebarArrowRotation, RotateTransform.AngleProperty, compact ? 180 : 0);
         SidebarHeading.Visibility = SidebarSettingsLabel.Visibility = ProfileText.Visibility = visibility;
         SidebarGear.Margin = compact ? new Thickness(0) : new Thickness(0, 0, 9, 0);
-        if (compact) SidebarGuide.Content = "≡";
+        if (compact)
+            SidebarGuide.Content = new System.Windows.Shapes.Path
+            {
+                Data = Geometry.Parse("M0,1 H14 M0,5 H14 M0,9 H14"),
+                Stroke = Brushes.LightGray, StrokeThickness = 1.3,
+                StrokeStartLineCap = PenLineCap.Round, StrokeEndLineCap = PenLineCap.Round
+            };
         else SidebarGuide.SetResourceReference(ContentControl.ContentProperty, "Reference");
     }
 
@@ -39,6 +45,16 @@ public partial class MainWindow : Window
         var animation = SystemParameters.ClientAreaAnimation ? EaseTo(current, value, 230) : null;
         element.SetValue(property, value);
         target.BeginAnimation(property, animation);
+    }
+    private SmoothScrollViewer? TweakScroll => TweaksList.Template?.FindName("PART_TweakScroll", TweaksList) as SmoothScrollViewer;
+    private IEnumerable<Tweak> PresetItems => GamingPreset.Select(_profileItems);
+    private void UpdatePreset()
+    {
+        var (applied, available, unavailable) = GamingPreset.Count(PresetItems);
+        PresetCounts.Text = UiLanguage.Text(
+            $"Применено {applied} · доступно {available} · недоступно {unavailable}",
+            $"{applied} applied · {available} available · {unavailable} unavailable");
+        PresetApply.IsEnabled = available != 0 && !_busy;
     }
     private readonly TweakCatalog _catalog;
     private List<Tweak> _profileItems;
@@ -52,7 +68,6 @@ public partial class MainWindow : Window
     private bool _busy;
     private bool _viewReady;
     private bool _settingsClosing;
-    private bool _minimizing;
     private bool _hasScanSummary;
     private int _categoryTransition;
     private bool _categoryChanging;
@@ -72,6 +87,7 @@ public partial class MainWindow : Window
         CategoryList.ItemsSource = new CategoryOption[]
         {
             new(AllTweaks, "M1,1 H6 V6 H1 Z M9,1 H14 V6 H9 Z M1,9 H6 V14 H1 Z M9,9 H14 V14 H9 Z"),
+            new("Готовые настройки", "M2,1 H12 V13 H2 Z M5,6 L7,8 L10,4"),
             new("FPS и игры", "M5,4 H10 C13,4 14,7 14,10 C14,12 12,12 10,10 H5 C3,12 1,12 1,10 C1,7 2,4 5,4 Z M4,7 H8 M6,5 V9 M11,7 H11.5"),
             new("Input lag", "M3,6 A4.5,4.5 0 0 1 12,6 V10 A4.5,4.5 0 0 1 3,10 Z M7.5,2 V7"),
             new("Производительность", "M1,12 A6.5,6.5 0 0 1 14,12 M7.5,11 L11,6 M3,9 L4,9 M7.5,5 V6"),
@@ -90,13 +106,18 @@ public partial class MainWindow : Window
         UpdateSummary();
     }
 
+    private sealed record SortOption(TweakSort Mode, string Label);
+    private TweakSort SortMode => SortBox.SelectedValue is TweakSort mode ? mode : TweakSort.Catalog;
+
     private void PopulateSortOptions(int selectedIndex)
     {
         SortBox.ItemsSource = new[]
         {
-            UiLanguage.Text("По порядку", "Catalog order"),
-            UiLanguage.Text("По имени ↑", "Name A–Z"),
-            UiLanguage.Text("По имени ↓", "Name Z–A")
+            new SortOption(TweakSort.Catalog, UiLanguage.Text("По порядку", "Catalog order")),
+            new SortOption(TweakSort.NameAscending, UiLanguage.Text("По имени ↑", "Name A–Z")),
+            new SortOption(TweakSort.NameDescending, UiLanguage.Text("По имени ↓", "Name Z–A")),
+            new SortOption(TweakSort.NotAppliedFirst, UiLanguage.Text("Сначала неприменённые", "Not applied first")),
+            new SortOption(TweakSort.AppliedFirst, UiLanguage.Text("Сначала применённые", "Applied first"))
         };
         SortBox.SelectedIndex = selectedIndex;
     }
@@ -113,18 +134,21 @@ public partial class MainWindow : Window
         }
         UpdateSummary();
         StatusText.Text = UiLanguage.Text("Проверка завершена", "Check complete"); _busy = false;
+        UpdatePreset();
+        ((App)Application.Current).PlaySound(InterfaceSound.ScanComplete);
     }
 
     private void UpdateSummary()
     {
         _hasScanSummary = true;
+        UpdatePreset();
         int applied = _profileItems.Count(tweak => !tweak.ReadOnly && tweak.State == TweakState.Applied);
         int checkedCount = _profileItems.Count(tweak => tweak.State is not (TweakState.Unknown or TweakState.Checking));
         int unavailable = _profileItems.Count(tweak => tweak.State is TweakState.Unsupported or TweakState.Error);
         SummaryText.Text = UiLanguage.Text($"Проверено {checkedCount}/{_profileItems.Count} · применено {applied} · недоступно {unavailable}",
             $"Checked {checkedCount}/{_profileItems.Count} · {applied} applied · {unavailable} unavailable");
 
-        if (_statusFilter.HasValue && !_categoryChanging)
+        if (!_categoryChanging && (_statusFilter.HasValue || SortMode is TweakSort.NotAppliedFirst or TweakSort.AppliedFirst))
             RefreshFilter(resetScroll: false);
     }
 
@@ -132,41 +156,96 @@ public partial class MainWindow : Window
     {
         if ((sender as Button)?.Tag is Tweak tweak) await Execute(tweak, true);
     }
-    private async void CheckOne_Click(object sender, RoutedEventArgs e)
-    {
-        if (_busy || (sender as Button)?.Tag is not Tweak tweak) return;
-        _busy = true;
-        try
-        {
-            tweak.State = TweakState.Checking;
-            tweak.State = await ScanWindow.Inspect(tweak, CancellationToken.None);
-        }
-        catch { tweak.State = TweakState.Error; }
-        finally
-        {
-            _busy = false;
-            StatusText.Text = $"{tweak.DisplayTitle} · {tweak.StateText}";
-            UpdateSummary();
-        }
-    }
     private async void RestoreOne_Click(object sender, RoutedEventArgs e)
     {
         if ((sender as Button)?.Tag is Tweak tweak) await Execute(tweak, false);
     }
-    private async void ApplySafe_Click(object sender, RoutedEventArgs e)
+    private void ShowPreset() =>
+        CategoryList.SelectedItem = CategoryList.Items.Cast<CategoryOption>().Single(x => x.Key == "Готовые настройки");
+
+    private async void ApplySafe_Click(object sender, RoutedEventArgs e) => await ApplyPresetAsync();
+
+    private async Task ApplyPresetAsync(bool confirmed = false)
     {
         if (_busy) return;
-        if (!ConfirmAdmin(UiLanguage.Text("Будут применены все безопасные настройки. Продолжить?",
-            "Apply all tweaks in the safe preset?"))) return;
-        foreach (var tweak in _profileItems.Where(x => x.CanApply && x.State == TweakState.NotApplied && x.Risk == TweakRisk.Safe).ToArray()) await Execute(tweak, true, false);
-        await ScanAll();
+        var pending = PresetItems.Where(t => t.CanApply).ToArray();
+        if (pending.Length == 0) return;
+        if (!confirmed && MessageBox.Show(this, UiLanguage.Text(
+            $"Применить {pending.Length} оставшихся настроек? Параметры питания действуют от сети и могут увеличить нагрев и расход энергии. Пресет GTA V использует 1920 × 1080 при 239 Гц.",
+            $"Apply the {pending.Length} remaining tweaks? AC power settings may increase heat and energy use. The GTA V preset uses 1920 × 1080 at 239 Hz."),
+            UiLanguage.Text("Подтверждение", "Confirm"), MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
+
+        _busy = true;
+        UpdatePreset();
+        StatusText.Text = UiLanguage.Text("Применяем оставшиеся настройки…", "Applying remaining tweaks…");
+        try
+        {
+            var result = pending.Any(t => t.RequiresAdmin) && !TweakCatalog.IsAdministrator()
+                ? await StartPresetWorkerAsync(pending)
+                : await Task.Run(() => PresetBatch.Apply(pending, _catalog.ReloadBackups, ScanWindow.Inspect));
+
+            _catalog.ReloadBackups();
+            foreach (var tweak in pending)
+            {
+                tweak.State = await ScanWindow.Inspect(tweak, CancellationToken.None);
+                if (tweak.State == TweakState.Applied && SystemParameters.ClientAreaAnimation)
+                    _ = HighlightAppliedAsync(tweak);
+            }
+            if (pending.Any(t => t.IncludeInAcPreset)) await RefreshAcCards();
+
+            int applied = pending.Count(t => t.State == TweakState.Applied);
+            StatusText.Text = result switch
+            {
+                PresetBatchResult.Busy => UiLanguage.Text("Другое окно меняет настройки. Повторите после завершения.", "Another window is changing settings. Try again when it finishes."),
+                PresetBatchResult.Rejected => UiLanguage.Text("Подтвердите права администратора под той же учётной записью.", "Approve administrator rights under the same user account."),
+                _ => UiLanguage.Text($"Набор: подтверждено {applied} из {pending.Length}.", $"Preset: verified {applied} of {pending.Length}.")
+            };
+            if (applied == pending.Length)
+                ((App)Application.Current).PlaySound(InterfaceSound.Success);
+        }
+        catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
+        {
+            StatusText.Text = UiLanguage.Text("Применение отменено в запросе Windows.", "Application cancelled at the Windows prompt.");
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = UiLanguage.Text("Не удалось применить набор: ", "Could not apply preset: ") + ex.Message;
+        }
+        finally
+        {
+            _busy = false;
+            UpdateSummary();
+        }
+    }
+
+    private async Task<PresetBatchResult> StartPresetWorkerAsync(Tweak[] pending)
+    {
+        using var identity = WindowsIdentity.GetCurrent();
+        if (identity.User is not { } user) return PresetBatchResult.Rejected;
+
+        var request = new PresetBatchRequest(UiLanguage.IsEnglish ? "en" : "ru", _windowsVersion, user.Value,
+            pending.Select(tweak => tweak.Id).ToArray());
+        var start = new ProcessStartInfo(Environment.ProcessPath!) { UseShellExecute = true, Verb = "runas" };
+        foreach (string argument in request.Arguments()) start.ArgumentList.Add(argument);
+        using var process = Process.Start(start) ?? throw new InvalidOperationException(
+            UiLanguage.Text("Запуск фонового процесса не удался.", "Could not start the background process."));
+        await process.WaitForExitAsync();
+        return (PresetBatchResult)process.ExitCode;
+    }
+
+    private async Task RefreshAcCards(Tweak? verified = null)
+    {
+        foreach (var related in _profileItems.Where(t => t != verified && (t.Id.StartsWith("ac-", StringComparison.Ordinal) || t.Id is "ultimate" or "high-performance")))
+            related.State = await ScanWindow.Inspect(related, CancellationToken.None);
     }
 
     private async Task Execute(Tweak tweak, bool apply, bool ask = true)
     {
         if (_busy || !_profileItems.Contains(tweak) || (apply ? !tweak.CanApply : !tweak.CanRestore)) return;
         string action = apply ? UiLanguage.Text("Применить", "Apply") : UiLanguage.Text("Откатить", "Restore");
-        if (ask && !ConfirmAdmin($"{action} «{tweak.DisplayTitle}»?\n\n{tweak.DisplayDescription}\n{tweak.Mechanism}", tweak.RequiresAdmin)) return;
+        if (ask && !ConfirmAction($"{action} «{tweak.DisplayTitle}»?\n\n{tweak.DisplayDescription}\n{tweak.Mechanism}",
+            tweak.RequiresAdmin, apply ? ElevationRequest.Apply : ElevationRequest.Restore, tweak.Id)) return;
+        // Serialize backup and settings writes across running instances in this Windows session.
         using var gate = new Mutex(false, @"Local\MagnumTweaker.SettingsWrite");
         bool acquired;
         try { acquired = gate.WaitOne(0); } catch (AbandonedMutexException) { acquired = true; }
@@ -180,8 +259,8 @@ public partial class MainWindow : Window
             tweak.State = await ScanWindow.Inspect(tweak, CancellationToken.None);
             if (apply && tweak.State != TweakState.Applied) throw new InvalidOperationException(UiLanguage.Text("Повторная проверка не подтвердила изменение.", "The read-back did not confirm the change."));
             if (tweak.Id.StartsWith("ac-") || tweak.Id is "ultimate" or "high-performance")
-                foreach (var related in _profileItems.Where(x => x != tweak && (x.Id.StartsWith("ac-") || x.Id is "ultimate" or "high-performance")))
-                    related.State = await ScanWindow.Inspect(related, CancellationToken.None);
+                await RefreshAcCards(tweak);
+            if (highlight) ((App)Application.Current).PlaySound(InterfaceSound.Success);
             if (highlight && tweak.State == TweakState.Applied && SystemParameters.ClientAreaAnimation)
                 _ = HighlightAppliedAsync(tweak);
             StatusText.Text = tweak.RequiresRestart
@@ -211,13 +290,13 @@ public partial class MainWindow : Window
         tweak.IsActivationHighlighted = false;
     }
 
-    private bool ConfirmAdmin(string text, bool requiresAdmin = true)
+    private bool ConfirmAction(string text, bool requiresAdmin, string action, string tweakId)
     {
         string caption = UiLanguage.Text("Подтверждение", "Confirm");
         if (requiresAdmin && !TweakCatalog.IsAdministrator())
         {
-            string prompt = UiLanguage.Text("Некоторым настройкам нужны права администратора. Перезапустить приложение с повышением прав?",
-                "Some tweaks require administrator rights. Restart the app as administrator?");
+            string prompt = UiLanguage.Text("Для этого действия нужны права администратора. После подтверждения Windows приложение перезапустится и продолжит действие.",
+                "This action requires administrator rights. After Windows confirmation, the app will restart and continue.");
             var result = MessageBox.Show(text + "\n\n" + prompt, caption, MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
@@ -225,9 +304,13 @@ public partial class MainWindow : Window
                 {
                     string language = UiLanguage.IsEnglish ? "en" : "ru";
                     ((App)Application.Current).Preferences.Save();
-                    Process.Start(new ProcessStartInfo(Environment.ProcessPath!, $"--resume-setup {language} {_windowsVersion}")
-                    { UseShellExecute = true, Verb = "runas" });
-                    Application.Current.Shutdown();
+                    using var identity = WindowsIdentity.GetCurrent();
+                    if (identity.User is not { } user) return false;
+                    var request = new ElevationRequest(action, tweakId, user.Value);
+                    var start = new ProcessStartInfo(Environment.ProcessPath!) { UseShellExecute = true, Verb = "runas" };
+                    foreach (string argument in request.Arguments(language, _windowsVersion))
+                        start.ArgumentList.Add(argument);
+                    if (Process.Start(start) != null) Application.Current.Shutdown();
                 }
                 catch { }
             }
@@ -242,30 +325,28 @@ public partial class MainWindow : Window
 
         string category = (CategoryList.SelectedItem as CategoryOption)?.Key ?? AllTweaks;
         string query = SearchBox.Text.Trim();
-        var filtered = _profileItems.Where(x => (category == AllTweaks || x.Category == category) &&
+        bool preset = category == "Готовые настройки";
+        PresetPanel.Visibility = preset ? Visibility.Visible : Visibility.Collapsed;
+        TweaksList.Visibility = preset ? Visibility.Collapsed : Visibility.Visible;
+        var filtered = _profileItems.Where(x => !preset && (category == AllTweaks || x.Category == category) &&
             (!_statusFilter.HasValue || x.State == _statusFilter.Value) &&
             (!_riskFilter.HasValue || x.Risk == _riskFilter.Value) &&
             (query.Length == 0 || x.DisplayTitle.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
                 x.DisplayDescription.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
                 x.PlatformText.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
                 x.Mechanism.Contains(query, StringComparison.CurrentCultureIgnoreCase)));
-        var results = (SortBox.SelectedIndex switch
-        {
-            1 => filtered.OrderBy(x => x.DisplayTitle, StringComparer.CurrentCultureIgnoreCase),
-            2 => filtered.OrderByDescending(x => x.DisplayTitle, StringComparer.CurrentCultureIgnoreCase),
-            _ => filtered
-        }).ToArray();
+        var results = TweakOrdering.Sort(filtered, SortMode).ToArray();
         if (resetScroll)
         {
-            TweakScroll.StopWheelAnimation();
-            TweakScroll.ScrollToTop();
+            TweakScroll?.StopWheelAnimation();
+            TweakScroll?.ScrollToTop();
         }
         if (!_visible.SequenceEqual(results))
         {
             _visible = results;
             TweaksList.ItemsSource = _visible;
         }
-        EmptyText.Visibility = _visible.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+        EmptyText.Visibility = !preset && _visible.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
         SectionTitle.Text = UiLanguage.Category(category);
     }
 
@@ -286,6 +367,7 @@ public partial class MainWindow : Window
             return;
         }
 
+        // Start at the current animated position so quick category changes do not jump.
         double currentMarkerY = CategoryMarker.Y;
         CategoryMarker.Y = markerY;
         CategoryMarker.BeginAnimation(TranslateTransform.YProperty, EaseTo(currentMarkerY, markerY, 270));
@@ -361,18 +443,15 @@ public partial class MainWindow : Window
     {
         if (SettingsOverlay.IsVisible) return;
 
-        FilterButton.IsChecked = false;
-        SortBox.IsDropDownOpen = false;
-        TweakScroll.StopWheelAnimation();
-        MainLayout.IsHitTestVisible = false;
-        KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.None);
-        MainLayout.Effect = new BlurEffect { Radius = 13, RenderingBias = RenderingBias.Performance };
+        BlurCatalog();
         SettingsOverlay.Visibility = Visibility.Visible;
         CloseSettingsButton.Focus();
         if (SystemParameters.ClientAreaAnimation)
         {
             SettingsOverlay.BeginAnimation(OpacityProperty, EaseTo(0, 1, 220));
             SettingsMotion.BeginAnimation(TranslateTransform.YProperty, EaseTo(9, 0, 240));
+            SidebarGearRotation.BeginAnimation(RotateTransform.AngleProperty, EaseTo(0, 360, 630));
+            SettingsGearRotation.BeginAnimation(RotateTransform.AngleProperty, EaseTo(0, 360, 630));
         }
     }
 
@@ -403,9 +482,7 @@ public partial class MainWindow : Window
             SettingsOverlay.Visibility = Visibility.Collapsed;
             SettingsOverlay.BeginAnimation(OpacityProperty, null);
             LanguageDropdown.IsChecked = false;
-            MainLayout.Effect = null;
-            MainLayout.IsHitTestVisible = true;
-            KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.Continue);
+            RestoreCatalog();
             SettingsButton.Focus();
             _settingsClosing = false;
         }
@@ -462,11 +539,65 @@ public partial class MainWindow : Window
             ((App)Application.Current).Preferences.HoverVolume = (int)e.NewValue;
     }
 
+    private void BlurCatalog()
+    {
+        FilterButton.IsChecked = false;
+        SortBox.IsDropDownOpen = false;
+        TweakScroll?.StopWheelAnimation();
+        MainLayout.IsHitTestVisible = false;
+        KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.None);
+        var blur = new BlurEffect { Radius = 13, RenderingBias = RenderingBias.Performance };
+        MainLayout.Effect = blur;
+        if (SystemParameters.ClientAreaAnimation)
+            blur.BeginAnimation(BlurEffect.RadiusProperty, EaseTo(0, 13, 220));
+    }
+
+    private void RestoreCatalog()
+    {
+        MainLayout.Effect = null;
+        MainLayout.IsHitTestVisible = true;
+        KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.Continue);
+    }
+
     private void Reference_Click(object sender, RoutedEventArgs e)
     {
+        if (SettingsOverlay.IsVisible) return;
         var guide = new ReferenceWindow(_profileItems) { Owner = this };
-        guide.ShowDialog();
-        if (guide.SelectedTweak is not { } tweak) return;
+        BlurCatalog();
+        try { guide.ShowDialog(); }
+        finally
+        {
+            RestoreCatalog();
+            SidebarGuide.Focus();
+        }
+        if (guide.SelectedTweak is { } tweak) ShowTweak(tweak);
+    }
+
+    internal async Task ResumeActionAsync(ElevationRequest request)
+    {
+        using var identity = WindowsIdentity.GetCurrent();
+        if (!request.CanResume(TweakCatalog.IsAdministrator(), identity.User?.Value))
+        {
+            StatusText.Text = UiLanguage.Text("Действие требует прав администратора под той же учётной записью.", "The action requires elevation under the same user account.");
+            return;
+        }
+
+        if (request.Action == ElevationRequest.Preset)
+        {
+            ShowPreset();
+            await ApplyPresetAsync(confirmed: true);
+            return;
+        }
+
+        var tweak = _profileItems.FirstOrDefault(item => item.Id == request.TweakId);
+        if (tweak == null) return;
+        ShowTweak(tweak);
+        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
+        await Execute(tweak, request.Action == ElevationRequest.Apply, ask: false);
+    }
+
+    private void ShowTweak(Tweak tweak)
+    {
         CategoryList.SelectedIndex = 0;
         StatusAny.IsChecked = true;
         RiskAny.IsChecked = true;
@@ -505,59 +636,9 @@ public partial class MainWindow : Window
     private void ViewTerms_Click(object sender, RoutedEventArgs e) =>
         new TermsWindow(requireAcceptance: false) { Owner = this, WindowStartupLocation = WindowStartupLocation.CenterOwner }.ShowDialog();
 
+    // Windows animates the native minimize command toward the app's taskbar button.
     private void Minimize_Click(object sender, RoutedEventArgs e) => SystemCommands.MinimizeWindow(this);
 
-    protected override void OnSourceInitialized(EventArgs e)
-    {
-        base.OnSourceInitialized(e);
-        (PresentationSource.FromVisual(this) as HwndSource)?.AddHook(HandleWindowMessage);
-    }
-
-    private IntPtr HandleWindowMessage(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
-    {
-        const int systemCommand = 0x0112;
-        const int minimizeCommand = 0xF020;
-        if (message == systemCommand && (wParam.ToInt64() & 0xFFF0) == minimizeCommand &&
-            IsLoaded && WindowState != WindowState.Minimized && SystemParameters.ClientAreaAnimation)
-        {
-            handled = true;
-            AnimateMinimize();
-        }
-        return IntPtr.Zero;
-    }
-
-    private void AnimateMinimize()
-    {
-        if (_minimizing) return;
-        _minimizing = true;
-        static DoubleAnimation Transition(double from, double to)
-        {
-            var animation = EaseTo(from, to, 280);
-            animation.FillBehavior = FillBehavior.HoldEnd;
-            return animation;
-        }
-
-        MinimizeScale.BeginAnimation(ScaleTransform.ScaleXProperty, Transition(1, 0.9));
-        MinimizeScale.BeginAnimation(ScaleTransform.ScaleYProperty, Transition(1, 0.9));
-        MinimizeMotion.BeginAnimation(TranslateTransform.YProperty, Transition(0, 22));
-        var fade = Transition(1, 0.20);
-        fade.Completed += (_, _) =>
-        {
-            if (!IsLoaded || !_minimizing) return;
-            WindowState = WindowState.Minimized;
-            ResetMinimizeAnimation();
-        };
-        WindowFrame.BeginAnimation(OpacityProperty, fade);
-    }
-
-    private void ResetMinimizeAnimation()
-    {
-        _minimizing = false;
-        MinimizeScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
-        MinimizeScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
-        MinimizeMotion.BeginAnimation(TranslateTransform.YProperty, null);
-        WindowFrame.BeginAnimation(OpacityProperty, null);
-    }
     private void Maximize_Click(object sender, RoutedEventArgs e)
     {
         if (WindowState == WindowState.Maximized) SystemCommands.RestoreWindow(this);

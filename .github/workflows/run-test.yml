@@ -1,0 +1,20 @@
+name: Run Test
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Run Test
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Run Test
+        shell: pwsh
+        run: ./pipelines/Run-Test.ps1

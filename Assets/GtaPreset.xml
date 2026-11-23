@@ -69,5 +69,5 @@
     <PauseOnFocusLoss value="0" />
     <AspectRatio value="2" />
   </video>
-  <VideoCardDescription>NVIDIA GeForce RTX 4060 Ti</VideoCardDescription>
+  <VideoCardDescription />
 </Settings>

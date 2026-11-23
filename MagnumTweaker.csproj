@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -18,10 +19,12 @@
     <PublishReadyToRun>false</PublishReadyToRun>
     <DebugType>none</DebugType>
     <PublishDir Condition="'$(PublishDir)' == ''">$(MSBuildProjectDirectory)\dist\</PublishDir>
-    <DefaultItemExcludes>$(DefaultItemExcludes);bin/**;obj/**;dist/**</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);bin/**;obj/**;dist/**;tests/**;artifacts/**;TestResults/**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
+    <InternalsVisibleTo Include="MagnumTweaker.Tests"/>
     <Resource Include="Assets\Brand*.png"/>
+    <Resource Include="Assets\Fonts\*.ttf;Assets\Fonts\*-OFL.txt"/>
     <EmbeddedResource Include="Assets\GtaPreset.xml" LogicalName="MagnumTweaker.GtaPreset.xml"/>
     <EmbeddedResource Include="Assets\Reference.json" LogicalName="MagnumTweaker.Reference.json"/>
     <Resource Include="Assets\MagnumTweaker.ico"/>

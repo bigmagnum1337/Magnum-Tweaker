@@ -165,10 +165,11 @@ internal static class AdditionalTweaks
 
     internal static Tweak Stored(string id, string title, string en, string desc, string english,
         string desired, Func<CancellationToken,Task<string>> read, Func<string,CancellationToken,Task> write,
-        BackupStore store, string category = "Производительность") => new()
+        BackupStore store, string category = "Производительность", bool requiresAdmin = true) => new()
     {
         Id=id, Title=title, EnglishTitle=en, Description=desc, EnglishDescription=english, Category=category,
         Impact=category, Risk=TweakRisk.Moderate, Mechanism=id.StartsWith("svc-") ? $"sc config {id[4..]} start= {desired}" : desired,
+        RequiresAdmin=requiresAdmin,
         RequiresRestart=id.StartsWith("svc-") || id.StartsWith("nic-"), HasBackup=() => store.Contains(id),
         Check=async ct => await read(ct) == desired ? TweakState.Applied : TweakState.NotApplied,
         Apply=async ct =>
