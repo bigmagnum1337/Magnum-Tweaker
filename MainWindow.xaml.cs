@@ -170,6 +170,7 @@ public partial class MainWindow : Window
         if (_busy) return;
         var pending = PresetItems.Where(t => t.CanApply).ToArray();
         if (pending.Length == 0) return;
+        if (!confirmed && !ConfirmFirstRestorePoint()) return;
         if (!confirmed && MessageBox.Show(this, UiLanguage.Text(
             $"Применить {pending.Length} оставшихся настроек? Параметры питания действуют от сети и могут увеличить нагрев и расход энергии.",
             $"Apply the {pending.Length} remaining tweaks? AC power settings may increase heat and energy use."),
@@ -244,6 +245,7 @@ public partial class MainWindow : Window
     private async Task Execute(Tweak tweak, bool apply, bool ask = true)
     {
         if (_busy || !_profileItems.Contains(tweak) || (apply ? !tweak.CanApply : !tweak.CanRestore)) return;
+        if (apply && ask && !ConfirmFirstRestorePoint()) return;
         string action = apply ? UiLanguage.Text("Применить", "Apply") : UiLanguage.Text("Откатить", "Restore");
         if (ask && !ConfirmAction($"{action} «{tweak.DisplayTitle}»?\n\n{tweak.DisplayDescription}\n{tweak.Mechanism}",
             tweak.RequiresAdmin, apply ? ElevationRequest.Apply : ElevationRequest.Restore, tweak.Id)) return;
@@ -570,6 +572,29 @@ public partial class MainWindow : Window
     {
         if (_viewReady)
             ((App)Application.Current).Preferences.HoverVolume = (int)e.NewValue;
+    }
+
+    private bool ConfirmFirstRestorePoint()
+    {
+        var preferences = ((App)Application.Current).Preferences;
+        if (preferences.RestorePointPromptHandled) return true;
+
+        var dialog = new RestorePointWindow { Owner = this };
+        BlurCatalog();
+        try
+        {
+            bool proceed = dialog.ShowDialog() == true;
+            if (proceed || dialog.PointCreated)
+            {
+                preferences.RestorePointPromptHandled = true;
+                preferences.Save();
+            }
+            return proceed;
+        }
+        finally
+        {
+            RestoreCatalog();
+        }
     }
 
     private void BlurCatalog()

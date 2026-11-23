@@ -52,7 +52,11 @@ public sealed class BackupAndPreferencesTests
     {
         using var workspace = new TemporaryWorkspace();
         string path = workspace.FilePath(@"nested\interface.json");
-        var preferences = new InterfacePreferences { English = true, WindowsProfile = "11", HoverVolume = volume, AcceptedTermsVersion = 1 };
+        var preferences = new InterfacePreferences
+        {
+            English = true, WindowsProfile = "11", HoverVolume = volume, AcceptedTermsVersion = 1,
+            RestorePointPromptHandled = true
+        };
         preferences.Save(path);
 
         var loaded = InterfacePreferences.Load(path);
@@ -60,11 +64,13 @@ public sealed class BackupAndPreferencesTests
         Assert.True(loaded.English);
         Assert.Equal("11", loaded.WindowsProfile);
         Assert.Equal(1, loaded.AcceptedTermsVersion);
+        Assert.True(loaded.RestorePointPromptHandled);
     }
 
     [Theory]
     [InlineData(null)]
     [InlineData("{broken")]
+    [InlineData("{\"HoverVolume\":10}")]
     public void PreferencesLoadDefaultsForMissingOrCorruptFiles(string? contents)
     {
         using var workspace = new TemporaryWorkspace();
@@ -75,5 +81,6 @@ public sealed class BackupAndPreferencesTests
         Assert.Equal(10, loaded.HoverVolume);
         Assert.Null(loaded.WindowsProfile);
         Assert.Equal(0, loaded.AcceptedTermsVersion);
+        Assert.False(loaded.RestorePointPromptHandled);
     }
 }

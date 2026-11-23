@@ -14,6 +14,14 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        if (e.Args.FirstOrDefault() == RestorePoint.WorkerCommand)
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            var result = await RestorePoint.RunWorkerAsync(e.Args);
+            Environment.ExitCode = (int)result;
+            Shutdown((int)result);
+            return;
+        }
         if (e.Args.FirstOrDefault() == PresetBatchRequest.Command)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -23,7 +31,7 @@ public partial class App : Application
             return;
         }
         EventManager.RegisterClassHandler(typeof(ButtonBase), ButtonBase.ClickEvent, new RoutedEventHandler((_, _) => PlaySound(InterfaceSound.Click)));
-        var hover = new MouseEventHandler(ReferenceControl_MouseEnter);
+        var hover = new MouseEventHandler(DialogControl_MouseEnter);
         EventManager.RegisterClassHandler(typeof(ButtonBase), UIElement.MouseEnterEvent, hover);
         EventManager.RegisterClassHandler(typeof(ComboBoxItem), UIElement.MouseEnterEvent, hover);
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -129,13 +137,13 @@ public partial class App : Application
         }
     }
 
-    private void ReferenceControl_MouseEnter(object sender, MouseEventArgs e)
+    private void DialogControl_MouseEnter(object sender, MouseEventArgs e)
     {
         if (sender is not FrameworkElement { IsEnabled: true, IsMouseOver: true } control) return;
 
         // Drop-down items sit in a Popup, so resolve their window via their ComboBox.
         var owner = control is ComboBoxItem item ? ItemsControl.ItemsControlFromItemContainer(item) : control;
-        if (owner != null && Window.GetWindow(owner) is ReferenceWindow)
+        if (owner != null && Window.GetWindow(owner) is ReferenceWindow or RestorePointWindow)
             PlaySound(InterfaceSound.Hover);
     }
 

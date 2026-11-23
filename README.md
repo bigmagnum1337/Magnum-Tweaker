@@ -27,6 +27,7 @@ Magnum Tweaker — приложение на C#, .NET 8 и WPF. Оно пров�
 1. Запустите портативный EXE, выберите язык и профиль Windows. При первом запуске прочтите пользовательское соглашение.
 2. Дождитесь обязательной проверки. Она читает параметры без применения твиков. Зелёный статус показывает совпадение значения, красный — доступную настройку с другим значением, серый — недоступность, оранжевый — ошибку проверки.
 3. Выберите настройку или готовый набор. Для части системных изменений требуются права администратора. Если приложение сохранило исходное значение, в карточке будет доступен откат.
+4. Перед первым применением Magnum предложит создать точку восстановления Windows. Её можно создать прямо в приложении при включённой защите системы или продолжить без неё.
 
 Настройки интерфейса и снимки для отката хранятся в `%LOCALAPPDATA%\MagnumTweaker` отдельно от EXE. Доступность зависит от версии и редакции Windows, драйверов и установленных приложений. Статус подтверждает значение параметра. FPS, пинг и время кадра проверяются отдельно в игре. Пометки Majestic / GTA5RP следуют исходной памятке, приведённой в разборе материалов.
 
@@ -64,6 +65,7 @@ Magnum Tweaker is a C#, .NET 8, and WPF desktop tool for inspecting, applying, a
 1. Launch the portable EXE, select a language and Windows profile, and read the terms on first launch.
 2. Wait for the mandatory scan. It reads the current settings without applying tweaks. Green means the value matches, red means an available setting has a different value, gray means unavailable, and orange means the check failed.
 3. Apply an individual tweak or a preset. Some changes require administrator rights. A card offers Restore when the application has a snapshot.
+4. Before your first change, Magnum offers to create a Windows restore point. You can create it in the app when System Protection is enabled or continue without one.
 
 Interface preferences and rollback snapshots live in `%LOCALAPPDATA%\MagnumTweaker`, separate from the EXE. Availability depends on the Windows build and edition, drivers, and installed applications. Status checks verify settings. FPS, latency, and frame times require in-game measurements. Majestic / GTA5RP labels reflect the supplied guide referenced in the research notes.
 
