@@ -29,7 +29,10 @@ dotnet-install.ps1
 !.env.example
 backup.json
 interface.json
+ultimate.json
 *.log
+*.dmp
+*.pdb
 *.tmp
 *.pfx
 Thumbs.db

@@ -8,6 +8,7 @@ These rules apply across the repository. Read the README and the affected code b
 - Use short English branch names such as `feat/startup-scan`, `fix/sidebar-scroll`, or `chore/refresh-docs`. If the current task branch already fits the request, continue on it.
 - Write concise English imperative commit subjects such as `Fix sidebar scrolling` or `Document the gaming preset`. Group related code, tests, and docs in one reviewable commit. Before committing, inspect the staged diff and run the relevant checks.
 - A PR explains the change, includes verification commands and their results, and flags compatibility, UI, or rollback changes. PRs into `main` should pass both **Build** and **Run Test**. Keep merges, pushes, releases, and history rewrites under the maintainer's control.
+- Check the author and committer identity before publishing. Use a project alias or the maintainer-approved GitHub no-reply address. Keep personal email addresses, workstation names, and absolute user paths out of commits, configuration examples, and built artifacts.
 - Commit source assets needed by the application. Keep EXEs, test results, SDK downloads, workstation files, and personal settings out of Git.
 
 ## Application-wide design
