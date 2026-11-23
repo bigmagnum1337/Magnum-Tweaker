@@ -592,6 +592,20 @@ public partial class MainWindow : Window
         KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.Continue);
     }
 
+    private void DeveloperLink_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string address }) return;
+
+        try
+        {
+            Process.Start(new ProcessStartInfo(address) { UseShellExecute = true });
+        }
+        catch (System.ComponentModel.Win32Exception)
+        {
+            StatusText.Text = UiLanguage.Text("Не удалось открыть ссылку в браузере.", "Could not open the link in your browser.");
+        }
+    }
+
     private void Reference_Click(object sender, RoutedEventArgs e)
     {
         if (SettingsOverlay.IsVisible) return;
