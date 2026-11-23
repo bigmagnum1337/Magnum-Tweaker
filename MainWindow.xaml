@@ -306,7 +306,42 @@
             <Border Background="#18181A" BorderBrush="#3B3B40" BorderThickness="1" CornerRadius="7" Padding="14" Width="216"
                     PreviewKeyDown="FilterPopup_PreviewKeyDown">
               <Border.Resources>
-                <Style TargetType="RadioButton"><Setter Property="Foreground" Value="#E4E4E7"/></Style>
+                <Style TargetType="RadioButton">
+                  <Setter Property="Foreground" Value="#C8C8CD"/>
+                  <Setter Property="Cursor" Value="Hand"/>
+                  <Setter Property="MinHeight" Value="21"/>
+                  <Setter Property="Template">
+                    <Setter.Value>
+                      <ControlTemplate TargetType="RadioButton">
+                        <Grid Background="Transparent">
+                          <Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                          <Border x:Name="Box" Width="16" Height="16" CornerRadius="4" BorderThickness="1"
+                                  BorderBrush="#49494F" Background="#18181A" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Path x:Name="Tick" Data="M2,5 L4.5,7.5 L9,2.5" Stroke="#151519" StrokeThickness="1.5"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                          </Border>
+                          <ContentPresenter Grid.Column="1" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                          <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Box" Property="BorderBrush" Value="#777781"/>
+                            <Setter Property="Foreground" Value="#F5F5F7"/>
+                          </Trigger>
+                          <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Box" Property="Background" Value="{StaticResource AccentBrush}"/>
+                            <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                            <Setter TargetName="Tick" Property="Visibility" Value="Visible"/>
+                            <Setter Property="Foreground" Value="#F5F5F7"/>
+                          </Trigger>
+                          <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                          </Trigger>
+                        </ControlTemplate.Triggers>
+                      </ControlTemplate>
+                    </Setter.Value>
+                  </Setter>
+                </Style>
               </Border.Resources>
               <StackPanel>
                 <TextBlock Text="{DynamicResource StatusFilter}" FontWeight="SemiBold" Margin="0,0,0,7"/>
