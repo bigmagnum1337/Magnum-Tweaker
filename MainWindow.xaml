@@ -258,7 +258,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-14,0"
                     shell:WindowChrome.IsHitTestVisibleInChrome="True">
-          <TextBlock Text="v1.1" VerticalAlignment="Center" Foreground="{StaticResource MutedBrush}" Margin="0,0,10,0" FontSize="11"/>
+          <TextBlock Text="v1.2" VerticalAlignment="Center" Foreground="{StaticResource MutedBrush}" Margin="0,0,10,0" FontSize="11"/>
           <Button Style="{StaticResource ChromeButton}" ToolTip="{DynamicResource Minimize}" AutomationProperties.Name="{DynamicResource Minimize}" Click="Minimize_Click">
             <Path Width="13" Height="13" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.2" Data="M 0,7 L 12,7"/>
           </Button>
