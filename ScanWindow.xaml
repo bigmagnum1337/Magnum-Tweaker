@@ -1,0 +1,25 @@
+<Window x:Class="MagnumTweaker.ScanWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="490" Height="305" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize" Icon="Assets/MagnumTweaker.ico"
+        FontFamily="{StaticResource InterfaceFont}" Foreground="White" ContentRendered="StartScan">
+  <Border CornerRadius="12" BorderThickness="1" BorderBrush="#3D3D40" Background="#0B0B0D" Padding="32,24">
+    <Grid>
+      <Grid.RowDefinitions><RowDefinition Height="62"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <ContentControl Content="Magnum" Width="156" ContentTemplate="{StaticResource BrandMark}"/>
+      <StackPanel Grid.Row="1" VerticalAlignment="Center">
+        <TextBlock x:Name="Heading" FontSize="22" FontWeight="Bold"/>
+        <TextBlock x:Name="CurrentItem" Margin="0,9,0,0" Foreground="#B8B8BD" TextTrimming="CharacterEllipsis"/>
+      </StackPanel>
+      <StackPanel Grid.Row="2">
+        <TextBlock x:Name="Counter" HorizontalAlignment="Right" Margin="0,0,0,7" Foreground="#BBBBBE"/>
+        <ProgressBar x:Name="Progress" Height="6" Minimum="0" Background="#343437" Foreground="#FF1637" BorderThickness="0">
+          <ProgressBar.Template><ControlTemplate TargetType="ProgressBar"><Grid x:Name="PART_Track">
+            <Border Background="{TemplateBinding Background}" CornerRadius="3"/>
+            <Border x:Name="PART_Indicator" Background="{TemplateBinding Foreground}" HorizontalAlignment="Left" CornerRadius="3"/>
+          </Grid></ControlTemplate></ProgressBar.Template>
+        </ProgressBar>
+      </StackPanel>
+    </Grid>
+  </Border>
+</Window>

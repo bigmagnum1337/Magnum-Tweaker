@@ -1,0 +1,1654 @@
+[
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  1,
+        "title":  "Активировать «Высокая производительность»",
+        "detail":  "Уменьшить энергосбережение CPU, иногда сократить задержки перехода частот. Win10/11; если SCHEME_MIN недоступна, не навязывать создание. Не обязательно быстрее Balanced; нагрев и шум выше.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  2,
+        "title":  "Создать и включить Ultimate Performance",
+        "detail":  "Более агрессивный power plan; A/B с Balanced. Не поддерживается на некоторых ноутбуках/Modern Standby; Win10/11. Больше энергопотребление, существенный прирост FPS не гарантирован.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  3,
+        "title":  "Клон отдельной игровой схемы питания",
+        "detail":  "Не изменять штатный Balanced/профиль OEM. Win10/11; применить дальнейшие powercfg-твики только к клону. Рекомендуемый шаблон для программы, не самостоятельный ускоритель.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  4,
+        "title":  "Минимальное состояние CPU при питании от сети 100%",
+        "detail":  "Удержание частот; меньшая latency переходов. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Менять только на созданном клоне power plan; замерить FPS/frametime, нагрев и энергопотребление.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  5,
+        "title":  "Максимальное состояние CPU 100%",
+        "detail":  "Не ограничивать максимальную частоту Windows. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Проверка/коррекция, если было ограничено; сама по себе часто ничего не меняет.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  6,
+        "title":  "Energy Performance Preference (EPP) = 0",
+        "detail":  "Приоритет производительности над экономией. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Менять только на созданном клоне power plan; замерить FPS/frametime, нагрев и энергопотребление.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  7,
+        "title":  "Energy Performance Preference (EPP) = 25",
+        "detail":  "Мягкий вариант EPP для A/B. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Менять только на созданном клоне power plan; замерить FPS/frametime, нагрев и энергопотребление.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  8,
+        "title":  "Core Parking минимум 100%",
+        "detail":  "Запретить парковку логических ядер выбранной схемы. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Менять только на созданном клоне power plan; замерить FPS/frametime, нагрев и энергопотребление.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  9,
+        "title":  "Core Parking минимум 50%",
+        "detail":  "Компромиссный режим парковки. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Менять только на созданном клоне power plan; замерить FPS/frametime, нагрев и энергопотребление.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  10,
+        "title":  "Processor performance boost mode Aggressive",
+        "detail":  "Изменить характер выбора boost-частот. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Менять только на созданном клоне power plan; замерить FPS/frametime, нагрев и энергопотребление.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  11,
+        "title":  "Processor performance boost mode Efficient Aggressive",
+        "detail":  "Сравнить менее затратную политику boost. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Менять только на созданном клоне power plan; замерить FPS/frametime, нагрев и энергопотребление.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  12,
+        "title":  "PCI Express Link State Power Management = Off",
+        "detail":  "Снизить энергосберегающие переходы PCIe. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Менять только на созданном клоне power plan; замерить FPS/frametime, нагрев и энергопотребление.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  13,
+        "title":  "USB selective suspend = Disabled (AC)",
+        "detail":  "Убрать selective suspend для устройств USB. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Менять только на созданном клоне power plan; замерить FPS/frametime, нагрев и энергопотребление.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  14,
+        "title":  "Отключить выключение HDD по простою (AC)",
+        "detail":  "Не раскручивать HDD при доступе в игре. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Для HDD с выгрузками диска; SSD практически не выигрывает.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  15,
+        "title":  "Отключить сон компьютера при питании от сети",
+        "detail":  "Не прерывать длинную игровую сессию. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Удобство/стабильность сессии, не FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  16,
+        "title":  "Отключить выключение экрана от простоя при AC",
+        "detail":  "Предотвратить нежелательный гашение во время теста. Win10/11, AC; настройка может отсутствовать на конкретной платформе/схеме (при ошибке SKIP). Не улучшает игру; настройка окружения бенчмарка.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  17,
+        "title":  "Отключить Windows Power Throttling",
+        "detail":  "Снять ОС-ограничение энергоэффективности процессов. Win10/11; HKLM — администратор, HKCU — пользователь. Высокие фоновая нагрузка/потребление; влияние на игру обычно малое.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  18,
+        "title":  "Отключить гибернацию/быстрый запуск",
+        "detail":  "Устранить проблемы гибридного старта и восстановить полное cold boot. Win10/11; удаляется hiberfil.sys; ноутбуки теряют гибернацию. Это диагностика стабильности, не FPS-твик.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  19,
+        "title":  "Сохранить/вернуть схему питания из файла",
+        "detail":  "Повторяемое применение per-user игрового плана. Win10/11; GUID выбирает программа; путь создать заранее. Инфраструктурный твик: для поставки профиля, не performance сам по себе.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  20,
+        "title":  "Включить Windows Game Mode",
+        "detail":  "Оптимизация foreground игровой нагрузки. Win10/11; HKLM — администратор, HKCU — пользователь. Механизм поддерживается ОС; прирост зависит от игры.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  21,
+        "title":  "Отключить Game Mode для A/B",
+        "detail":  "Обратная ветка теста Game Mode. Win10/11; HKLM — администратор, HKCU — пользователь. Тестировать только если на данном ПК Game Mode ухудшает frametime.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  22,
+        "title":  "Отключить Game DVR захват у пользователя",
+        "detail":  "Исключить фоновую запись / Game Bar capture. Win10/11; HKLM — администратор, HKCU — пользователь. Уменьшает нагрузку только при активном захвате; теряются записи.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  23,
+        "title":  "Отключить Game DVR в GameConfigStore",
+        "detail":  "Убрать связанную запись игрового видео. Win10/11; HKLM — администратор, HKCU — пользователь. Параметр legacy: проверить фактический статус на Win11.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  24,
+        "title":  "Запретить Game DVR политикой машины",
+        "detail":  "Запретить background capture на поддерживаемых редакциях. Win10/11; HKLM — администратор, HKCU — пользователь. Политика может применяться не на всех сборках/редакциях, отключает запись.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  25,
+        "title":  "Включить Hardware-Accelerated GPU Scheduling (HAGS)",
+        "detail":  "GPU-side scheduling вместо части CPU scheduler path. Win10/11; HKLM — администратор, HKCU — пользователь. Только если GPU/WDDM поддерживают; reboot обязателен. Измерить DX11/12 и FG.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  26,
+        "title":  "Отключить HAGS для A/B",
+        "detail":  "Проверка совместимости/frametime без GPU-side scheduling. Win10/11; HKLM — администратор, HKCU — пользователь. Взаимоисключающе с HAGS ON; перезагрузка.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  27,
+        "title":  "Отключить MPO при проблемах DWM",
+        "detail":  "Диагностика flicker/stutter c multi-plane overlay. Win10/11; HKLM — администратор, HKCU — пользователь. Недокументированная как gaming API настройка; может ухудшить композицию, HDR, VRR. Только если воспроизводится проблема.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  28,
+        "title":  "FSO Off для одной игры",
+        "detail":  "A/B Fullscreen Optimizations для конкретного EXE. Win10/11; только конкретный EXE; сохранять исходные другие flags; не глобально. В некоторых играх хуже alt-tab, HDR, окно; тестировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  29,
+        "title":  "Режим Optimizations for windowed games Win11",
+        "detail":  "Быстрый flip-model путь для DX10/DX11 в окне/borderless. Windows 11 22H2+ и DX10/11; для некоторых игр совместимость. Нативный игровой путь; реестр этого toggle зависит от сборки, не выдавать вымышленный reg add.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  30,
+        "title":  "Назначить GPU high performance для отдельной игры",
+        "detail":  "Выбрать dGPU в гибридных ноутбуках. Win10 1803+/Win11; гибридная графика; требуется путь EXE. Может повысить FPS при ошибочном выборе iGPU; на одном GPU бессмысленно.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  31,
+        "title":  "Отключить прозрачность интерфейса",
+        "detail":  "Уменьшить compositor UI effects. Win10/11; HKLM — администратор, HKCU — пользователь. Почти никогда не влияет на FPS внутри игры.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  32,
+        "title":  "Отключить анимации панели задач",
+        "detail":  "Уменьшить UI animations. Win10/11; HKLM — администратор, HKCU — пользователь. Только интерфейс, не игровой FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  33,
+        "title":  "Отключить анимацию окон",
+        "detail":  "Уменьшить задержки интерфейса при открытии окон. Win10/11; HKLM — администратор, HKCU — пользователь. Logoff/restart Explorer; не ускоряет рендер игры.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  34,
+        "title":  "Visual Effects = Adjust for best performance",
+        "detail":  "Свести эффекты оболочки к минимуму. Win10/11; HKLM — администратор, HKCU — пользователь. Windows может применять эффекты по отдельности; лучше API/SPI и перечитать UI.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  35,
+        "title":  "Отключить автозагрузочные подсказки Windows",
+        "detail":  "Сократить UI notifications/background suggestions. Win10/11; HKLM — администратор, HKCU — пользователь. В Win11 может игнорироваться; не обещать FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  36,
+        "title":  "Отключить периодические советы и предложения",
+        "detail":  "Снизить фоновую персонализацию. Win10/11; HKLM — администратор, HKCU — пользователь. Влияние на FPS пренебрежимо.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  37,
+        "title":  "Отключить consumer experiences от Microsoft",
+        "detail":  "Меньше предлагаемых consumer app при новых профилях. Win10/11; HKLM — администратор, HKCU — пользователь. Зависит от редакции (чаще Enterprise/Education); уменьшает предложения, не FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  38,
+        "title":  "Отключить search highlights",
+        "detail":  "Меньше контента в строке поиска Windows. Win10/11; HKLM — администратор, HKCU — пользователь. Может изменяться после апдейтов; не FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  39,
+        "title":  "Отключить фоновые UWP глобально (старый механизм)",
+        "detail":  "Меньше активности приложений UWP. Win10/11; HKLM — администратор, HKCU — пользователь. В Win11 поддержка неполная; ломает уведомления/синхронизацию/некоторые игры.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  40,
+        "title":  "Отключить рекламу/рекомендации Start",
+        "detail":  "Меньше советов и фоновых UX-элементов. Win10/11; HKLM — администратор, HKCU — пользователь. Версия-зависимый параметр; эффект только UX.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  41,
+        "title":  "Частота обновления монитора = максимум",
+        "detail":  "Ниже scanout latency, лучше motion clarity. Win10/11; монитор/кабель/GPU должны поддерживать. Одно из реальных улучшений display latency, не FPS видеокарты.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  42,
+        "title":  "VRR / G-SYNC / FreeSync",
+        "detail":  "Убрать tearing без необходимости стандартного VSync latency в диапазоне VRR. Нужны VRR монитор, подключение и драйвер; Win10/11. Не смешивать с произвольным FPS cap; тестировать latency и tearing.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  43,
+        "title":  "FPS cap немного ниже VRR верхней границы",
+        "detail":  "Не уходить в VSync ceiling / стабилизировать frametime. Для VRR; cap зависит от игры/частоты/limiter и предпочтений. Не всегда оптимально -3 FPS; индивидуальная настройка.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  44,
+        "title":  "NVIDIA Reflex On / On+Boost",
+        "detail":  "Снижать очередь CPU→GPU и иногда power-latency. Только игры с NVIDIA Reflex и совместимые GPU. Один из наиболее целевых способов уменьшить input lag.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  45,
+        "title":  "NVIDIA Driver Low Latency Mode = Ultra в DX9/DX11",
+        "detail":  "Снижать кадры в render queue без Reflex. NVIDIA; DX9/11 в основном, без Reflex. Не универсально для DX12/Vulkan; может уменьшить FPS/1% lows.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  46,
+        "title":  "NVIDIA Power Management Mode = Prefer maximum performance",
+        "detail":  "Предотвратить downclock GPU в целевой игре. NVIDIA GPU; только выбранные игры, не глобально. Питание, тепло, шум; не увеличивает max clocks сверх спецификации.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  47,
+        "title":  "AMD Radeon Anti-Lag",
+        "detail":  "Сокращать CPU/GPU wait/render latency. Совместимые Radeon/игра/версия драйвера. Не то же самое, что сетевой ping; динамика зависит от CPU/GPU bound.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  48,
+        "title":  "AMD Radeon Chill/Boost",
+        "detail":  "Стабилизировать FPS/снизить нагрузку (Chill), динамическое разрешение (Boost). Radeon; не одновременно применять несовместимые функции. Chill может повысить latency из-за cap; Boost снижает качество.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  49,
+        "title":  "Intel Xe Low Latency",
+        "detail":  "Сократить CPU/GPU rendering latency. Intel Arc и совместимые драйверы/игры. Версии XeLL могут работать по-разному; не fake-reg.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  50,
+        "title":  "DLSS/FSR/XeSS Upscaling",
+        "detail":  "Увеличить FPS через более низкое internal resolution. Только когда игра предоставляет режим. Это апскейлинг, не Windows registry tweak.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  51,
+        "title":  "Frame Generation (DLSS/FSR/XeSS FG)",
+        "detail":  "Повысить отображаемую частоту кадров. Зависит от версии GPU, игры, драйвера. FG повышает отображаемый FPS, не обязана уменьшать input lag.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  52,
+        "title":  "Очистить/пересобрать шейдерный кэш ТОЛЬКО при повреждении",
+        "detail":  "Ликвидировать артефакты/конфликтные старые шейдеры. Win10/11; только при доказанной проблеме. НЕМЕДЛЕННО после удаления кэша stutter часто УВЕЛИЧИВАЕТСЯ.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  53,
+        "title":  "Отключить overlay в Discord",
+        "detail":  "Снизить injection/capture overhead. Если установлен Discord. Эффект только если overlay влиял на игру.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  54,
+        "title":  "Отключить Steam Overlay per-game",
+        "detail":  "Снизить overlay overhead/конфликты. Если игра установлена в Steam. Может отключить интеграции/покупки/приглашения.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  55,
+        "title":  "Отключить NVIDIA overlay/Instant Replay",
+        "detail":  "Остановить фоновый capture. NVIDIA App установлен. Нагрузка только при активном захвате.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  56,
+        "title":  "Отключить AMD ReLive/Instant Replay",
+        "detail":  "Убрать фоновую запись видео. AMD driver с Record \u0026 Stream. Возможно освобождение ресурсов VRAM/encode; нет гарантии FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  57,
+        "title":  "Отключить ускорение мыши (Enhance Pointer Precision)",
+        "detail":  "Линейная скорость указателя в приложениях без raw input. Win10/11; HKLM — администратор, HKCU — пользователь. Не влияет на игры, где используется raw input; logoff возможно.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  58,
+        "title":  "MouseThreshold1 = 0",
+        "detail":  "Компонент выключения pointer acceleration. Win10/11; HKLM — администратор, HKCU — пользователь. Применять совместно с MouseSpeed=0; не raw input.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  59,
+        "title":  "MouseThreshold2 = 0",
+        "detail":  "Компонент выключения pointer acceleration. Win10/11; HKLM — администратор, HKCU — пользователь. Применять совместно с MouseSpeed=0; не raw input.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  60,
+        "title":  "Включить Raw Input в игре",
+        "detail":  "Обходить acceleration Windows для курсора в игре. Игры, поддерживающие Raw Input. Может улучшить предсказуемость, не ускоряет USB.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  61,
+        "title":  "USB polling rate мыши 1000 Hz",
+        "detail":  "Более частый ввод (не гарантия системной latency). Мышь/контроллер/кабель поддерживают частоту. 8000 Hz иногда ухудшает 1% lows на старых CPU/играх.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  62,
+        "title":  "Выключить USB power management отдельных HID",
+        "detail":  "Устранить пробуждение/отключение проблемного HID. Конкретный USB-HID с воспроизводимым idle lag; права admin. Не все устройства имеют этот флажок; массовая запись в Enum\\USB запрещена.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  63,
+        "title":  "Подключить мышь напрямую к контроллеру USB",
+        "detail":  "Исключить нестабильный hub/KVM/док. Физическое действие, программно не выполнить. Проблемы не на всех USB хабах.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  64,
+        "title":  "Отдельный USB контроллер для устройства с DPC проблемой",
+        "detail":  "Снять contention конкретного USB контроллера. Только для подтверждённой проблемы драйвера/контроллера. Не обещать измеримый gain без диагностики.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  65,
+        "title":  "Стабилизировать Bluetooth input или перейти на кабель",
+        "detail":  "Убрать radio interference/retransmit. Для Bluetooth mouse/controller. Проводное не всегда быстрее по latency у всех моделей.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  66,
+        "title":  "Отключить Xbox Game Bar hotkey, если перехватывает ввод",
+        "detail":  "Исключить случайный overlay Win+G. Win10/11, UI различается. Не вмешиваться в низкоуровневые hotkey registry hacks.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  67,
+        "title":  "Включить Receive Side Scaling (RSS)",
+        "detail":  "Распределение receive processing между CPU. Только поддерживаемая физическая NIC; на Wi-Fi/виртуальных не всегда доступно. Лучше при высокой сетевой нагрузке; прямое снижение game ping не гарантировано.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  68,
+        "title":  "Включить глобальный TCP RSS",
+        "detail":  "Не выключать распределение TCP receive processing. Win10/11; admin. Это TCP throughput / CPU, не UDP ping.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  69,
+        "title":  "TCP Receive Autotuning = normal",
+        "detail":  "Не ограничивать TCP receive window. Win10/11; admin. Ускоряет TCP transfer при misconfig; не снижает UDP ping напрямую.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  70,
+        "title":  "Interrupt Moderation = Disabled на целевой NIC",
+        "detail":  "Сокращение NIC interrupt coalescing latency. Совместимая Ethernet NIC, поддержка драйвера; обрыв сети при restart. Больше CPU/interrupt load, может ухудшить 1% lows; мерить jitter/p99 и DPC.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  71,
+        "title":  "EEE / Energy Efficient Ethernet Off",
+        "detail":  "Убрать LPI переходы Ethernet. Ethernet driver supporting EEE; названия/значения драйверо-зависимы. На некоторых NIC не поддерживается, может повлиять на расход энергии.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  72,
+        "title":  "Power Saving Mode NIC Off",
+        "detail":  "Устранить aggressive sleep сетевого интерфейса. NIC driver exposes power management; сетевая пауза, ноутбук нагреется. Отключает несколько отдельных NIC power функций; рекомендовать точечный выбор.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  73,
+        "title":  "Receive Segment Coalescing (RSC) Off",
+        "detail":  "Снизить receive coalescing в отдельных network workloads. Только адаптеры с RSC; в других NIC отсутствует. Может уменьшить throughput и увеличить CPU; для UDP гейминга часто бесполезно.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  74,
+        "title":  "Large Send Offload (LSO) Off",
+        "detail":  "Проверить влияние NIC TCP segmentation offload. Для NIC, где драйвер показывает LSO. Относится к TCP, может ухудшить throughput и CPU. Нет убедительного универсального FPS эффекта.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  75,
+        "title":  "Checksum Offload оставить включённым",
+        "detail":  "Избежать лишней CPU checksum обработки. Если поддерживает адаптер; прежде чем менять, сравнить выгоду. Диагностическая коррекция ранее отключённого offload; не панацея.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  76,
+        "title":  "Flow Control Off для A/B",
+        "detail":  "Исключить Ethernet PAUSE frames как гипотезу latency. Только если драйвер раскрывает standardized property. Может увеличить drops и retransmits; при сетевой нагрузке часто хуже.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  77,
+        "title":  "Jumbo Packet / Jumbo Frames = Disabled 1500 MTU",
+        "detail":  "Избегать jumbo mismatch в домашнем интернете. Только когда jumbo frames были включены; WAN обычно 1500 MTU. Не ускоряет ping, предотвращает проблемы несовместимой сети.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  78,
+        "title":  "MTU подобрать по PMTUD",
+        "detail":  "Предотвратить фрагментацию/blackhole в туннелях. Не менять без PMTUD теста и информации о WAN/туннеле. Нет магического MTU для всех; неверный MTU ломает соединения.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  79,
+        "title":  "Сбросить Winsock при сетевых сбоях",
+        "detail":  "Исправление повреждённого Winsock catalog. Только при диагностированном повреждении сети; перезагрузка. Это repair, не ping tweak.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  80,
+        "title":  "Сбросить TCP/IP при сетевых сбоях",
+        "detail":  "Исправить некорректный stack config. Только ремонт; требует заранее снять адреса, маршруты, static settings. Может лишить доступа к сети.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  81,
+        "title":  "Flush DNS cache",
+        "detail":  "Очистить поврежденный локальный DNS cache. Win10/11; пользователь. Не уменьшает реальный ping до игрового сервера после резолвинга.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  82,
+        "title":  "Выбрать DNS резолвер per NIC",
+        "detail":  "Уменьшить задержки DNS-resolve, НЕ game RTT. Не применяйте слепо на AD/VPN/фильтрующем DNS. DNS обычно не меняет ping уже установленного игрового UDP соединения.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  83,
+        "title":  "InterfaceMetric вручную",
+        "detail":  "Выбрать предпочтительное подключение Ethernet, а не Wi-Fi. Два активных интерфейса; VPN и маршруты требуют проверки. Не сокращает RTT; неправильный priority ломает VPN.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  84,
+        "title":  "Отключить Wi-Fi в пользу Ethernet",
+        "detail":  "Снизить contention/jitter на нестабильном Wi-Fi. Наличие действующего проводного подключения, избегать удаленного запуска. Часто полезнее registry «ping tweaks», но сильно зависит от сети.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  85,
+        "title":  "QoS DSCP mark для игры (только управляемая сеть)",
+        "detail":  "Приоритизация в доверенной локальной сети. Только согласованная QoS-сеть; не использовать DSCP=46 как универсальное чудо. Провайдеры/роутеры могут обнулить DSCP; классификация не гарантирует ping.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  86,
+        "title":  "TcpAckFrequency=1 (только TCP game)",
+        "detail":  "Отключить delayed ACK на конкретном TCP интерфейсе. Win10/11; HKLM — администратор, HKCU — пользователь. НЕ применять ко всем интерфейсам, большинство сетевых игр — UDP. В новых Windows может игнорироваться; GUID подставить точно, restore snapshot.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  87,
+        "title":  "TCPNoDelay=1 (только TCP game)",
+        "detail":  "Попытка отключить Nagle на TCP-трафике приложения/интерфейса. Win10/11; HKLM — администратор, HKCU — пользователь. Игра часто сама задаёт TCP_NODELAY; NIC_GUID вычисляется из PnP/interface mapping. Для UDP неприменимо.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  88,
+        "title":  "TcpDelAckTicks=0 legacy",
+        "detail":  "Legacy hack задержки ACK. Win10/11; HKLM — администратор, HKCU — пользователь. Документация старых выпусков, в современных Win10/11 эффекта может не быть. Не применять автоматически.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  89,
+        "title":  "TCP Congestion Provider CTCP/CUBIC A/B",
+        "detail":  "Подбор congestion control для длительных TCP transfer. Возможность менять provider зависит от версии/шаблона. Для UDP игр не имеет прямого отношения к ping.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  90,
+        "title":  "Проверить bufferbloat/SQM на роутере",
+        "detail":  "Снизить RTT/jitter при загрузке сети. Роутер и доступ админа; настройка внешняя. Обычно более результативно для ping под нагрузкой, чем TcpAckFrequency.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  91,
+        "title":  "Выбор ближайшего игрового сервера/региона",
+        "detail":  "Меньше физический RTT. От игры и географии. Самый существенный фактор ping, не системный registry tweak.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  92,
+        "title":  "Выключить VPN/proxy во время игр при неблагоприятном маршруте",
+        "detail":  "Избежать ненужного tunnel overhead/маршрута. Корпоративная сеть/игры могут требовать VPN. VPN иногда УЛУЧШАЕТ маршрут; A/B обязателен.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  93,
+        "title":  "Отключить лишние startup apps через штатный механизм",
+        "detail":  "Снизить конкурирующие процессы, память и disk IO. Win10/11; держать в белом списке audio, GPU, anti-cheat, accessibility, security. Часто полезно на слабых ПК; не «все службы off».",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  94,
+        "title":  "Остановить OneDrive sync на время игры",
+        "detail":  "Снизить фоновые file IO/network. Win10/11, OneDrive installed; файл может находиться в Program Files. Риск незавершённой синхронизации; не удалять файлы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  95,
+        "title":  "Отключить Windows Search индексирование целевых папок",
+        "detail":  "Уменьшить search crawl IO во время игры. Лучше folder exclusion, чем отключение службы. Влияет только при активном индексировании.",
+        "rp":  true
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  96,
+        "title":  "Отключить Windows Search (WSearch)",
+        "detail":  "Убрать службу индексирования, если реально грузит диск. Только если функция/драйвер/игра не требуют этой службы. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  true
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  97,
+        "title":  "Отключить SysMain",
+        "detail":  "Проверить, вызывает ли prefetch/readahead stutter на HDD. Только если функция/драйвер/игра не требуют этой службы. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  true
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  98,
+        "title":  "Отключить Connected User Experiences (DiagTrack)",
+        "detail":  "Убрать часть диагностической telemetry. Только если функция/драйвер/игра не требуют этой службы. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  true
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  99,
+        "title":  "Отключить Windows Error Reporting (WerSvc)",
+        "detail":  "Не собирать crash reports в игровой сессии. Только если функция/драйвер/игра не требуют этой службы. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  100,
+        "title":  "Отключить Downloaded Maps Manager",
+        "detail":  "Не обновлять офлайн-карты. Только если функция/драйвер/игра не требуют этой службы. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  101,
+        "title":  "Отключить Print Spooler если нет печати",
+        "detail":  "Убрать службу печати. Нет принтера, PDF-принтера/печати; возможна потеря функции печати. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  102,
+        "title":  "Отключить Fax",
+        "detail":  "Убрать legacy fax service. Только если служба существует и факс не нужен. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  103,
+        "title":  "Отключить Bluetooth Support Service",
+        "detail":  "Нет Bluetooth, уменьшается набор фоновых компонентов. Если нет BT клавиатуры/мыши/гарнитуры/контроллера. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  104,
+        "title":  "Отключить Xbox Live Auth Manager",
+        "detail":  "Избавиться от Xbox live services при полном отказе Xbox/Game Pass. ТОЛЬКО если Xbox/Game Pass/MS Store authentication не используется. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  105,
+        "title":  "Отключить Xbox Live Game Save",
+        "detail":  "Убрать cloud save service. ТОЛЬКО если не используются Xbox/Game Pass saves. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  106,
+        "title":  "Отключить Xbox Live Networking Service",
+        "detail":  "Убрать Xbox networking. ТОЛЬКО если Xbox multiplayer/services не используются. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  107,
+        "title":  "Отключить Xbox Accessory Management",
+        "detail":  "Убрать поддержку отдельных Xbox аксессуаров. Только если Xbox controllers/accessories и gamepad services не нужны. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  108,
+        "title":  "Отключить Touch Keyboard and Handwriting Panel",
+        "detail":  "Убрать touch/pen service на десктопе. Если нет сенсора/стилуса/экранной клавиатуры. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  109,
+        "title":  "Отключить Windows Biometric Service",
+        "detail":  "Убрать Windows Hello biometrics service. Если нет biometrics/Windows Hello; вход может перестать работать. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  110,
+        "title":  "Отключить Windows Media Player Network Sharing",
+        "detail":  "Отключить media library network sharing. Если установлен legacy Windows Media Player и медиашаринг не нужен. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  111,
+        "title":  "Отключить Remote Registry",
+        "detail":  "Убрать удалённую модификацию реестра. На обычном домашнем ПК служба чаще уже выключена. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  112,
+        "title":  "Отключить Retail Demo Service",
+        "detail":  "Убрать демо-режим магазина. Если служба присутствует; не gaming tweak. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  113,
+        "title":  "Отключить Geolocation Service",
+        "detail":  "Убрать службы геолокации. Если приложения не зависят от Location API; чаще нет FPS-эффекта. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  114,
+        "title":  "Отключить Sensor Service",
+        "detail":  "Убрать сенсоры ориентации на обычном desktop. Не для планшета/ноутбука с датчиками. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  115,
+        "title":  "Отключить Smart Card",
+        "detail":  "Не поддерживать смарт-карты. Если нет корпоративной/электронной подписи и карт. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  116,
+        "title":  "Отключить Windows Insider Service",
+        "detail":  "Отключить экспериментальные Insider polling features. Только если нет участия в Windows Insider. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  117,
+        "title":  "Отключить Phone Service",
+        "detail":  "Убрать телефонные интеграции. Если Phone Link/телефонные устройства не используются. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  118,
+        "title":  "Отключить Windows Image Acquisition",
+        "detail":  "Убрать scanner/camera acquisition service. Только если сканеры/часть камер не используются. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  119,
+        "title":  "Отключить Windows Mobile Hotspot",
+        "detail":  "Убрать Internet Connection Sharing. Только если mobile hotspot не используется. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  120,
+        "title":  "Отключить Offline Files",
+        "detail":  "Не обслуживать офлайн-файлы сетевого диска. Отдельные редакции; не для корпоративных redirect folders. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  121,
+        "title":  "Отключить Distributed Link Tracking Client",
+        "detail":  "Не поддерживать distributed NTFS shortcuts. Если реально служба есть; negligible performance impact. Влияние на FPS только при измеренной фоновой активности. Сервис может быть защищён и не измениться; ошибки фиксировать.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  122,
+        "title":  "Отключить Compatibility Appraiser task",
+        "detail":  "Убрать периодический compatibility scan. Win10/11; сначала проверять наличие задачи. Может быть защищена ОС. \\Microsoft\\Windows\\Application Experience\\Microsoft Compatibility Appraiser. Снижает лишь реальную периодическую активность; не гарантирует FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  123,
+        "title":  "Отключить ProgramDataUpdater",
+        "detail":  "Убрать telemetry/program inventory task. Win10/11; сначала проверять наличие задачи. Может быть защищена ОС. \\Microsoft\\Windows\\Application Experience\\ProgramDataUpdater. Снижает лишь реальную периодическую активность; не гарантирует FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  124,
+        "title":  "Отключить Customer Experience Consolidator",
+        "detail":  "Убрать CEIP data task. Win10/11; сначала проверять наличие задачи. Может быть защищена ОС. \\Microsoft\\Windows\\Customer Experience Improvement Program\\Consolidator. Снижает лишь реальную периодическую активность; не гарантирует FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  125,
+        "title":  "Отключить USB CEIP collector",
+        "detail":  "Убрать telemetry по USB. Win10/11; сначала проверять наличие задачи. Может быть защищена ОС. \\Microsoft\\Windows\\Customer Experience Improvement Program\\UsbCeip. Снижает лишь реальную периодическую активность; не гарантирует FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  126,
+        "title":  "Отключить Windows Error Reporting QueueReporting",
+        "detail":  "Убрать background upload reports. Win10/11; сначала проверять наличие задачи. Может быть защищена ОС. \\Microsoft\\Windows\\Windows Error Reporting\\QueueReporting. Снижает лишь реальную периодическую активность; не гарантирует FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  127,
+        "title":  "Отключить MapsUpdateTask",
+        "detail":  "Убрать scheduled update офлайн-карт. Win10/11; сначала проверять наличие задачи. Может быть защищена ОС. \\Microsoft\\Windows\\Maps\\MapsUpdateTask. Снижает лишь реальную периодическую активность; не гарантирует FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  128,
+        "title":  "Отключить scheduled WinSAT benchmark",
+        "detail":  "Не запускать индекс производительности Windows фоном. Win10/11; сначала проверять наличие задачи. Может быть защищена ОС. \\Microsoft\\Windows\\Maintenance\\WinSAT. Снижает лишь реальную периодическую активность; не гарантирует FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  129,
+        "title":  "Отключить DiskDiagnosticDataCollector",
+        "detail":  "Убрать дополнительную диагностику дисков. Win10/11; сначала проверять наличие задачи. Может быть защищена ОС. \\Microsoft\\Windows\\DiskDiagnostic\\Microsoft-Windows-DiskDiagnosticDataCollector. Снижает лишь реальную периодическую активность; не гарантирует FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  130,
+        "title":  "Удалить AppX: Clipchamp",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Clipchamp.Clipchamp. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  131,
+        "title":  "Удалить AppX: Новости Microsoft",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.BingNews. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  132,
+        "title":  "Удалить AppX: Погода Microsoft",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.BingWeather. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  133,
+        "title":  "Удалить AppX: Get Help",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.GetHelp. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  134,
+        "title":  "Удалить AppX: Get Started",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.Getstarted. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  135,
+        "title":  "Удалить AppX: Windows Feedback Hub",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.WindowsFeedbackHub. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  136,
+        "title":  "Удалить AppX: People",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.People. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  137,
+        "title":  "Удалить AppX: Phone Link",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.YourPhone. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  138,
+        "title":  "Удалить AppX: Microsoft To Do",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.Todos. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  139,
+        "title":  "Удалить AppX: Solitaire Collection",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.MicrosoftSolitaireCollection. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  140,
+        "title":  "Удалить AppX: Windows Maps",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.WindowsMaps. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  141,
+        "title":  "Удалить AppX: Microsoft Movies \u0026 TV",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.ZuneVideo. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  142,
+        "title":  "Удалить AppX: Groove Music",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.ZuneMusic. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  143,
+        "title":  "Удалить AppX: Microsoft 3D Viewer",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.Microsoft3DViewer. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  144,
+        "title":  "Удалить AppX: Mixed Reality Portal",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.MixedReality.Portal. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  145,
+        "title":  "Удалить AppX: Microsoft Paint 3D",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.MSPaint. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  146,
+        "title":  "Удалить AppX: Microsoft Xbox Game Bar Overlay",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.XboxGamingOverlay. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  147,
+        "title":  "Удалить AppX: Xbox Game Overlay legacy",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.XboxGameOverlay. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  148,
+        "title":  "Удалить AppX: Xbox TCUI",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.Xbox.TCUI. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  149,
+        "title":  "Удалить AppX: Xbox Identity Provider",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.XboxIdentityProvider. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  150,
+        "title":  "Удалить AppX: Xbox Gaming App",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.GamingApp. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  151,
+        "title":  "Удалить AppX: Quick Assist",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. MicrosoftCorporationII.QuickAssist. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  152,
+        "title":  "Удалить AppX: Microsoft Teams consumer",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. MSTeams. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  153,
+        "title":  "Удалить AppX: Cortana legacy",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.549981C3F5F10. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  154,
+        "title":  "Удалить AppX: Microsoft Family",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. MicrosoftCorporationII.MicrosoftFamily. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  155,
+        "title":  "Удалить AppX: Microsoft OneNote UWP",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.Office.OneNote. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  156,
+        "title":  "Удалить AppX: Microsoft Whiteboard",
+        "detail":  "Удаление неиспользуемого предустановленного UWP для уменьшения фоновых компонентов/занятого места. Win10/11; удалять лишь если пакет найден. Некоторые пакеты — зависимости, удаление нельзя предлагать без проверки. Microsoft.Whiteboard. Чаще debloat, а не прямой FPS boost; иногда затрагивает игровые сервисы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  157,
+        "title":  "Удалить provisioned AppX из будущих профилей",
+        "detail":  "Не устанавливать ненужный UWP новым пользователям. Win10/11; *не* удалять Microsoft.VCLibs, Store, App Installer, WinUI, Framework, Xbox dependencies без dependency graph. Именно provisioning, не удаление AppX у текущего пользователя.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  158,
+        "title":  "Delivery Optimization без P2P (HTTP only)",
+        "detail":  "Не расходовать upload/bandwidth на peer updates. Win10/11; HKLM — администратор, HKCU — пользователь. 0 = HTTP-only, no peer sharing; Windows Update остаётся включён. Для специальных сборок есть 99.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  159,
+        "title":  "Delivery Optimization Simple Mode 99",
+        "detail":  "Убрать P2P и DO cloud service. Win10/11; HKLM — администратор, HKCU — пользователь. Microsoft documented для отдельных Windows, проверить версию/edition; изменения способа доставки обновлений.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  160,
+        "title":  "Windows Update active hours",
+        "detail":  "Не допускать перезагрузки во время игрового времени. Домашние редакции/managed endpoint могут переопределять политику. Не повышает FPS, предотвращает рестарты.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  161,
+        "title":  "Временно приостановить собственные downloads на игровую сессию",
+        "detail":  "Убрать конкуренцию за пропускную способность. Когда наблюдается packet loss/jitter из-за download. Зависит от bufferbloat/router queue.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  162,
+        "title":  "Defender Performance Analyzer",
+        "detail":  "Найти реально дорогие AV сканирования, не отключая защиту. На сборках с модулем DefenderPerformance; требуются admin. Не добавлять blanket exclusions для Games/Downloads/System32.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  163,
+        "title":  "Defender: узкие исключения только после подтверждения",
+        "detail":  "Снизить активность сканирования конкретного доверенного объекта. Снижение защиты; никогда не исключать весь диск/Downloads/Windows/SteamLibrary автоматически. Security trade-off, не default; особенно опасно при modding и anti-cheat.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  164,
+        "title":  "TRIM на SSD включён",
+        "detail":  "Поддерживать flash storage performance. Win10/11; только если раньше TRIM был ошибочно выключен. Значение показывает поддержку NTFS/ReFS; не мгновенный FPS boost.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  165,
+        "title":  "ReTrim SSD средствами Windows",
+        "detail":  "Поддерживать SSD garbage collection. Для SSD с TRIM; периодическое обслуживание, не в игровой сессии. На большинстве ПК Windows уже запускает schedule optimize.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  166,
+        "title":  "Дефрагментировать именно HDD",
+        "detail":  "Снизить seek time на механическом диске. Только HDD, не принудительный дефраг SSD. Может улучшить IO на фрагментированном HDD, не ping.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  167,
+        "title":  "Отключить NTFS Last Access Updates",
+        "detail":  "Снизить metadata writes в специфических I/O сценариях. Win10/11; значения 0..3 имеют system/user managed semantics; не перезаписывать политику без проверки. Система часто уже оптимально управляет last-access. Незначительный эффект.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  168,
+        "title":  "Отключить 8.3 short file names (только новые файлы)",
+        "detail":  "Снизить NTFS namespace overhead. Совместимость с legacy installers/программами; существующие имена не удаляются этой командой. Для игр обычно не даёт измеримого FPS; не default.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  169,
+        "title":  "Снизить стартовый overhead приложений в автозагрузке",
+        "detail":  "Уменьшить IO/RAM. Не выключать security/anti-cheat/peripheral drivers. Реальный эффект зависит от установленного ПО.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  170,
+        "title":  "Отключить Memory Compression только для измерения",
+        "detail":  "Сравнить CPU cost of compression vs pressure paging. Win10/11; только на ПК с избытком RAM и измеренным compression cost. Обычно memory compression полезна; отключение может ухудшить stutter.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  171,
+        "title":  "Pagefile system-managed",
+        "detail":  "Избежать out-of-memory / hard faults. Win10/11; system managed обычно правильнее, чем disable. Это исправление плохого твика: отключение pagefile может ломать игры.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  172,
+        "title":  "Фиксировать достаточный свободный объём SSD",
+        "detail":  "Избежать write throttling, full disk stalls. SSD; не чистить shader cache бессистемно. Не reg/bat magic; помогает при дисковом дефиците.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  173,
+        "title":  "Проверить реальные ошибки Windows drive/FS",
+        "detail":  "Устранить disk stalls от проблем файловой системы. Win10/11; если признаки дисковых ошибок. Некоторые errors требуют замены диска, не Windows-tweak.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  174,
+        "title":  "SystemResponsiveness = 10 (MMCSS A/B)",
+        "detail":  "Ограничить резервирование времени для неклассных задач. Win10/11; HKLM — администратор, HKCU — пользователь. Обычно 20; 0 округляется/особая обработка. Game priority может НЕ улучшиться. Reboot.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  175,
+        "title":  "NetworkThrottlingIndex = ffffffff",
+        "detail":  "Попытка отключить multimedia network throttling. Win10/11; HKLM — администратор, HKCU — пользователь. Legacy tweak, нет оснований рекомендовать всем; на новых Win может игнорироваться. Сетевые/audio workloads проверить.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  176,
+        "title":  "Games MMCSS GPU Priority",
+        "detail":  "Games/GPU Priority входит в исходный REG. По документации Microsoft MMCSS сейчас не использует это поле. Изменение числа не подтверждает ускорение GPU.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  177,
+        "title":  "Games MMCSS Priority = 6",
+        "detail":  "Попытка изменить MMCSS profile для игр. Win10/11; HKLM — администратор, HKCU — пользователь. По документации допустимые приоритеты ограничены и есть security/compatibility tradeoffs.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  178,
+        "title":  "Games MMCSS Scheduling Category = High",
+        "detail":  "Установить high multimedia scheduling class. Win10/11; HKLM — администратор, HKCU — пользователь. Может повлиять на audio scheduling; не mass apply.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  179,
+        "title":  "Win32PrioritySeparation = 0x26",
+        "detail":  "Изменить foreground quantum policy (legacy). Win10/11; HKLM — администратор, HKCU — пользователь. Значение десятичное 38=0x26, исторический миф; значения и эффекты менялись, нужен A/B.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  180,
+        "title":  "MouseDataQueueSize (legacy)",
+        "detail":  "Проверить влияние класса очереди mouse packets. Win10/11; HKLM — администратор, HKCU — пользователь. Риск потери input при переполнении, без подтверждённого снижения задержки; не включать в default.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  181,
+        "title":  "KeyboardDataQueueSize (legacy)",
+        "detail":  "Проверить очередь keyboard packets. Win10/11; HKLM — администратор, HKCU — пользователь. Риск потери событий клавиатуры; не дефолт.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  182,
+        "title":  "HPET useplatformclock (отладка)",
+        "detail":  "Сравнить QPC hardware platform clock, НЕ типовая оптимизация. Win10/11; admin; reboot; предварительный bcdedit /export \u003cfile\u003e. Может существенно УХУДШИТЬ latency; Windows сама выбирает источник QPC.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  183,
+        "title":  "Возврат HPET к системному default",
+        "detail":  "Убрать ранее навязанный useplatformclock. Если найден forced useplatformclock. Ремедиация некорректного legacy твику.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  184,
+        "title":  "DisableDynamicTick (эксперимент)",
+        "detail":  "Изменить поведение idle periodic ticks. Win10/11; admin; reboot; backup BCD. Отладочный switch; нет доказательств общего FPS boost.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  185,
+        "title":  "useplatformtick (эксперимент)",
+        "detail":  "Принудительно platform tick source. Win10/11; admin; reboot. Может повысить overhead; не запускать по умолчанию.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  186,
+        "title":  "TSC Sync Policy эксперимент",
+        "detail":  "Изменить политику синхронизации счётчиков TSC. Win10/11; admin; reboot; риск тайминга. Только подтверждённые проблемы timekeeping/virtualization, не «input lag boost».",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  187,
+        "title":  "Timer Resolution 1 ms для собственного процесса",
+        "detail":  "Изменить точность ожиданий API вызывающего процесса. Win10 2004+ per-process semantics, Win11 occluded process limitation. Ожидания могут улучшиться, но CPU wakeups/energy растут; effect on game not guaranteed.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  188,
+        "title":  "GlobalTimerResolutionRequests (Win11 диагностический)",
+        "detail":  "Проверить compatibility mode запросов timer resolution. Win10/11; HKLM — администратор, HKCU — пользователь. Недокументированный глобальный switch, зависит от билда, может игнорироваться. Не mass apply.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  189,
+        "title":  "Режим MSI для одного PCIe устройства (не массово)",
+        "detail":  "Переключить interrupt delivery при поддержке драйвера. GPU/NIC/USB individual; admin, reboot; отсутствие hardware support -\u003e NO APPLY. Слепой MSI forcing может сделать устройство/Windows неработоспособным.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  190,
+        "title":  "MessageNumberLimit MSI-X вручную (не рекомендуется)",
+        "detail":  "Регулировать количество interrupt messages. Драйвер и MSI-X hardware должны подтверждать допустимые vectors. Ошибочный лимит векторов вызывает потерю работоспособности устройства.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  191,
+        "title":  "Interrupt Affinity Policy для одного устройства",
+        "detail":  "Привязать ISR/DPC к конкретным CPU при подтвержденном contention. Только индивидуальное driver tuning после ETW. Может ухудшить jitter и сломать CPU topology / hybrid scheduling.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  192,
+        "title":  "Отключить VBS / HVCI (security trade-off)",
+        "detail":  "Убрать возможные расходы virtualized code integrity. Windows 10/11; может быть нужен Hyper-V/WSL/anti-cheat/Credential Guard. Снижает защиту ядра/credential, на новых CPU gain может быть ничтожным.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  193,
+        "title":  "Выключить Hyper-V hypervisorlaunchtype (не для default)",
+        "detail":  "A/B virtualization overhead. Сломает WSL2, Sandbox, Docker/Hyper-V, VBS; reboot. Не гарантирует игровой прирост, риск безопасности/совместимости.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  194,
+        "title":  "Отключить CPU speculative mitigations (НЕ ИСПОЛЬЗОВАТЬ массово)",
+        "detail":  "Потенциальный overhead security mitigations. Высокий риск утечки секретов и компрометации; Win10/11. Отметить только как запрещённую массовую оптимизацию.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  195,
+        "title":  "Defender real-time protection Off (НЕ РЕКОМЕНДОВАТЬ)",
+        "detail":  "Отключение защитного сканера. Серьёзное снижение безопасности, иногда блокируется Tamper Protection. Типичный опасный твик кастомных образов, не сравнимый с безопасным performance tuning.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  196,
+        "title":  "Windows Update service Disabled (НЕ РЕКОМЕНДОВАТЬ)",
+        "detail":  "Запрет системных обновлений. Win10/11; поломка обновлений и CVE exposure. Отключение обновлений не гарантирует рост FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  197,
+        "title":  "Отключить Windows Defender Application Guard/Virtual Machine Platform если не используются",
+        "detail":  "Убрать необязательные компоненты виртуализации. Windows Feature optional capabilities; может сломать WSL2/Docker/VM. Снижение функций, прирост FPS не обещан.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  198,
+        "title":  "Включить XMP/EXPO память",
+        "detail":  "Повысить пропускную способность RAM/уменьшить memory latency. CPU/матплата/RAM должны поддерживать; разгон, возможны BSOD/ошибки. Один из реальных CPU-bound/1% lows performance факторов, если система стабильна.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  199,
+        "title":  "AMD Precision Boost Overdrive (PBO)",
+        "detail":  "Поднять power/boost limits AMD CPU. AMD Ryzen с поддержкой PBO, adequate cooling. Нестабильность/деградация при опасных настройках; гарантия зависит от производителя.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  200,
+        "title":  "AMD Curve Optimizer per-core",
+        "detail":  "Улучшить boost/efficiency через negative CO. AMD CPU с поддержкой CO. Большие отрицательные смещения могут ломать лёгкие нагрузки.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  201,
+        "title":  "Intel CPU PL1/PL2/Tau OEM tuning",
+        "detail":  "Убрать неправильные power limits при охлаждении. Поддерживаемые Intel CPU/OEM, thermal limits. Безопасность и стабильность важнее экстремальных Watt.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  202,
+        "title":  "Undervolt GPU для стабильного boost",
+        "detail":  "Снизить thermal throttling и шум при удержании частот. GPU, драйвер, охлаждение; пользователь подтверждает. Неуниверсально, ошибки GPU могут проявляться через часы.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  203,
+        "title":  "Настройка fan curve CPU/GPU",
+        "detail":  "Не допустить thermal throttling. Датчики/fan control поддерживаются. Выше шум; излишне холодный режим сам по себе не FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  204,
+        "title":  "Включить Resizable BAR / AMD SAM",
+        "detail":  "CPU имеет доступ к большему VRAM aperture. CPU/motherboard/GPU/BIOS должны поддерживать. Плюс/минус от игры; иногда требуется UEFI boot GPT.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  205,
+        "title":  "Обновить чипсетный драйвер с OEM",
+        "detail":  "Исправить CPPC/scheduler/power/USB glitches. Win10/11; совместимость с конкретным чипсетом. Важно для корректного scheduling, не обещает фикс FPS.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  206,
+        "title":  "Обновить/откатить GPU драйвер по A/B",
+        "detail":  "Исправить regressions и оптимизацию игры. NVIDIA/AMD/Intel GPU; перезагрузка. Новый driver не всегда быстрее старого; конкретные release notes.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  207,
+        "title":  "GPU driver minimal install (без оверлеев)",
+        "detail":  "Убрать nonessential vendor background apps. GPU OEM support; функциональность запись/OC может пропасть. Сравнить CPU overhead именно на ПК.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  208,
+        "title":  "BIOS/UEFI firmware update при исправленной DPC проблеме",
+        "detail":  "Микрокод/AGESA/USB стабильность. Точная motherboard/SKU, стабильное питание. Риск bricking, не автоматический FPS tweak.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  209,
+        "title":  "Проверить/исправить WHEA errors",
+        "detail":  "Устранить микростаттер из-за нестабильности OC. При наличии WHEA. Никакая оптимизация не компенсирует нестабильность памяти/CPU.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  210,
+        "title":  "Проверить реальную DPC/ISR проблему",
+        "detail":  "Найти драйвер-виновник stutter/audio drop. Windows Performance Toolkit, админ и свободное место. LatencyMon alone не равен click-to-photon input lag.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  211,
+        "title":  "Переключить NIC driver version, если конкретный NDIS DPC offender",
+        "detail":  "Устранить network adapter driver spikes. Только виновный адаптер и проверенная совместимость. Обновление драйвера при отсутствии проблемы может не помочь.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  212,
+        "title":  "Переключить audio driver, если есть DPC spike",
+        "detail":  "Устранить stutter от Audio/HD Audio драйвера. Реальная DPC/ISR issue; затрагивает звук. Недопустимо просто массово отключать audio services.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  213,
+        "title":  "Отключить неиспользуемый Wi-Fi/BT PnP device при DPC проблеме",
+        "detail":  "Исключить ISR от неиспользуемого radio устройства. Local physical console, confirm not used, never remote NIC. Может обрезать сеть, BT контроллеры.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  214,
+        "title":  "Игровой процесс: класс приоритета AboveNormal",
+        "detail":  "Сравнить foreground scheduling без опасного Realtime. Не пытаться обходить anti-cheat, некоторые игры запрещают изменение. Приоритет High/Realtime может создать audio/network starvation.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  215,
+        "title":  "Игра: Processor Affinity custom",
+        "detail":  "Тестирование P/E core assignment для узких игр. Только проверенные legacy игры и CPU topology; anti-cheat может запретить. Можно ухудшить scheduler и 1% lows, особенно 12th gen Intel+.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  216,
+        "title":  "Игровой процесс: Eco Mode OFF",
+        "detail":  "Убедиться, что игра не ограничена Windows Efficiency Mode. Win11, процесс с поддерживаемым control; может быть запрещено anti-cheat. Не путать с глобальным PowerThrottlingOff.",
+        "rp":  false
+    },
+    {
+        "source":  "Windows 10/11 · TXT",
+        "id":  217,
+        "title":  "Автоматическая фиксация игровых профилей настроек",
+        "detail":  "Не применить одинаковые настройки к разным играм. Не использовать injection/anti-cheat unsafe DLL hooks. Инфраструктура, а не отдельный FPS multiplier.",
+        "rp":  false
+    },
+    {
+        "source":  "Useful PingFix",
+        "id":  0,
+        "title":  "Профили TCP Optimizer",
+        "detail":  "Оба SPG задают параметры TCP и разгрузки сети, в том числе RSS, отключённую автонастройку окна, TTL 64 и MTU 1500. Часть записей относится к конкретному GUID адаптера. Для проверки RSS и настройки окна TCP есть отдельные карточки.",
+        "rp":  false
+    },
+    {
+        "source":  "Useful PingFix",
+        "id":  0,
+        "title":  "DNS, сетевой маршрут и адаптер",
+        "detail":  "В наборе есть DNSBench, Leatrix, GearUP и рекомендации по драйверу. DNS влияет на разрешение имени, маршрут и провайдер влияют на задержку до сервера. Restart PC.bat перезагружает ПК.",
+        "rp":  false
+    },
+    {
+        "source":  "USEFUL FREE v2",
+        "id":  0,
+        "title":  "Схема питания",
+        "detail":  "BAT копирует шаблон Ultimate Performance. Карточка Magnum также активирует копию и запоминает прежнюю схему.",
+        "rp":  false
+    },
+    {
+        "source":  "USEFUL FREE v2",
+        "id":  0,
+        "title":  "Реестр и планировщик",
+        "detail":  "Общий REG меняет параметры памяти, подкачки, MMCSS Games, полноэкранной оптимизации и энергосбережения. Одновременная запись затрудняет сравнение результатов по одному изменению.",
+        "rp":  false
+    },
+    {
+        "source":  "USEFUL FREE v2",
+        "id":  0,
+        "title":  "Xbox и фоновые службы",
+        "detail":  "Пакет меняет запуск служб Xbox. Отдельные карточки показывают, какая функция пропадёт, и сохраняют режим запуска для отката.",
+        "rp":  false
+    },
+    {
+        "source":  "USEFUL FREE v2",
+        "id":  0,
+        "title":  "NVIDIA и прерывания PCIe",
+        "detail":  "NIP содержит 71 запись в глобальном Base Profile. Среди них очередь кадров, VRR, VSync, кэш шейдеров, фильтрация текстур, питание и SLI. Preferred OpenGL GPU указывает на устройство автора. MSI Utility отдельно меняет режим прерываний PCIe.",
+        "rp":  false
+    },
+    {
+        "source":  "USEFUL FREE v2",
+        "id":  0,
+        "title":  "GTA V и системная очистка",
+        "detail":  "Конфиг в архиве задаёт 1280×1024 при 240 Гц. Карточка GTA V Legacy использует позднее присланный пресет 1920×1080 при 239 Гц и переносит название видеокарты из исходного файла. Скрипт очистки из архива отдельно удаляет журналы и кэш обновлений.",
+        "rp":  false
+    },
+    {
+        "source":  "USEFUL FREE v2",
+        "id":  0,
+        "title":  "Внешние инструменты",
+        "detail":  "В наборе есть AdwCleaner и загрузчик деблоатера. Содержимое удалённого скрипта может меняться независимо от архива.",
+        "rp":  false
+    },
+    {
+        "source":  "YUKEE FPSBOOST · APBX",
+        "id":  0,
+        "title":  "Памятка RP и службы",
+        "detail":  "В protected-services.yml заданы автоматический запуск для SysMain, DiagTrack и WSearch и ручной для PcaSvc. В каталоге есть четыре отдельные проверки.",
+        "rp":  true
+    },
+    {
+        "source":  "YUKEE FPSBOOST · APBX",
+        "id":  0,
+        "title":  "Индексирование",
+        "detail":  "Параметры RespectPowerModes и SetupCompletedSuccessfully меняют поведение индексирования. Отключение службы поиска затрагивает WSearch.",
+        "rp":  true
+    },
+    {
+        "source":  "YUKEE FPSBOOST · APBX",
+        "id":  0,
+        "title":  "Игровые и системные настройки",
+        "detail":  "В конфигурации есть захват Game DVR, парковка ядер, параметры мыши, прозрачность и панель задач. Их состояние можно проверить по отдельности в каталоге.",
+        "rp":  false
+    },
+    {
+        "source":  "YUKEE FPSBOOST · APBX",
+        "id":  0,
+        "title":  "Компоненты Windows",
+        "detail":  "Плейбук содержит действия для AppX, системных служб, компонентов защиты, активации и установки стороннего ПО. Их последствия выходят за пределы изменения игровой настройки.",
+        "rp":  false
+    },
+    {
+        "source":  "Еженедельный BAT",
+        "id":  0,
+        "title":  "Очистка кеша.bat",
+        "detail":  "Рекурсивно удаляет временные файлы, Prefetch, журналы Windows и содержимое SoftwareDistribution. После очистки Windows может заново загружать обновления и перестраивать кэши.",
+        "rp":  false
+    },
+    {
+        "source":  "AME Beta",
+        "id":  0,
+        "title":  "AME Wizard Beta 0.8.4",
+        "detail":  "Исполняемый файл Ameliorated служит движком для применения плейбуков. Набор изменений определяется выбранным APBX.",
+        "rp":  false
+    },
+    {
+        "source":  "CrystalCry",
+        "id":  0,
+        "title":  "Питание, GPU и отклик интерфейса",
+        "detail":  "На сайте перечислены схема питания, аппаратное планирование GPU, энергосбережение NVIDIA и визуальные эффекты. Для питания, HAGS и эффектов в Magnum есть отдельные реализации.",
+        "rp":  false
+    },
+    {
+        "source":  "CrystalCry",
+        "id":  0,
+        "title":  "Планировщик, таймеры и загрузка",
+        "detail":  "В описании упомянуты квант CPU, аппаратные таймеры и оформление загрузки. Точные значения и алгоритмы опубликованное описание не раскрывает.",
+        "rp":  false
+    },
+    {
+        "source":  "CrystalCry",
+        "id":  0,
+        "title":  "Кэш, службы и Recall",
+        "detail":  "Заявлены очистка памяти и кэша, настройка служб и отключение Recall. Доступность Recall зависит от сборки Windows 11 и оборудования. Удалённые снимки невозможно восстановить переключателем.",
+        "rp":  false
+    },
+    {
+        "source":  "Скриншоты",
+        "id":  0,
+        "title":  "Ultimate Performance",
+        "detail":  "Скрин показывает создание копии встроенного шаблона и её ручной выбор. В каталоге эти шаги объединены в одну операцию.",
+        "rp":  false
+    },
+    {
+        "source":  "Скриншоты",
+        "id":  0,
+        "title":  "Majestic / GTA5RP",
+        "detail":  "Присланная памятка для GTA 5 RP отмечает удаление или отключение SysMain, DiagTrack, WSearch и PcaSvc. Отметка Majestic / GTA5RP в каталоге отражает запрос пользователя. Формулировка официальных правил обоих проектов не подтверждена.",
+        "rp":  true
+    }
+]
