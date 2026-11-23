@@ -31,5 +31,5 @@ These rules apply across the repository. Read the README and the affected code b
 
 - Run `./pipelines/Build.ps1` and `./pipelines/Run-Test.ps1` on Windows with the .NET 8 SDK. GitHub Actions wrappers live in `.github/workflows/` and invoke the scripts in `pipelines/`.
 - Cover changed behavior with meaningful normal, edge, and failure cases when relevant. Use temporary directories, isolated volatile HKCU keys, and in-memory doubles in automated tests. Leave live Windows and game settings alone.
-- For UI changes, verify both languages and run the relevant items in [the manual smoke checklist](docs/TESTING.md). For real side-effect verification, use a disposable VM or separately authorized test machine and report what was actually verified.
+- For UI changes, verify the affected windows and interactions in both languages. For real side-effect verification, use a disposable VM or separately authorized test machine and report what was actually verified.
 - The distributable is the single EXE in `dist/`. Use `Publish.ps1` or the Build pipeline so previous output is replaced only after a successful publish.
