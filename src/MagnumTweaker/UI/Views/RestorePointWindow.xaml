@@ -16,8 +16,9 @@
         <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
       <DockPanel Margin="0,0,0,13">
-        <Button x:Name="CloseButton" DockPanel.Dock="Right" Width="34" Height="34" FontSize="21"
-                Content="×" Style="{StaticResource ChromeButton}" AutomationProperties.Name="{DynamicResource Close}"
+        <Button x:Name="CloseButton" DockPanel.Dock="Right" Height="34" VerticalAlignment="Center"
+                Style="{StaticResource ChromeButton}" ContentTemplate="{StaticResource CloseGlyph}"
+                ToolTip="{DynamicResource Close}" AutomationProperties.Name="{DynamicResource Close}"
                 shell:WindowChrome.IsHitTestVisibleInChrome="True" Click="Close_Click"/>
         <Border DockPanel.Dock="Left" Background="#18FFFFFF" BorderBrush="#28FFFFFF" BorderThickness="1"
                 Width="34" Height="34" CornerRadius="9" Margin="0,0,12,0">

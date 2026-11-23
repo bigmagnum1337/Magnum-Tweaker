@@ -12,7 +12,6 @@
   </shell:WindowChrome.WindowChrome>
 
   <Window.Resources>
-    <Geometry x:Key="MainCloseIcon">M1,1 L11,11 M11,1 L1,11</Geometry>
     <RadialGradientBrush x:Key="MainAmbientGlow" Center="0.5,0.48" GradientOrigin="0.5,0.48" RadiusX="0.5" RadiusY="0.5">
       <GradientStop Color="#46F5F5FF" Offset="0"/>
       <GradientStop Color="#25E7E7F5" Offset="0.54"/>
@@ -270,10 +269,8 @@
           <Button Style="{StaticResource ChromeButton}" ToolTip="{DynamicResource Maximize}" AutomationProperties.Name="{DynamicResource Maximize}" Click="Maximize_Click">
             <Path x:Name="MaximizeGlyph" Width="13" Height="13" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.2" Data="M 1,1 H 11 V 11 H 1 Z"/>
           </Button>
-          <Button Style="{StaticResource ChromeButton}" ToolTip="{DynamicResource Close}" AutomationProperties.Name="{DynamicResource Close}" Click="Close_Click">
-            <Path Width="13" Height="13" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
-                  StrokeThickness="1.2" Data="{StaticResource MainCloseIcon}"/>
-          </Button>
+          <Button Style="{StaticResource ChromeButton}" ContentTemplate="{StaticResource CloseGlyph}"
+                  ToolTip="{DynamicResource Close}" AutomationProperties.Name="{DynamicResource Close}" Click="Close_Click"/>
         </StackPanel>
 
         <Grid Grid.Row="1" Margin="0,6,18,0">
@@ -517,10 +514,8 @@
               <TextBlock Text="{DynamicResource Settings}" FontFamily="{StaticResource HeadingFont}" FontSize="19" FontWeight="Bold" VerticalAlignment="Center"/>
             </StackPanel>
             <Button x:Name="CloseSettingsButton" Style="{StaticResource ChromeButton}" Background="#1A1A1D" Height="34"
-                    HorizontalAlignment="Right" ToolTip="{DynamicResource Close}" AutomationProperties.Name="{DynamicResource Close}" Click="CloseSettings_Click">
-              <Path Width="13" Height="13" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
-                    StrokeThickness="1.2" Data="{StaticResource MainCloseIcon}"/>
-            </Button>
+                    HorizontalAlignment="Right" ContentTemplate="{StaticResource CloseGlyph}"
+                    ToolTip="{DynamicResource Close}" AutomationProperties.Name="{DynamicResource Close}" Click="CloseSettings_Click"/>
           </Grid>
           <TextBlock Text="{DynamicResource Language}" FontWeight="SemiBold" FontSize="14"/>
           <TextBlock Text="{DynamicResource LanguageDescription}" Foreground="{StaticResource MutedBrush}" Margin="0,6,0,12"/>
