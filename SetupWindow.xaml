@@ -9,7 +9,7 @@
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate>
-            <Border CornerRadius="6" BorderBrush="#FF1637" BorderThickness="1" IsHitTestVisible="False"/>
+            <Border CornerRadius="6" BorderBrush="#F5F5F7" BorderThickness="1" IsHitTestVisible="False"/>
           </ControlTemplate>
         </Setter.Value>
       </Setter>

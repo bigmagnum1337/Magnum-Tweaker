@@ -22,6 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Resource Include="Assets\Brand*.png"/>
+    <EmbeddedResource Include="Assets\Magnum.wav" LogicalName="MagnumTweaker.Magnum.wav"/>
     <EmbeddedResource Include="Assets\GtaPreset.xml" LogicalName="MagnumTweaker.GtaPreset.xml"/>
     <EmbeddedResource Include="Assets\Reference.json" LogicalName="MagnumTweaker.Reference.json"/>
     <Resource Include="Assets\MagnumTweaker.ico"/>

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -49,9 +49,9 @@ internal static class GtaGraphics
             return XNode.DeepEquals(Parse(stream).Root, preset.Root);
         }
         return new Tweak {
-            Id = "gta-preset", Category = "GTA V", Title = "Графический пресет GTA V Legacy",
-            EnglishTitle = "GTA V Legacy graphics preset",
-            Description = "Подбирает детализацию и эффекты для баланса нагрузки CPU и GPU. Пресет задаёт 1920 × 1080 и 239 Гц, сохраняет название вашей видеокарты. Откат возвращает исходный файл.",
+            Id = "gta-preset", Category = "GTA V", Title = "GTA V Settings",
+            EnglishTitle = "GTA V Settings",
+            Description = "Подбирает детализацию и эффекты для баланса нагрузки CPU и GPU. Пресет задаёт 1920 × 1080 и 239 Гц и автоматически переносит название вашей видеокарты из текущего settings.xml. Откат возвращает исходный файл.",
             EnglishDescription = "Adjusts detail and effects to balance CPU and GPU load. The preset sets 1920 × 1080 at 239 Hz and retains your GPU name. Restore recovers the original file.",
             Hardware = "GTA V Legacy", Impact = "GPU", Mechanism = path,
             Risk = TweakRisk.Moderate, RequiresAdmin = false,

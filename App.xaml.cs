@@ -14,8 +14,7 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        EventManager.RegisterClassHandler(typeof(ButtonBase), UIElement.MouseEnterEvent, new MouseEventHandler(Control_MouseEnter));
-        EventManager.RegisterClassHandler(typeof(ListBoxItem), UIElement.MouseEnterEvent, new MouseEventHandler(Control_MouseEnter));
+        EventManager.RegisterClassHandler(typeof(ButtonBase), ButtonBase.ClickEvent, new RoutedEventHandler((_, _) => PlaySound(InterfaceSound.Click)));
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
         var splash = new StartupWindow();
         WindowTransitions.PrepareEntrance(splash);
@@ -71,6 +70,7 @@ public partial class App : Application
         Preferences.WindowsProfile = windowsVersion;
         var window = new MainWindow(windowsVersion, catalog);
         MainWindow = window;
+        window.ContentRendered += (_, _) => PlaySound(InterfaceSound.Startup);
         window.Show();
         ShutdownMode = ShutdownMode.OnMainWindowClose;
     }
@@ -87,11 +87,7 @@ public partial class App : Application
         }
     }
 
-    private void Control_MouseEnter(object sender, MouseEventArgs e)
-    {
-        if (sender is UIElement { IsEnabled: true, IsMouseOver: true })
-            _hoverSound.Play(Preferences.HoverVolume);
-    }
+    internal void PlaySound(InterfaceSound sound) => _hoverSound.Play(Preferences.HoverVolume, sound);
 
     protected override void OnExit(ExitEventArgs e)
     {

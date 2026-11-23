@@ -32,7 +32,7 @@
       </Border>
       <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,17,0,0">
         <Button x:Name="DeclineButton" Click="Close_Click" MinWidth="105"/>
-        <Button x:Name="AcceptButton" Margin="8,0,0,0" MinWidth="122" Background="{StaticResource AccentBrush}" Click="Accept_Click"/>
+        <Button x:Name="AcceptButton" Margin="8,0,0,0" MinWidth="122" Background="{StaticResource AccentBrush}" Foreground="#171719" Click="Accept_Click"/>
       </StackPanel>
     </Grid>
   </Border>

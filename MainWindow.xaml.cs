@@ -40,6 +40,19 @@ public partial class MainWindow : Window
         element.SetValue(property, value);
         target.BeginAnimation(property, animation);
     }
+    private SmoothScrollViewer? TweakScroll => TweaksList.Template?.FindName("PART_TweakScroll", TweaksList) as SmoothScrollViewer;
+    private IEnumerable<Tweak> PresetItems => _profileItems.Where(x => x.Risk == TweakRisk.Safe ||
+        x.Id is "gta-preset" or "game-config" or "taskbar-motion" or "tips" or "start-suggestions" or "widgets11" or "search-highlights" or "aero-peek" or "controller-bar");
+    private void UpdatePreset()
+    {
+        int applied = PresetItems.Count(t => t.State == TweakState.Applied);
+        int available = PresetItems.Count(t => t.CanApply);
+        int unavailable = PresetItems.Count() - applied - available;
+        PresetCounts.Text = UiLanguage.Text(
+            $"Применено {applied} · доступно {available} · недоступно {unavailable}",
+            $"{applied} applied · {available} available · {unavailable} unavailable");
+        PresetApply.IsEnabled = available != 0 && !_busy;
+    }
     private readonly TweakCatalog _catalog;
     private List<Tweak> _profileItems;
     private Tweak[] _visible = [];
@@ -77,6 +90,7 @@ public partial class MainWindow : Window
             new("Производительность", "M1,12 A6.5,6.5 0 0 1 14,12 M7.5,11 L11,6 M3,9 L4,9 M7.5,5 V6"),
             new("Сеть", "M1,5 Q7.5,0 14,5 M3,8 Q7.5,4 12,8 M5,11 Q7.5,8.5 10,11 M7,13 H8"),
             new("Отзывчивость", "M8,1 L2,8 H7 L6,14 L13,6 H8 Z"),
+            new("Готовые настройки", "M2,1 H12 V13 H2 Z M5,6 L7,8 L10,4"),
             new("GTA V", "M0,0 H5 L8,8 L11,0 H16 L9,13 H7 Z")
         };
         CategoryList.SelectedIndex = 0;
@@ -113,11 +127,14 @@ public partial class MainWindow : Window
         }
         UpdateSummary();
         StatusText.Text = UiLanguage.Text("Проверка завершена", "Check complete"); _busy = false;
+        UpdatePreset();
+        ((App)Application.Current).PlaySound(InterfaceSound.ScanComplete);
     }
 
     private void UpdateSummary()
     {
         _hasScanSummary = true;
+        UpdatePreset();
         int applied = _profileItems.Count(tweak => !tweak.ReadOnly && tweak.State == TweakState.Applied);
         int checkedCount = _profileItems.Count(tweak => tweak.State is not (TweakState.Unknown or TweakState.Checking));
         int unavailable = _profileItems.Count(tweak => tweak.State is TweakState.Unsupported or TweakState.Error);
@@ -132,34 +149,26 @@ public partial class MainWindow : Window
     {
         if ((sender as Button)?.Tag is Tweak tweak) await Execute(tweak, true);
     }
-    private async void CheckOne_Click(object sender, RoutedEventArgs e)
-    {
-        if (_busy || (sender as Button)?.Tag is not Tweak tweak) return;
-        _busy = true;
-        try
-        {
-            tweak.State = TweakState.Checking;
-            tweak.State = await ScanWindow.Inspect(tweak, CancellationToken.None);
-        }
-        catch { tweak.State = TweakState.Error; }
-        finally
-        {
-            _busy = false;
-            StatusText.Text = $"{tweak.DisplayTitle} · {tweak.StateText}";
-            UpdateSummary();
-        }
-    }
     private async void RestoreOne_Click(object sender, RoutedEventArgs e)
     {
         if ((sender as Button)?.Tag is Tweak tweak) await Execute(tweak, false);
     }
+    private void OpenPreset_Click(object sender, RoutedEventArgs e) =>
+        CategoryList.SelectedItem = CategoryList.Items.Cast<CategoryOption>().Single(x => x.Key == "Готовые настройки");
+
     private async void ApplySafe_Click(object sender, RoutedEventArgs e)
     {
         if (_busy) return;
-        if (!ConfirmAdmin(UiLanguage.Text("Будут применены все безопасные настройки. Продолжить?",
-            "Apply all tweaks in the safe preset?"))) return;
-        foreach (var tweak in _profileItems.Where(x => x.CanApply && x.State == TweakState.NotApplied && x.Risk == TweakRisk.Safe).ToArray()) await Execute(tweak, true, false);
-        await ScanAll();
+        var pending = PresetItems.Where(t => t.CanApply).ToArray();
+        if (pending.Length == 0 || !ConfirmAdmin(UiLanguage.Text(
+            $"Применить {pending.Length} настроек из игрового набора? Пресет GTA V использует 1920 × 1080 при 239 Гц.",
+            $"Apply {pending.Length} settings from the gaming preset? The GTA V preset uses 1920 × 1080 at 239 Hz."),
+            pending.Any(t => t.RequiresAdmin))) return;
+
+        foreach (var tweak in pending) await Execute(tweak, true, false);
+        UpdatePreset();
+        if (pending.All(t => t.State == TweakState.Applied))
+            ((App)Application.Current).PlaySound(InterfaceSound.Success);
     }
 
     private async Task Execute(Tweak tweak, bool apply, bool ask = true)
@@ -182,6 +191,7 @@ public partial class MainWindow : Window
             if (tweak.Id.StartsWith("ac-") || tweak.Id is "ultimate" or "high-performance")
                 foreach (var related in _profileItems.Where(x => x != tweak && (x.Id.StartsWith("ac-") || x.Id is "ultimate" or "high-performance")))
                     related.State = await ScanWindow.Inspect(related, CancellationToken.None);
+            if (highlight && ask) ((App)Application.Current).PlaySound(InterfaceSound.Success);
             if (highlight && tweak.State == TweakState.Applied && SystemParameters.ClientAreaAnimation)
                 _ = HighlightAppliedAsync(tweak);
             StatusText.Text = tweak.RequiresRestart
@@ -242,7 +252,10 @@ public partial class MainWindow : Window
 
         string category = (CategoryList.SelectedItem as CategoryOption)?.Key ?? AllTweaks;
         string query = SearchBox.Text.Trim();
-        var filtered = _profileItems.Where(x => (category == AllTweaks || x.Category == category) &&
+        bool preset = category == "Готовые настройки";
+        PresetPanel.Visibility = preset ? Visibility.Visible : Visibility.Collapsed;
+        TweaksList.Visibility = preset ? Visibility.Collapsed : Visibility.Visible;
+        var filtered = _profileItems.Where(x => !preset && (category == AllTweaks || x.Category == category) &&
             (!_statusFilter.HasValue || x.State == _statusFilter.Value) &&
             (!_riskFilter.HasValue || x.Risk == _riskFilter.Value) &&
             (query.Length == 0 || x.DisplayTitle.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
@@ -257,15 +270,15 @@ public partial class MainWindow : Window
         }).ToArray();
         if (resetScroll)
         {
-            TweakScroll.StopWheelAnimation();
-            TweakScroll.ScrollToTop();
+            TweakScroll?.StopWheelAnimation();
+            TweakScroll?.ScrollToTop();
         }
         if (!_visible.SequenceEqual(results))
         {
             _visible = results;
             TweaksList.ItemsSource = _visible;
         }
-        EmptyText.Visibility = _visible.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+        EmptyText.Visibility = !preset && _visible.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
         SectionTitle.Text = UiLanguage.Category(category);
     }
 
@@ -363,7 +376,7 @@ public partial class MainWindow : Window
 
         FilterButton.IsChecked = false;
         SortBox.IsDropDownOpen = false;
-        TweakScroll.StopWheelAnimation();
+        TweakScroll?.StopWheelAnimation();
         MainLayout.IsHitTestVisible = false;
         KeyboardNavigation.SetTabNavigation(MainLayout, KeyboardNavigationMode.None);
         MainLayout.Effect = new BlurEffect { Radius = 13, RenderingBias = RenderingBias.Performance };

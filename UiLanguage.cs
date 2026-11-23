@@ -19,13 +19,15 @@ internal static class UiLanguage
             ("OpenSetting", "Открыть параметры Windows", "Open Windows settings"),
             ("ShowTweak", "Показать в каталоге", "Show in catalog"),
             ("ProfileLabel", "Профиль Windows", "Windows profile"),
+            ("PresetTitle", "Игровой набор и GTA V", "Gaming preset and GTA V"),
+            ("PresetDescription", "Применяет обратимые настройки игр, интерфейса и фоновой активности, а при наличии GTA V Legacy — пресет 1920 × 1080 при 239 Гц. Исходные значения доступны для отката в карточках.", "Applies reversible gaming, interface and background settings, plus the 1920 × 1080 at 239 Hz preset when GTA V Legacy is available. Restore original values from the individual cards."),
             ("Details", "Описание твика", "Tweak details"),
             ("ToggleSidebar", "Свернуть или развернуть категории", "Collapse or expand categories"),
             ("Terms", "Пользовательское соглашение", "Terms of Use"),
             ("Language", "Язык", "Language"),
             ("LanguageDescription", "Язык меню, карточек и сообщений приложения", "Language for menus, tweak cards, and app messages"),
-            ("HoverVolume", "Звук наведения", "Hover sound"),
-            ("HoverVolumeDescription", "Передвиньте ползунок на 0%, чтобы выключить звук.", "Set the slider to 0% to mute hover sounds."),
+            ("HoverVolume", "Громкость интерфейса", "Interface volume"),
+            ("HoverVolumeDescription", "Передвиньте ползунок на 0%, чтобы выключить звук.", "Set the slider to 0% to mute interface sounds."),
             ("Minimize", "Свернуть", "Minimize"),
             ("Maximize", "Развернуть / восстановить", "Maximize / restore"),
             ("Close", "Закрыть", "Close"),
@@ -59,6 +61,7 @@ internal static class UiLanguage
 
     public static string Category(string category) => category switch
     {
+        "Готовые настройки" => Text(category, "Presets"),
         "Все твики" => Text(category, "All tweaks"),
         "FPS и игры" => Text(category, "FPS and gaming"),
         "Производительность" => Text(category, "Performance"),

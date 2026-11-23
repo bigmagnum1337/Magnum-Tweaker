@@ -5,7 +5,11 @@
   <Application.Resources>
     <SolidColorBrush x:Key="BackgroundBrush" Color="#080809"/>
     <SolidColorBrush x:Key="MutedBrush" Color="#AAAAAE"/>
-    <SolidColorBrush x:Key="AccentBrush" Color="#FF1637"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="#F5F5F7"/>
+    <SolidColorBrush x:Key="GlassEdge" Color="#65FFFFFF"/>
+    <LinearGradientBrush x:Key="GlassSurface" StartPoint="0,0" EndPoint="0.8,1">
+      <GradientStop Color="#303137" Offset="0"/><GradientStop Color="#141419" Offset="0.62"/><GradientStop Color="#101013" Offset="1"/>
+    </LinearGradientBrush>
     <FontFamily x:Key="InterfaceFont">Arial, Segoe UI</FontFamily>
 
     <Geometry x:Key="GearIcon">M7,0 H9 L9.5,2 L11,2.8 L13,2 L14.4,3.5 L13.6,5.3 L14.3,6.7 L16,7 V9 L14.2,9.4 L13.5,11 L14.4,12.7 L13,14.2 L11,13.4 L9.5,14 L9,16 H7 L6.5,14 L5,13.4 L3,14.2 L1.6,12.7 L2.5,11 L1.8,9.4 L0,9 V7 L1.7,6.7 L2.4,5.3 L1.6,3.5 L3,2 L5,2.8 L6.5,2 Z M10.6,8 A2.6,2.6 0 1 0 5.4,8 A2.6,2.6 0 1 0 10.6,8 Z</Geometry>
@@ -168,10 +172,10 @@
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Background" Value="#1A1A1D"/></Trigger>
               <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="Frame" Property="BorderBrush" Value="#693139"/>
+                <Setter TargetName="Frame" Property="BorderBrush" Value="#79797F"/>
                 <Setter TargetName="Arrow" Property="RenderTransform"><Setter.Value><RotateTransform Angle="180"/></Setter.Value></Setter>
               </Trigger>
-              <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="#9B3442"/></Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="#BCBCC1"/></Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
         </Setter.Value>
@@ -191,7 +195,7 @@
                 <ControlTemplate TargetType="ComboBoxItem">
                   <Border x:Name="Row" Background="Transparent" CornerRadius="4" Padding="9,8"><ContentPresenter/></Border>
                   <ControlTemplate.Triggers>
-                    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="#39252A"/></Trigger>
+                    <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="#313137"/></Trigger>
                     <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="Row" Property="Background" Value="#36363A"/></Trigger>
                   </ControlTemplate.Triggers>
                 </ControlTemplate>

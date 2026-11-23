@@ -40,6 +40,14 @@ public sealed class Tweak : INotifyPropertyChanged
     public required Func<CancellationToken, Task> Apply { get; init; }
     public required Func<CancellationToken, Task> Restore { get; init; }
 
+    private bool _detailsExpanded;
+    public bool DetailsExpanded
+    {
+        get => _detailsExpanded;
+        set { _detailsExpanded = value; OnPropertyChanged(); }
+    }
+    public bool ShowApply => CanApply && !CanRestore;
+
     private TweakState _state;
     private bool _isActivationHighlighted;
 
@@ -53,7 +61,7 @@ public sealed class Tweak : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-    public TweakState State { get => _state; set { _state = value; OnPropertyChanged(); OnPropertyChanged(nameof(StateText)); OnPropertyChanged(nameof(StateColor)); OnPropertyChanged(nameof(CanApply)); OnPropertyChanged(nameof(CanRestore)); } }
+    public TweakState State { get => _state; set { _state = value; OnPropertyChanged(); OnPropertyChanged(nameof(StateText)); OnPropertyChanged(nameof(StateColor)); OnPropertyChanged(nameof(CanApply)); OnPropertyChanged(nameof(ShowApply)); OnPropertyChanged(nameof(CanRestore)); } }
     public string StateText => State switch
     {
         TweakState.Applied when ReadOnly => UiLanguage.Text("ЗАПУСК РАЗРЕШЁН", "STARTUP ALLOWED"),
