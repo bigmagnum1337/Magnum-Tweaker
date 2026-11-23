@@ -23,6 +23,7 @@ public sealed class Tweak : INotifyPropertyChanged
     public string Mechanism { get; set; } = "";
     public bool ReadOnly { get; init; }
     public bool RequiresAdmin { get; init; } = true;
+    internal bool IncludeInAcPreset { get; init; }
     public Func<bool>? HasBackup { get; init; }
     public string PlatformText => string.Join(" · ", new[] { WindowsProfile is null ? "Windows 10/11" : $"Windows {WindowsProfile}", Hardware }.Where(s => !string.IsNullOrEmpty(s)));
     public string WindowsText => WindowsProfile is null ? "Windows 10/11" : $"Windows {WindowsProfile}";

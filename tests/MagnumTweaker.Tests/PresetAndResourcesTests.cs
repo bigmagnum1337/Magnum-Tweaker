@@ -19,6 +19,35 @@ public sealed class PresetAndResourcesTests
     }
 
     [Fact]
+    public void PowerPresetIncludesExactlyOneValuePerAcSettingInDependencyOrder()
+    {
+        using var workspace = new TemporaryWorkspace();
+        var cards = AcPowerSettings.Create(workspace.Backups).ToArray();
+        var chosen = GamingPreset.Select(cards).ToArray();
+        Assert.Equal(14, chosen.Length);
+        Assert.All(chosen, card => Assert.Equal(TweakRisk.Moderate, card.Risk));
+        Assert.Equal(chosen.Length, chosen.Select(card => card.Id[..card.Id.LastIndexOf('-')]).Distinct().Count());
+        Assert.Contains(chosen, card => card.Hardware == "Wi-Fi");
+        Assert.Contains(chosen, card => card.Hardware == "PCIe");
+        Assert.Contains(chosen, card => card.Hardware == "USB");
+        Assert.DoesNotContain(chosen, card => card.Id.EndsWith("-25") || card.Id.EndsWith("-50") || card.Id.EndsWith("-4"));
+        int maximum = Array.FindIndex(chosen, card => card.Id.StartsWith("ac-ea062031"));
+        int minimum = Array.FindIndex(chosen, card => card.Id.StartsWith("ac-0cc5b647"));
+        Assert.InRange(maximum, 0, minimum - 1);
+    }
+
+    [Fact]
+    public void UnsupportedAcSettingsRemainInThePresetCountWithoutAnApplyAction()
+    {
+        using var workspace = new TemporaryWorkspace();
+        var member = GamingPreset.Select(AcPowerSettings.Create(workspace.Backups)).First();
+        member.State = TweakState.Unsupported;
+
+        Assert.Equal((0, 0, 1), GamingPreset.Count([member]));
+        Assert.False(member.ShowApply);
+    }
+
+    [Fact]
     public void PresetCountsMatchTheLatestVerifiedStates()
     {
         using var workspace = new TemporaryWorkspace();

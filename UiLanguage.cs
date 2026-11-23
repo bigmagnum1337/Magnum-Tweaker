@@ -20,7 +20,7 @@ internal static class UiLanguage
             ("ShowTweak", "Показать в каталоге", "Show in catalog"),
             ("ProfileLabel", "Профиль Windows", "Windows profile"),
             ("PresetTitle", "Игровой набор и GTA V", "Gaming preset and GTA V"),
-            ("PresetDescription", "Применяет обратимые настройки игр, интерфейса и фоновой активности, а при наличии GTA V Legacy — пресет 1920 × 1080 при 239 Гц. Исходные значения доступны для отката в карточках.", "Applies reversible gaming, interface and background settings, plus the 1920 × 1080 at 239 Hz preset when GTA V Legacy is available. Restore original values from the individual cards."),
+            ("PresetDescription", "Применяет обратимые игровые настройки и режимы повышенного энергопотребления в активной схеме при питании от сети. Может увеличить нагрев, шум и время работы экрана. Для GTA V Legacy доступен пресет 1920 × 1080 при 239 Гц. Откат доступен в карточках.", "Applies reversible gaming tweaks and higher-power AC settings in the active plan. Heat, fan noise and display-on time may increase. GTA V Legacy can use the 1920 × 1080 at 239 Hz preset. Use individual cards to restore original values."),
             ("Details", "Описание твика", "Tweak details"),
             ("ToggleSidebar", "Свернуть или развернуть категории", "Collapse or expand categories"),
             ("Terms", "Пользовательское соглашение", "Terms of Use"),

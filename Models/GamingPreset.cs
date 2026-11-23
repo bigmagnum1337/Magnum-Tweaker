@@ -3,7 +3,7 @@ namespace MagnumTweaker.Models;
 internal static class GamingPreset
 {
     internal static IEnumerable<Tweak> Select(IEnumerable<Tweak> profile) =>
-        profile.Where(tweak => !tweak.ReadOnly && (tweak.Risk == TweakRisk.Safe ||
+        profile.Where(tweak => !tweak.ReadOnly && (tweak.Risk == TweakRisk.Safe || tweak.IncludeInAcPreset ||
             tweak.Id is "gta-preset" or "game-config" or "taskbar-motion" or "tips" or "start-suggestions" or
                         "widgets11" or "search-highlights" or "aero-peek" or "controller-bar"));
 

@@ -158,14 +158,26 @@ public partial class MainWindow : Window
         if (_busy) return;
         var pending = PresetItems.Where(t => t.CanApply).ToArray();
         if (pending.Length == 0 || !ConfirmAdmin(UiLanguage.Text(
-            $"Применить {pending.Length} настроек из игрового набора? Пресет GTA V использует 1920 × 1080 при 239 Гц.",
-            $"Apply {pending.Length} settings from the gaming preset? The GTA V preset uses 1920 × 1080 at 239 Hz."),
+            $"Применить {pending.Length} настроек из игрового набора? Параметры питания действуют от сети и могут увеличить нагрев, шум и расход энергии. Пресет GTA V использует 1920 × 1080 при 239 Гц.",
+            $"Apply {pending.Length} settings from the gaming preset? AC power settings may increase heat, fan noise and energy use. The GTA V preset uses 1920 × 1080 at 239 Hz."),
             pending.Any(t => t.RequiresAdmin))) return;
 
         foreach (var tweak in pending) await Execute(tweak, true, false);
-        UpdatePreset();
+        if (pending.Any(t => t.IncludeInAcPreset))
+        {
+            _busy = true;
+            try { await RefreshAcCards(); }
+            finally { _busy = false; }
+        }
+        UpdateSummary();
         if (pending.All(t => t.State == TweakState.Applied))
             ((App)Application.Current).PlaySound(InterfaceSound.Success);
+    }
+
+    private async Task RefreshAcCards(Tweak? verified = null)
+    {
+        foreach (var related in _profileItems.Where(t => t != verified && (t.Id.StartsWith("ac-", StringComparison.Ordinal) || t.Id is "ultimate" or "high-performance")))
+            related.State = await ScanWindow.Inspect(related, CancellationToken.None);
     }
 
     private async Task Execute(Tweak tweak, bool apply, bool ask = true)
@@ -186,9 +198,8 @@ public partial class MainWindow : Window
             if (apply) await tweak.Apply(CancellationToken.None); else await tweak.Restore(CancellationToken.None);
             tweak.State = await ScanWindow.Inspect(tweak, CancellationToken.None);
             if (apply && tweak.State != TweakState.Applied) throw new InvalidOperationException(UiLanguage.Text("Повторная проверка не подтвердила изменение.", "The read-back did not confirm the change."));
-            if (tweak.Id.StartsWith("ac-") || tweak.Id is "ultimate" or "high-performance")
-                foreach (var related in _profileItems.Where(x => x != tweak && (x.Id.StartsWith("ac-") || x.Id is "ultimate" or "high-performance")))
-                    related.State = await ScanWindow.Inspect(related, CancellationToken.None);
+            if (ask && (tweak.Id.StartsWith("ac-") || tweak.Id is "ultimate" or "high-performance"))
+                await RefreshAcCards(tweak);
             if (highlight && ask) ((App)Application.Current).PlaySound(InterfaceSound.Success);
             if (highlight && tweak.State == TweakState.Applied && SystemParameters.ClientAreaAnimation)
                 _ = HighlightAppliedAsync(tweak);
