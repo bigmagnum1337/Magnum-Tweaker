@@ -88,3 +88,5 @@ The Build pipeline produces one self-contained executable at `dist\Magnum Tweake
 | `docs/` | Research notes and manual verification checklist |
 
 See [AGENTS.md](AGENTS.md) for branch naming, review expectations, and the application-wide design rules.
+
+Typography / Шрифты: [Inter](https://rsms.me/inter/) and [Manrope](https://fonts.google.com/specimen/Manrope). [Inter license](Assets/Fonts/Inter-OFL.txt) · [Manrope license](Assets/Fonts/Manrope-OFL.txt)

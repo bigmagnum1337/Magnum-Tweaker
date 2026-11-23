@@ -256,7 +256,7 @@
         <Grid Grid.Row="1" Margin="0,6,18,0">
           <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
           <StackPanel Margin="0,0,12,0">
-            <TextBlock x:Name="SectionTitle" FontSize="25" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
+            <TextBlock x:Name="SectionTitle" FontFamily="{StaticResource HeadingFont}" FontSize="25" FontWeight="ExtraBold" TextTrimming="CharacterEllipsis"/>
             <TextBlock x:Name="SummaryText" Text="{DynamicResource ScanPrompt}"
                        TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Margin="0,5,0,0"/>
           </StackPanel>
@@ -279,7 +279,7 @@
               <TextBlock x:Name="FilterLabel" Text="{DynamicResource Filters}" VerticalAlignment="Center"/>
             </StackPanel>
           </ToggleButton>
-          <Popup x:Name="FilterPopup" PlacementTarget="{Binding ElementName=FilterButton}" Placement="Bottom" VerticalOffset="5"
+          <Popup TextElement.FontFamily="{StaticResource InterfaceFont}" x:Name="FilterPopup" PlacementTarget="{Binding ElementName=FilterButton}" Placement="Bottom" VerticalOffset="5"
                  IsOpen="{Binding IsChecked, ElementName=FilterButton, Mode=TwoWay}" StaysOpen="False"
                  AllowsTransparency="True" PopupAnimation="Fade" Opened="FilterPopup_Opened">
             <Border Background="#18181A" BorderBrush="#3B3B40" BorderThickness="1" CornerRadius="7" Padding="14" Width="216"
@@ -391,7 +391,7 @@
           <Border x:Name="PresetPanel" Visibility="Collapsed" VerticalAlignment="Top" Padding="22" CornerRadius="10"
                   BorderThickness="1" BorderBrush="{StaticResource GlassEdge}" Background="{StaticResource GlassSurface}">
             <StackPanel>
-              <TextBlock Text="{DynamicResource PresetTitle}" FontSize="18" FontWeight="SemiBold"/>
+              <TextBlock Text="{DynamicResource PresetTitle}" FontFamily="{StaticResource HeadingFont}" FontSize="18" FontWeight="Bold"/>
               <TextBlock Text="{DynamicResource PresetDescription}" TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Margin="0,7"/>
               <TextBlock x:Name="PresetCounts" Margin="0,5,0,13"/>
               <StackPanel Orientation="Horizontal">
@@ -418,7 +418,7 @@
               <Path Data="{StaticResource GearIcon}" Fill="#F5F5F7" Width="17" Height="17" Stretch="Uniform" Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5">
                 <Path.RenderTransform><RotateTransform x:Name="SettingsGearRotation"/></Path.RenderTransform>
               </Path>
-              <TextBlock Text="{DynamicResource Settings}" FontSize="19" FontWeight="Bold" VerticalAlignment="Center"/>
+              <TextBlock Text="{DynamicResource Settings}" FontFamily="{StaticResource HeadingFont}" FontSize="19" FontWeight="Bold" VerticalAlignment="Center"/>
             </StackPanel>
             <Button x:Name="CloseSettingsButton" Style="{StaticResource ChromeButton}" Background="#1A1A1D" Content="×" FontSize="20"
                     HorizontalAlignment="Right" AutomationProperties.Name="{DynamicResource Close}" Click="CloseSettings_Click"/>

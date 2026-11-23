@@ -12,7 +12,7 @@
       <Button DockPanel.Dock="Right" Style="{StaticResource ChromeButton}" Margin="8,0,0,0" VerticalAlignment="Center" Content="×" FontSize="20"
               AutomationProperties.Name="{DynamicResource Close}" shell:WindowChrome.IsHitTestVisibleInChrome="True" Click="Close_Click"/>
       <TextBlock x:Name="CountLabel" DockPanel.Dock="Right" VerticalAlignment="Center" Foreground="#A9A9AE"/>
-      <TextBlock Text="{DynamicResource Reference}" FontSize="22" FontWeight="Bold"/>
+      <TextBlock Text="{DynamicResource Reference}" FontFamily="{StaticResource HeadingFont}" FontSize="22" FontWeight="Bold"/>
     </DockPanel>
     <Grid Grid.Row="1" Margin="0,0,0,12">
       <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="190"/></Grid.ColumnDefinitions>

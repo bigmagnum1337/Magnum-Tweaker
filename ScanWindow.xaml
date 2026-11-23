@@ -9,7 +9,7 @@
       <Grid.RowDefinitions><RowDefinition Height="62"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
       <ContentControl Content="Magnum" Width="156" ContentTemplate="{StaticResource BrandMark}"/>
       <StackPanel Grid.Row="1" VerticalAlignment="Center">
-        <TextBlock x:Name="Heading" FontSize="22" FontWeight="Bold"/>
+        <TextBlock x:Name="Heading" FontFamily="{StaticResource HeadingFont}" FontSize="22" FontWeight="Bold"/>
         <TextBlock x:Name="CurrentItem" Margin="0,9,0,0" Foreground="#B8B8BD" TextTrimming="CharacterEllipsis"/>
       </StackPanel>
       <StackPanel Grid.Row="2">

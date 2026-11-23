@@ -17,7 +17,7 @@
         <StackPanel Grid.ColumnSpan="2">
           <ContentControl ContentTemplate="{StaticResource BrandMark}" Content="Magnum Tweaker"
                           Width="166" Height="56" HorizontalAlignment="Center" Margin="0,0,0,9"/>
-          <TextBlock x:Name="Heading" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
+          <TextBlock x:Name="Heading" FontFamily="{StaticResource HeadingFont}" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
         </StackPanel>
         <Button x:Name="CloseTermsButton" Grid.Column="1" Style="{StaticResource ChromeButton}" Content="×" FontSize="20"
                 VerticalAlignment="Top"
