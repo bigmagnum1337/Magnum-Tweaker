@@ -1,7 +1,37 @@
-bin/
-obj/
-dist/
+# Build and publish output
+[Bb]in/
+[Oo]bj/
+[Dd]ist/
+artifacts/
+TestResults/
+coverage/
+*.trx
+*.coverage
+*.coveragexml
+*.binlog
+
+# Local SDK and installer
 .dotnet/
 dotnet-install.ps1
+
+# IDE caches and per-user settings
+.vs/
+.idea/
+.vscode/
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
+
+# Machine-local configuration and diagnostics
+.env
+.env.*
+!.env.example
+backup.json
+interface.json
+*.log
+*.tmp
+*.pfx
+Thumbs.db
+Desktop.ini
+.DS_Store

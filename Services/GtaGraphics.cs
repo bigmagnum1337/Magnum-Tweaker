@@ -8,7 +8,9 @@ namespace MagnumTweaker.Services;
 
 internal static class GtaGraphics
 {
-    public static Tweak Create(BackupStore backups, string path)
+    public static Tweak Create(BackupStore backups, string path) => Create(backups, path, IsGameRunning);
+
+    internal static Tweak Create(BackupStore backups, string path, Func<bool> isGameRunning)
     {
         string key = "gta-legacy-preset:" + path;
         XDocument Parse(Stream stream)
@@ -25,6 +27,7 @@ internal static class GtaGraphics
             if (string.IsNullOrWhiteSpace(gpu)) throw new NotSupportedException("VideoCardDescription");
             using var source = typeof(GtaGraphics).Assembly.GetManifestResourceStream("MagnumTweaker.GtaPreset.xml")!;
             var document = Parse(source);
+            // Read the adapter name from the user's existing profile so the embedded preset stays portable.
             document.Root!.Element("VideoCardDescription")!.Value = gpu;
             return document;
         }
@@ -36,9 +39,7 @@ internal static class GtaGraphics
         }
         void Replace(byte[] bytes)
         {
-            var processes = Process.GetProcessesByName("GTA5");
-            foreach (var process in processes) process.Dispose();
-            if (processes.Length != 0) throw new IOException(UiLanguage.Text("Сначала закройте GTA V.", "Close GTA V first."));
+            if (isGameRunning()) throw new IOException(UiLanguage.Text("Сначала закройте GTA V.", "Close GTA V first."));
             var temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
             try { File.WriteAllBytes(temporary, bytes); File.Replace(temporary, path, null); }
             finally { File.Delete(temporary); }
@@ -77,5 +78,12 @@ internal static class GtaGraphics
                 return Task.CompletedTask;
             }
         };
+    }
+
+    private static bool IsGameRunning()
+    {
+        var processes = Process.GetProcessesByName("GTA5");
+        foreach (var process in processes) process.Dispose();
+        return processes.Length != 0;
     }
 }

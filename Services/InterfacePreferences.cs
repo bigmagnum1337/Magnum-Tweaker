@@ -14,11 +14,13 @@ internal sealed class InterfacePreferences
     public int HoverVolume { get; set; } = 10;
     public int AcceptedTermsVersion { get; set; }
 
-    public static InterfacePreferences Load()
+    public static InterfacePreferences Load() => Load(FilePath);
+
+    internal static InterfacePreferences Load(string path)
     {
         try
         {
-            var settings = JsonSerializer.Deserialize<InterfacePreferences>(File.ReadAllText(FilePath));
+            var settings = JsonSerializer.Deserialize<InterfacePreferences>(File.ReadAllText(path));
             if (settings is not null)
             {
                 settings.HoverVolume = Math.Clamp(settings.HoverVolume, 0, 100);
@@ -30,12 +32,14 @@ internal sealed class InterfacePreferences
         return new();
     }
 
-    public void Save()
+    public void Save() => Save(FilePath);
+
+    internal void Save(string path)
     {
         try
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);
-            File.WriteAllText(FilePath, JsonSerializer.Serialize(this));
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            File.WriteAllText(path, JsonSerializer.Serialize(this));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
     }

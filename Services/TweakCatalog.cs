@@ -7,14 +7,16 @@ namespace MagnumTweaker.Services;
 
 public sealed class TweakCatalog
 {
-    private readonly BackupStore _backups = new();
+    private readonly BackupStore _backups;
     internal void ReloadBackups() => _backups.Reload();
     public List<Tweak> Items { get; }
     public List<Tweak> ForProfile(string windows) => Items.Where(t => t.WindowsProfile is null || t.WindowsProfile == windows).ToList();
 
-    public TweakCatalog()
+    public TweakCatalog() : this(new BackupStore()) { }
+
+    internal TweakCatalog(BackupStore backups)
     {
-        var backups = _backups;
+        _backups = backups;
         var f = new RegistryTweakFactory(backups);
         const string msGame = "https://learn.microsoft.com/windows/apps/develop/settings/settings-windows-11";
         const string msDo = "https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization-reference";

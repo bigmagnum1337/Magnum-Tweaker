@@ -41,13 +41,10 @@ public partial class MainWindow : Window
         target.BeginAnimation(property, animation);
     }
     private SmoothScrollViewer? TweakScroll => TweaksList.Template?.FindName("PART_TweakScroll", TweaksList) as SmoothScrollViewer;
-    private IEnumerable<Tweak> PresetItems => _profileItems.Where(x => x.Risk == TweakRisk.Safe ||
-        x.Id is "gta-preset" or "game-config" or "taskbar-motion" or "tips" or "start-suggestions" or "widgets11" or "search-highlights" or "aero-peek" or "controller-bar");
+    private IEnumerable<Tweak> PresetItems => GamingPreset.Select(_profileItems);
     private void UpdatePreset()
     {
-        int applied = PresetItems.Count(t => t.State == TweakState.Applied);
-        int available = PresetItems.Count(t => t.CanApply);
-        int unavailable = PresetItems.Count() - applied - available;
+        var (applied, available, unavailable) = GamingPreset.Count(PresetItems);
         PresetCounts.Text = UiLanguage.Text(
             $"Применено {applied} · доступно {available} · недоступно {unavailable}",
             $"{applied} applied · {available} available · {unavailable} unavailable");
@@ -176,6 +173,7 @@ public partial class MainWindow : Window
         if (_busy || !_profileItems.Contains(tweak) || (apply ? !tweak.CanApply : !tweak.CanRestore)) return;
         string action = apply ? UiLanguage.Text("Применить", "Apply") : UiLanguage.Text("Откатить", "Restore");
         if (ask && !ConfirmAdmin($"{action} «{tweak.DisplayTitle}»?\n\n{tweak.DisplayDescription}\n{tweak.Mechanism}", tweak.RequiresAdmin)) return;
+        // Serialize backup and settings writes across running instances in this Windows session.
         using var gate = new Mutex(false, @"Local\MagnumTweaker.SettingsWrite");
         bool acquired;
         try { acquired = gate.WaitOne(0); } catch (AbandonedMutexException) { acquired = true; }
@@ -299,6 +297,7 @@ public partial class MainWindow : Window
             return;
         }
 
+        // Start at the current animated position so quick category changes do not jump.
         double currentMarkerY = CategoryMarker.Y;
         CategoryMarker.Y = markerY;
         CategoryMarker.BeginAnimation(TranslateTransform.YProperty, EaseTo(currentMarkerY, markerY, 270));

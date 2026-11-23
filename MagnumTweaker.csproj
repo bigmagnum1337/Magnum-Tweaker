@@ -18,9 +18,10 @@
     <PublishReadyToRun>false</PublishReadyToRun>
     <DebugType>none</DebugType>
     <PublishDir Condition="'$(PublishDir)' == ''">$(MSBuildProjectDirectory)\dist\</PublishDir>
-    <DefaultItemExcludes>$(DefaultItemExcludes);bin/**;obj/**;dist/**</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);bin/**;obj/**;dist/**;tests/**;artifacts/**;TestResults/**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
+    <InternalsVisibleTo Include="MagnumTweaker.Tests"/>
     <Resource Include="Assets\Brand*.png"/>
     <EmbeddedResource Include="Assets\Magnum.wav" LogicalName="MagnumTweaker.Magnum.wav"/>
     <EmbeddedResource Include="Assets\GtaPreset.xml" LogicalName="MagnumTweaker.GtaPreset.xml"/>
