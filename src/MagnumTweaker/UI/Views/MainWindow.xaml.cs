@@ -88,6 +88,7 @@ public partial class MainWindow : Window
         _profileItems = catalog.ForProfile(windowsVersion);
         _windowsVersion = windowsVersion;
         InitializeComponent();
+        VersionLabel.Text = $"v{typeof(MainWindow).Assembly.GetName().Version?.ToString(2)}";
         WindowTransitions.PrepareEntrance(this);
         UpdateSidebarProfile();
         ProfilePicker.ItemsSource = new[] { "Windows 10", "Windows 11" };

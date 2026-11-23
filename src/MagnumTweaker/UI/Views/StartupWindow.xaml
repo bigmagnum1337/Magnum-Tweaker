@@ -12,10 +12,10 @@
     </Border.Background>
     <Grid>
       <Grid Width="268" Height="88" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Image Source="Assets/BrandLeft.png"><Image.RenderTransform><TranslateTransform x:Name="LeftMotion"/></Image.RenderTransform></Image>
-        <Image Source="Assets/BrandRight.png"><Image.RenderTransform><TranslateTransform x:Name="RightMotion"/></Image.RenderTransform></Image>
-        <Image x:Name="Middle" Source="Assets/BrandCenter.png"/>
-        <Image x:Name="Subtitle" Source="Assets/BrandSubtitle.png"/>
+        <Image Source="../../Assets/BrandLeft.png"><Image.RenderTransform><TranslateTransform x:Name="LeftMotion"/></Image.RenderTransform></Image>
+        <Image Source="../../Assets/BrandRight.png"><Image.RenderTransform><TranslateTransform x:Name="RightMotion"/></Image.RenderTransform></Image>
+        <Image x:Name="Middle" Source="../../Assets/BrandCenter.png"/>
+        <Image x:Name="Subtitle" Source="../../Assets/BrandSubtitle.png"/>
       </Grid>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,31">
         <Grid Width="17" Height="17" Margin="0,0,8,0">

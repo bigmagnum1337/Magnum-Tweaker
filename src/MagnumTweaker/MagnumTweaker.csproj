@@ -18,8 +18,8 @@
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
     <PublishReadyToRun>false</PublishReadyToRun>
     <DebugType>none</DebugType>
-    <PublishDir Condition="'$(PublishDir)' == ''">$(MSBuildProjectDirectory)\dist\</PublishDir>
-    <DefaultItemExcludes>$(DefaultItemExcludes);bin/**;obj/**;dist/**;tests/**;artifacts/**;TestResults/**</DefaultItemExcludes>
+    <PublishDir Condition="'$(PublishDir)' == ''">$(MSBuildProjectDirectory)\..\..\dist\</PublishDir>
+    <DefaultItemExcludes>$(DefaultItemExcludes);bin/**;obj/**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="MagnumTweaker.Tests"/>
