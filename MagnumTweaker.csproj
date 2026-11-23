@@ -25,7 +25,6 @@
     <InternalsVisibleTo Include="MagnumTweaker.Tests"/>
     <Resource Include="Assets\Brand*.png"/>
     <Resource Include="Assets\Fonts\*.ttf;Assets\Fonts\*-OFL.txt"/>
-    <EmbeddedResource Include="Assets\GtaPreset.xml" LogicalName="MagnumTweaker.GtaPreset.xml"/>
     <EmbeddedResource Include="Assets\Reference.json" LogicalName="MagnumTweaker.Reference.json"/>
     <Resource Include="Assets\MagnumTweaker.ico"/>
   </ItemGroup>

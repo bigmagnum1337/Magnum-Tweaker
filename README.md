@@ -16,10 +16,9 @@ Magnum Tweaker — приложение на C#, .NET 8 и WPF. Оно пров�
 
 | Раздел | Что доступно |
 | --- | --- |
-| Каталог | **87 базовых карточек** для каждого профиля Windows, включая четыре проверки служб RP. Дополнительные сетевые карточки зависят от обнаруженных свойств адаптера. |
+| Каталог | **86 базовых карточек** для каждого профиля Windows, включая четыре проверки служб RP. Дополнительные сетевые карточки зависят от обнаруженных свойств адаптера. |
 | Категории | FPS и игры, задержка ввода, производительность, сеть, отзывчивость, готовые настройки и GTA V. Панель категорий сворачивается до значков. |
 | Готовые настройки | Игровой набор без разгона, включая 14 параметров повышенного энергопотребления от сети в активной схеме. Настройки от батареи сохраняются. Возможны дополнительный нагрев, шум и расход электроэнергии. Счётчики показывают, сколько изменений уже применено, доступно и недоступно. |
-| GTA V Settings | Пресет для **GTA V Legacy** заменяет `settings.xml` в папке документов Rockstar Games, переносит название видеокарты и сохраняет исходный файл. Пресет задаёт **1920 × 1080 при 239 Гц**. |
 | Справочник | **236 записей**, включая 217 исходных пунктов и материалы по приложенным пакетам. У части записей есть переход к карточке или параметрам Windows. |
 | Интерфейс | Русский и английский языки, выбор профиля Windows 10/11, тёмное оформление, поиск и фильтры, раскрываемые описания, единый ползунок громкости. |
 
@@ -54,10 +53,9 @@ Magnum Tweaker is a C#, .NET 8, and WPF desktop tool for inspecting, applying, a
 
 | Area | What you get |
 | --- | --- |
-| Catalog | **87 base cards** per Windows profile, including four read-only RP service checks. Additional network cards depend on detected adapter capabilities. |
+| Catalog | **86 base cards** per Windows profile, including four read-only RP service checks. Additional network cards depend on detected adapter capabilities. |
 | Categories | FPS and gaming, input lag, performance, network, responsiveness, presets, and GTA V. The sidebar collapses to icons. |
 | Presets | A gaming preset with 14 higher-power AC settings in the active plan and counts for applied, available, and unavailable tweaks. It uses stock boost, leaves battery settings alone, and may increase heat, fan noise, and energy use. |
-| GTA V Settings | A **GTA V Legacy** preset replaces `settings.xml` in the Rockstar Games Documents folder, preserves the existing GPU name, and keeps a copy of the original file. It sets **1920 × 1080 at 239 Hz**. |
 | Reference guide | **236 entries**, including 217 numbered source items and notes on the supplied optimization packs. Selected entries link to matching cards or Windows settings. Much of the source material is in Russian. |
 | Interface | Russian and English UI, Windows 10/11 profile selector, dark theme, search and filters, expandable descriptions, and a shared volume slider. |
 
@@ -90,7 +88,7 @@ The Build pipeline produces one self-contained executable at `dist\Magnum Tweake
 | --- | --- |
 | `App.xaml`, `*Window.xaml` | Shared WPF design resources and window layouts |
 | `Models/`, `Services/` | Tweak states, catalog, system access, backups, and presets |
-| `Assets/` | Embedded artwork, GTA V preset, and reference material |
+| `Assets/` | Embedded artwork and reference material |
 | `tests/` | xUnit tests for core behavior and bundled resources |
 | `pipelines/`, `.github/workflows/` | Local pipeline entry points and GitHub Actions workflows |
 

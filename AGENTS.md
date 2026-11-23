@@ -24,7 +24,7 @@ These rules apply across the repository. Read the README and the affected code b
 - Keep system writes inside service code. Treat scanning as read-only. Filter by actual OS, edition, hardware, or available software when the tweak requires it.
 - Each action should have a stable ID, concise bilingual description, scope, actual setting, and source when available. Distinguish a verified setting from an expected performance outcome.
 - Save the original value before changing a setting. Preserve the first snapshot across retries and verify the setting after applying. Retain the snapshot on restore failure. File replacements should be atomic when possible.
-- Use explicit confirmation for options with machine-wide impact. Keep the gaming preset limited to reversible settings that do not overclock hardware. Preserve read-only RP service checks and the GTA V Legacy GPU-preservation behavior.
+- Use explicit confirmation for options with machine-wide impact. Keep the gaming preset limited to reversible settings that do not overclock hardware. Preserve read-only RP service checks.
 - Use comments for constraints and reasons that aren't obvious from the code. Prefer descriptive names and small, readable changes. Update the README if categories, counts, packaging, or contributor commands change.
 
 ## Verification

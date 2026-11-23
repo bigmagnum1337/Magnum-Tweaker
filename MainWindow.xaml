@@ -327,6 +327,17 @@
                 <DataTemplate>
                   <Grid Margin="0,0,0,6">
                     <Border CornerRadius="8" Background="#111114" BorderBrush="#1D1D23" BorderThickness="1"/>
+                    <Border x:Name="ApplySweep" Opacity="0" CornerRadius="8" IsHitTestVisible="False"
+                            RenderTransformOrigin="0,0.5">
+                      <Border.RenderTransform><ScaleTransform ScaleX="0"/></Border.RenderTransform>
+                      <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                          <GradientStop Color="#2335D07F" Offset="0"/>
+                          <GradientStop Color="#4235D07F" Offset="0.82"/>
+                          <GradientStop Color="#8035D07F" Offset="1"/>
+                        </LinearGradientBrush>
+                      </Border.Background>
+                    </Border>
                     <Border x:Name="ActivationGlow" Background="#1535D07F" BorderBrush="#42D789" BorderThickness="1"
                             CornerRadius="8" Opacity="0" IsHitTestVisible="False"/>
                     <Grid Margin="12,8">
@@ -376,13 +387,36 @@
                     </Grid>
                   </Grid>
                   <DataTemplate.Triggers>
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding State}" Value="Applying"/>
+                        <Condition Binding="{Binding Source={x:Static SystemParameters.ClientAreaAnimation}}" Value="True"/>
+                      </MultiDataTrigger.Conditions>
+                      <MultiDataTrigger.EnterActions>
+                        <BeginStoryboard x:Name="SweepStart">
+                          <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="ApplySweep" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.12"/>
+                            <DoubleAnimation Storyboard.TargetName="ApplySweep" Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                             From="0" To="0.91" Duration="0:0:0.52">
+                              <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                          </Storyboard>
+                        </BeginStoryboard>
+                      </MultiDataTrigger.EnterActions>
+                      <MultiDataTrigger.ExitActions><RemoveStoryboard BeginStoryboardName="SweepStart"/></MultiDataTrigger.ExitActions>
+                    </MultiDataTrigger>
                     <DataTrigger Binding="{Binding IsActivationHighlighted}" Value="True">
                       <DataTrigger.EnterActions>
                         <BeginStoryboard>
                           <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="ApplySweep" Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                             From="0.86" To="1" Duration="0:0:0.18" FillBehavior="HoldEnd"/>
+                            <DoubleAnimation Storyboard.TargetName="ApplySweep" Storyboard.TargetProperty="Opacity"
+                                             From="1" To="0" BeginTime="0:0:0" Duration="0:0:0.48" FillBehavior="Stop"/>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ActivationGlow" Storyboard.TargetProperty="Opacity" FillBehavior="Stop">
                               <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0"/>
-                              <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.16">
+                              <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.14"/>
+                              <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.28">
                                 <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
                               </EasingDoubleKeyFrame>
                               <EasingDoubleKeyFrame Value="0" KeyTime="0:0:0.75">

@@ -37,11 +37,12 @@ internal sealed record PresetBatchRequest(string Language, string Profile, strin
 
 internal static class PresetBatch
 {
+    internal const string SettingsMutexName = @"Local\MagnumTweaker.SettingsWrite";
     internal static PresetBatchResult Apply(IEnumerable<Tweak> tweaks, Action reloadBackups,
         Func<Tweak, CancellationToken, Task<TweakState>> inspect)
     {
         // The caller runs this on a worker thread. Keep the entire batch under the same lock as single writes.
-        using var gate = new Mutex(false, @"Local\MagnumTweaker.SettingsWrite");
+        using var gate = new Mutex(false, SettingsMutexName);
         bool acquired;
         try { acquired = gate.WaitOne(0); }
         catch (AbandonedMutexException) { acquired = true; }

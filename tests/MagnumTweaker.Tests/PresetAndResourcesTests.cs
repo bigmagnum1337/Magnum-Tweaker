@@ -7,11 +7,11 @@ public sealed class PresetAndResourcesTests
     [Theory]
     [InlineData("10")]
     [InlineData("11")]
-    public void PresetIncludesGtaAndSkipsExperimentalAndReadOnlyCards(string profile)
+    public void PresetSkipsRemovedGtaSettingsAndIneligibleCards(string profile)
     {
         using var workspace = new TemporaryWorkspace();
         var members = GamingPreset.Select(new TweakCatalog(workspace.Backups).ForProfile(profile)).ToArray();
-        Assert.Contains(members, tweak => tweak.Id == "gta-preset");
+        Assert.DoesNotContain(members, tweak => tweak.Id == "gta-preset");
         Assert.Contains(members, tweak => tweak.Id == "game-mode");
         Assert.DoesNotContain(members, tweak => tweak.ReadOnly || tweak.Risk == TweakRisk.Experimental);
         Assert.DoesNotContain(members, tweak => tweak.Id is "ultimate" or "high-performance");
